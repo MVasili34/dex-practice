@@ -1,5 +1,4 @@
 ﻿using Models;
-using static System.Console;
 
 namespace PracticeWithTypes
 {
@@ -24,10 +23,10 @@ namespace PracticeWithTypes
 			//примеер изменения информации о валюте
 			currencies[0] = ChangeCurrency(currencies[0], "New Code", "New Name");
 
-			WriteLine("\nПосле применения методов: ");
+			Console.WriteLine("\nПосле применения методов: ");
 			PrintEmployees(employees);
 			PrintCurrencies(currencies);
-			ReadKey();
+			Console.ReadKey();
 		}
 
 		static void UpdateContract(Employee employee) => employee.Contract = $"Контракт обновлён у {employee.FirstName}, " +
@@ -44,10 +43,10 @@ namespace PracticeWithTypes
 		{
 			if (toPrint is not null)
 			{
-				WriteLine($"\nСотрудники:");
+				Console.WriteLine($"\nСотрудники:");
 				foreach (var item in toPrint) 
 				{
-					WriteLine($"Сотрудник: {item.FirstName}, {item.LastName}, {item.Phone}" +
+					Console.WriteLine($"Сотрудник: {item.FirstName}, {item.LastName}, {item.Phone}" +
 						$"\n\tКонтракт: {item.Contract}");
 				}
 			}
@@ -56,10 +55,10 @@ namespace PracticeWithTypes
 		{
 			if (toPrint is not null)
 			{
-				WriteLine($"\nВалюты:");
+				Console.WriteLine($"\nВалюты:");
 				foreach (var item in toPrint)
 				{
-					WriteLine($"{item.CurrencyCode}, {item.Name}");
+					Console.WriteLine($"{item.CurrencyCode}, {item.Name}");
 				}
 			}
 		}
