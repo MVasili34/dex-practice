@@ -10,11 +10,11 @@ namespace Models
 	{
 		private string contract = String.Empty;
 		private string position = String.Empty;
-		private decimal salary;
+		private int salary;
 
 		public Employee() { }
 		public Employee(string FirstName, string LastName, DateOnly DateOfBirth, string Phone, string Passport,
-			string Position, decimal Salary) : base(FirstName, LastName, DateOfBirth, Phone, Passport)
+			string Position, int Salary) : base(FirstName, LastName, DateOfBirth, Phone, Passport)
 		{
 			this.Position = Position;
 			this.Salary = Salary;
@@ -30,7 +30,7 @@ namespace Models
 			get => position;
 			set => position = value;
 		}
-		public decimal Salary
+		public int Salary
 		{
 			get => salary;
 			set => salary = value;

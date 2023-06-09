@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Models.Client">
-    <Position X="7.75" Y="4.25" Width="2.5" />
+    <Position X="8" Y="4.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAACBAAAAAAABEAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAACBAIAACAABAAAAAA=</HashCode>
       <FileName>Client.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Models.Employee">
-    <Position X="3" Y="4.25" Width="2.5" />
+    <Position X="3" Y="4.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAACAAAAAgAAAgAAAAIAAAAAAAAAAAAAAIAAAACAA=</HashCode>
       <FileName>Employee.cs</FileName>
@@ -17,12 +17,12 @@
   <Class Name="Models.Person">
     <Position X="5.25" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAEAAAAAAAAAABAAQAAAAAEAQBAAAAAAAIAAAAAg=</HashCode>
+      <HashCode>AAAAAEAAAAAAAAAABBAQAAAAAEAQBAAAAAAAoAAAAAg=</HashCode>
       <FileName>Person.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Struct Name="Models.Currency">
-    <Position X="9.5" Y="0.75" Width="2.25" />
+    <Position X="9.75" Y="1" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAQAAAAUAAAAEAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Currency.cs</FileName>

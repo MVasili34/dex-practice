@@ -23,5 +23,9 @@
 			get => contactInfo;
 			set => contactInfo = value;
 		}
+
+		//метод осуществления явного приведения Клиента к Сотруднику банка
+		public static explicit operator Employee(Client client) => new Employee(client.FirstName, client.LastName, 
+			client.DateOfBirth, client.Phone, client.Passport, "Стажёр", 1000);
 	}
 }

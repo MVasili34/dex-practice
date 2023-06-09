@@ -24,7 +24,7 @@ namespace PracticeWithTypes
 			//примеер изменения информации о валюте
 			currencies[0] = ChangeCurrency(currencies[0], "New Code", "New Name");
 
-			WriteLine("После применения методов: ");
+			WriteLine("\nПосле применения методов: ");
 			PrintEmployees(employees);
 			PrintCurrencies(currencies);
 			ReadKey();
@@ -40,7 +40,7 @@ namespace PracticeWithTypes
 			t.Name = newName;
 			return t;
 		}
-		static void PrintEmployees(List<Employee> toPrint)
+		static void PrintEmployees(List<Employee>? toPrint)
 		{
 			if (toPrint is not null)
 			{
@@ -52,7 +52,7 @@ namespace PracticeWithTypes
 				}
 			}
 		}
-		static void PrintCurrencies(List<Currency> toPrint)
+		static void PrintCurrencies(List<Currency>? toPrint)
 		{
 			if (toPrint is not null)
 			{
