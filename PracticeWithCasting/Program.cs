@@ -1,6 +1,5 @@
 ﻿using Models;
 using Services;
-using static System.Console;
 
 namespace PracticeWithCasting
 {
@@ -18,31 +17,31 @@ namespace PracticeWithCasting
 			{
 				owner.Salary = BankService.OwnerPayment(owner, owners.Count());
 			}
-			Write($"\n***Новые зарплаты:");
+			Console.Write($"\n***Новые зарплаты:");
 			PrintEmployees(owners);
 
 
 			Client someClient = new("Федотов", "Александр", DateOnly.Parse("21.02.1993"), "1223331", "AB213", "CompanyNone", "AdressNone");
-			WriteLine($"\nКлиент: {someClient.FirstName}, {someClient.LastName}, {someClient.DateOfBirth}," +
+			Console.WriteLine($"\nКлиент: {someClient.FirstName}, {someClient.LastName}, {someClient.DateOfBirth}," +
 				$" {someClient.Phone}, {someClient.Company}, {someClient.AdressInfo}");
 			//тестирование кастинга из клиента в сотрудника (в классе Client определён explicit operator метод)
 			Employee t = (Employee)someClient;
 
-			WriteLine($"\n***Кастинг:");
-			WriteLine($"Из клиента в сотрудника: {t.FirstName}, {t.LastName}, {t.DateOfBirth}," +
+			Console.WriteLine($"\n***Кастинг:");
+			Console.WriteLine($"Из клиента в сотрудника: {t.FirstName}, {t.LastName}, {t.DateOfBirth}," +
 				$" {t.Phone}, {t.Position}, {t.Salary}, {t.Contract}");
 
-			ReadKey();
+			Console.ReadKey();
 		}
 
 		static void PrintEmployees(List<Employee> toPrint)
 		{
 			if (toPrint is not null)
 			{
-				WriteLine($"\nВладельцы:");
+				Console.WriteLine($"\nВладельцы:");
 				foreach (var item in toPrint)
 				{
-					WriteLine($"Владелец: {item.FirstName}, {item.LastName}, {item.Phone}, ЗП: {item.Salary}" +
+					Console.WriteLine($"Владелец: {item.FirstName}, {item.LastName}, {item.Phone}, ЗП: {item.Salary}" +
 						$"\n\tКонтракт: {item.Contract}");
 				}
 			}
