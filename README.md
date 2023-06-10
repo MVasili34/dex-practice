@@ -1,5 +1,5 @@
 # dex-practice
-Список файлов по соответствующим темам:
+Список файлов по соответствующим темам (Папка Tools):
 1) PraticeWithTypes - Типы значений и ссылочные типы (Value type and Reference type)
 2) PraticeWithCasting - Приведение и преобразование типов
 3) PraticeWithINotifyPropertyChanged - События. Events: INotifyPropertyChanged
