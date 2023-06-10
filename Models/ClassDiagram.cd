@@ -21,6 +21,13 @@
       <FileName>Person.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Models.Account">
+    <Position X="11.75" Y="4.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAACACAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Account.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Struct Name="Models.Currency">
     <Position X="9.75" Y="1" Width="2.25" />
     <TypeIdentifier>
