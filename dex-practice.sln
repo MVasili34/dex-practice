@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticeWithINotifyProperty
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticeWithListDictionaryBogus", "PracticeWithListDictionaryBogus\PracticeWithListDictionaryBogus.csproj", "{9C71C84F-6418-441D-93BC-625FC7BC3097}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceTests", "ServiceTests\ServiceTests.csproj", "{2E7959D1-7B7F-493D-A16A-44AB64F07380}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceTests", "ServiceTests\ServiceTests.csproj", "{2E7959D1-7B7F-493D-A16A-44AB64F07380}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PracticeWithIComparable", "PracticeWithIComparable\PracticeWithIComparable.csproj", "{AC48F3BE-4B94-4D7A-AC42-B5E7DB609957}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{2E7959D1-7B7F-493D-A16A-44AB64F07380}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E7959D1-7B7F-493D-A16A-44AB64F07380}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E7959D1-7B7F-493D-A16A-44AB64F07380}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC48F3BE-4B94-4D7A-AC42-B5E7DB609957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC48F3BE-4B94-4D7A-AC42-B5E7DB609957}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC48F3BE-4B94-4D7A-AC42-B5E7DB609957}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC48F3BE-4B94-4D7A-AC42-B5E7DB609957}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{5329CC6F-97C9-4F46-95CB-B94A6BD663B9} = {AE0B20C1-311A-41A5-9770-74AD1DACFCD1}
 		{9C71C84F-6418-441D-93BC-625FC7BC3097} = {AE0B20C1-311A-41A5-9770-74AD1DACFCD1}
 		{2E7959D1-7B7F-493D-A16A-44AB64F07380} = {42395556-CC2E-4E00-B865-755A230C7021}
+		{AC48F3BE-4B94-4D7A-AC42-B5E7DB609957} = {AE0B20C1-311A-41A5-9770-74AD1DACFCD1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B3D6B427-113B-4AB6-833C-223840D86F09}
