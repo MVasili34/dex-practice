@@ -7,21 +7,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{AE0B20C1-311A-41A5-9770-74AD1DACFCD1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{D6F75A64-067A-4CA3-8441-AE28486D1B1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Application\Models\Models.csproj", "{D6F75A64-067A-4CA3-8441-AE28486D1B1D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticeWithTypes", "PracticeWithTypes\PracticeWithTypes.csproj", "{C2BF1A12-4D61-45C8-88F9-ECD0560A4B1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticeWithTypes", "Tools\PracticeWithTypes\PracticeWithTypes.csproj", "{C2BF1A12-4D61-45C8-88F9-ECD0560A4B1F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{FA5EE77C-5108-476B-B12E-E7F335A8692F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Application\Services\Services.csproj", "{FA5EE77C-5108-476B-B12E-E7F335A8692F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticeWithCasting", "PracticeWithCasting\PracticeWithCasting.csproj", "{9CB459B0-F9E8-4EF5-B3EE-34F4AECF5D88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticeWithCasting", "Tools\PracticeWithCasting\PracticeWithCasting.csproj", "{9CB459B0-F9E8-4EF5-B3EE-34F4AECF5D88}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticeWithINotifyPropertyChanged", "PracticeWithINotifyPropertyChanged\PracticeWithINotifyPropertyChanged.csproj", "{5329CC6F-97C9-4F46-95CB-B94A6BD663B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticeWithINotifyPropertyChanged", "Tools\PracticeWithINotifyPropertyChanged\PracticeWithINotifyPropertyChanged.csproj", "{5329CC6F-97C9-4F46-95CB-B94A6BD663B9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticeWithListDictionaryBogus", "PracticeWithListDictionaryBogus\PracticeWithListDictionaryBogus.csproj", "{9C71C84F-6418-441D-93BC-625FC7BC3097}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticeWithListDictionaryBogus", "Tools\PracticeWithListDictionaryBogus\PracticeWithListDictionaryBogus.csproj", "{9C71C84F-6418-441D-93BC-625FC7BC3097}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceTests", "ServiceTests\ServiceTests.csproj", "{2E7959D1-7B7F-493D-A16A-44AB64F07380}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceTests", "Application\ServiceTests\ServiceTests.csproj", "{2E7959D1-7B7F-493D-A16A-44AB64F07380}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PracticeWithIComparable", "PracticeWithIComparable\PracticeWithIComparable.csproj", "{AC48F3BE-4B94-4D7A-AC42-B5E7DB609957}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticeWithIComparable", "Tools\PracticeWithIComparable\PracticeWithIComparable.csproj", "{AC48F3BE-4B94-4D7A-AC42-B5E7DB609957}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "Tools\ConsoleApp1\ConsoleApp1.csproj", "{60C83AA5-396B-4B05-845D-8FD8EA085726}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{AC48F3BE-4B94-4D7A-AC42-B5E7DB609957}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC48F3BE-4B94-4D7A-AC42-B5E7DB609957}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC48F3BE-4B94-4D7A-AC42-B5E7DB609957}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60C83AA5-396B-4B05-845D-8FD8EA085726}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60C83AA5-396B-4B05-845D-8FD8EA085726}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60C83AA5-396B-4B05-845D-8FD8EA085726}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60C83AA5-396B-4B05-845D-8FD8EA085726}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{9C71C84F-6418-441D-93BC-625FC7BC3097} = {AE0B20C1-311A-41A5-9770-74AD1DACFCD1}
 		{2E7959D1-7B7F-493D-A16A-44AB64F07380} = {42395556-CC2E-4E00-B865-755A230C7021}
 		{AC48F3BE-4B94-4D7A-AC42-B5E7DB609957} = {AE0B20C1-311A-41A5-9770-74AD1DACFCD1}
+		{60C83AA5-396B-4B05-845D-8FD8EA085726} = {AE0B20C1-311A-41A5-9770-74AD1DACFCD1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B3D6B427-113B-4AB6-833C-223840D86F09}

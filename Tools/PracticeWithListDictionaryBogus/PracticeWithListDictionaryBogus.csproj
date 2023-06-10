@@ -8,8 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Models\Models.csproj" />
-    <ProjectReference Include="..\Services\Services.csproj" />
+    <ProjectReference Include="..\..\Application\Models\Models.csproj" />
+    <ProjectReference Include="..\..\Application\Services\Services.csproj" />
   </ItemGroup>
+
+
 
 </Project>
