@@ -7,4 +7,5 @@
 5) Application/ServiceTests - Эквивалентность, Equals, GetHashCode
 6) Tools/PracticeWithIComparable - IComparable: сравнение объектов
 7) Tools/PracticeWithExceptionHandling - Тестирование ClientService и EmployeeService, обработка исключений (Exception handling)
+8) Tools/PracticeWithIEnumerableLinq - Тестирование интерфейсов для работы со списками (IEnumerable, IEnumerator)
 
