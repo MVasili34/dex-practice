@@ -12,10 +12,26 @@ namespace Services
 	public class ClientService
 	{
 		private Dictionary<Client, List<Account>> clientStorage;
-		public ClientService() 
-		{
-			clientStorage = new();
-		}
+		public ClientService() => clientStorage = new();
+		public ClientService(Dictionary<Client, List<Account>> clientStorage) => this.clientStorage = clientStorage;
+
+		public IEnumerable<KeyValuePair<Client, List<Account>>> FilterMethod(string fName, string lName, string phone, string info,
+		  DateOnly sDate, DateOnly eDate) => clientStorage.Where(p => 
+			p.Key.FirstName.Contains(fName, StringComparison.OrdinalIgnoreCase) &&
+			p.Key.LastName.Contains(lName, StringComparison.OrdinalIgnoreCase) &&
+			p.Key.Phone.Contains(phone, StringComparison.OrdinalIgnoreCase) &&
+			p.Key.Passport.Contains(info, StringComparison.OrdinalIgnoreCase) &&
+			(p.Key.DateOfBirth >= sDate && p.Key.DateOfBirth <= eDate));
+
+		public IEnumerable<KeyValuePair<Client, List<Account>>> GetOldestClients() => clientStorage.Where(p => 
+		p.Key.DateOfBirth == clientStorage.Min(t => t.Key.DateOfBirth));
+
+		public IEnumerable<KeyValuePair<Client, List<Account>>> GetYoungestClients()=> clientStorage.Where(p => 
+		p.Key.DateOfBirth == clientStorage.Max(t => t.Key.DateOfBirth));
+
+		public int GetAvarageAge() => DateTime.Now.DayOfYear < clientStorage.Keys.Average(p => p.DateOfBirth.DayOfYear) ?
+			DateTime.Now.Year - (int)clientStorage.Keys.Average(p => p.DateOfBirth.Year) :
+			DateTime.Now.Year - (int)clientStorage.Keys.Average(p => p.DateOfBirth.Year) - 1;
 
 		public void AddClient(Client? client) 
 		{
@@ -147,6 +163,19 @@ namespace Services
 				for (int i = 0; i < clientStorage[key].Count; i++)
 				{
 					Console.WriteLine($"{i+1}) Код валюты: {clientStorage[key][i].Currency.CurrencyCode};" +
+						$" Имя валюты: {clientStorage[key][i].Currency.Name}; Сумма: {clientStorage[key][i].Amount};");
+				}
+			}
+		}
+
+		public void PrintOut(Dictionary<Client, List<Account>> toprint)
+		{
+			foreach (var key in toprint.Keys)
+			{
+				Console.WriteLine($"Владелец счёта: {key.FirstName}, {key.LastName}; ДР: {key.DateOfBirth}; Пасспорт: {key.Passport}; Список счетов:");
+				for (int i = 0; i < clientStorage[key].Count; i++)
+				{
+					Console.WriteLine($"{i + 1}) Код валюты: {clientStorage[key][i].Currency.CurrencyCode};" +
 						$" Имя валюты: {clientStorage[key][i].Currency.Name}; Сумма: {clientStorage[key][i].Amount};");
 				}
 			}

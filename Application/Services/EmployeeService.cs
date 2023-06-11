@@ -11,10 +11,23 @@ namespace Services
 	public class EmployeeService
 	{
 		private List<Employee>? employeeStorage;
-		public EmployeeService() 
-		{
-			employeeStorage = new();
-		}
+		public EmployeeService() => employeeStorage = new();
+		public EmployeeService(List<Employee>? employees) => employeeStorage = employees is not null ? employees : new();
+		public IEnumerable<Employee> FilterMethod(string fName, string lName, string phone, string passport,
+		  DateOnly sDate, DateOnly eDate) => employeeStorage?.Where(p => 
+			p.FirstName.Contains(fName, StringComparison.OrdinalIgnoreCase) &&
+		    p.LastName.Contains(lName, StringComparison.OrdinalIgnoreCase) &&
+		    p.Phone.Contains(phone, StringComparison.OrdinalIgnoreCase) &&
+		    p.Passport.Contains(passport, StringComparison.OrdinalIgnoreCase) &&
+		    (p.DateOfBirth >= sDate && p.DateOfBirth <= eDate))!;
+		public IEnumerable<Employee> GetOldestEmployees() => employeeStorage?.Where(p => p.DateOfBirth == employeeStorage.Min(t => t.DateOfBirth))!;
+
+		public IEnumerable<Employee> GetYoungestEmployees() => employeeStorage?.Where(p => p.DateOfBirth == employeeStorage.Max(t => t.DateOfBirth))!;
+
+		public int GetAvarageAge() => DateTime.Now.DayOfYear < employeeStorage?.Average(p => p.DateOfBirth.DayOfYear) ?
+			DateTime.Now.Year - (int)employeeStorage.Average(p => p.DateOfBirth.Year) :
+			DateTime.Now.Year - (int)employeeStorage?.Average(p => p.DateOfBirth.Year)! - 1;
+
 		public void AddEmployee(Employee? employee)
 		{
 			try
@@ -87,7 +100,20 @@ namespace Services
 			for (int i = 0; i < employeeStorage?.Count; i++)
 			{
 				Console.WriteLine($"{i + 1}) FName: {employeeStorage[i].FirstName}, LName: {employeeStorage[i].LastName};" +
-					$" ДР: {employeeStorage[i].DateOfBirth}; Должность: {employeeStorage[i].Position}; Контракт: {employeeStorage[i].Contract}");
+					$" ДР: {employeeStorage[i].DateOfBirth}; Пасспорт: {employeeStorage[i].Passport}; " +
+					$"Должность: {employeeStorage[i].Position}; Контракт: {employeeStorage[i].Contract}");
+			}
+		}
+		public void PrintOut(List<Employee>? employees)
+		{
+			if (employees is not null)
+			{
+				Console.WriteLine($"Список сотрудников:");
+				for (int i = 0; i < employees?.Count; i++)
+				{
+					Console.WriteLine($"{i + 1}) FName: {employees?[i].FirstName}, LName: {employees?[i].LastName};" +
+						$" ДР: {employees?[i].DateOfBirth}; Должность: {employees?[i].Position}; Контракт: {employees?[i].Contract}");
+				}
 			}
 		}
 	}
