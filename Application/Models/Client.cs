@@ -16,7 +16,7 @@
 		public string? Company
 		{
 			get => connectedCompany;
-			set => connectedCompany = value;
+			set => connectedCompany = value!;
 		}
 		public string AdressInfo
 		{
