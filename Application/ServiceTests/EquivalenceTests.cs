@@ -32,7 +32,7 @@ namespace ServiceTests
 					Employees[65].DateOfBirth, Employees[65].Phone, Employees[65].Passport,
 					Employees[65].Position, Employees[65].Salary, Employees[65].Contract);
 
-				//метод Contains также использует методы Equals и GetHashCode для проведения сравнения объектов
+				//метод IndexOf также использует метод Equals для проведения сравнения объектов
 				Assert.Equal(65, Employees.IndexOf(someEmployee));
 			}
 		}
