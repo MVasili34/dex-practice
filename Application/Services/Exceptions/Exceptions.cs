@@ -42,4 +42,10 @@ namespace Services.Exceptions
 		public IncorrectEmployeeException(string message) : base(message) { }
 		public IncorrectEmployeeException(string message, Exception e) : base(message, e) { }
 	}
+	public class FailedToRemoveException : Exception
+	{
+		public FailedToRemoveException() { }
+		public FailedToRemoveException(string message) : base(message) { }
+		public FailedToRemoveException(string message, Exception e) : base(message, e) { }
+	}
 }

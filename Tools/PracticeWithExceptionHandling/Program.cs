@@ -25,25 +25,25 @@ namespace PracticeWithExceptionHandling
 				Client client = new("Имя1", "Имя2", DateOnly.Parse("21.02.2010"), "22344114", "", "NONE", "");
 
 				WriteLine("Попытка поместить клиента в список клиентов банка:");
-				service.AddClient(client);
+				service.Add(client);
 
 				client.DateOfBirth = DateOnly.Parse("21.02.2005");
 				WriteLine("Попытка поместить клиента в список клиентов банка");
-				service.AddClient(client);
+				service.Add(client);
 				WriteLine();
 
 				//окончательно добавляем клиента, изменяя значения полей
 				client.Passport = "AB12345678";
 
 				//показываем, что дефолтный лицевой счёт создан
-				service.AddClient(client);
+				service.Add(client);
 				service.PrintOut();
 				WriteLine();
 
 				Account account = new(new Currency("BS212", "Usd."), 10);
 
 				//добавляем счёт клиенту
-				service.AddAccountToClient(client, account);
+				service.AddAccount(client, account);
 				service.PrintOut();
 				WriteLine();
 				Write("Выберите номер счёта, который хотите изменить: ");
@@ -57,7 +57,7 @@ namespace PracticeWithExceptionHandling
 				//тестируем метод обновления лицевого счёта
 				Write("Новая сумма счёта: ");
 				clientAccount.Amount = int.Parse(ReadLine()!);
-				service.EditClientsAccount(client, chosen, clientAccount);
+				service.UpdateAccount(client, chosen, clientAccount);
 				WriteLine();
 				service.PrintOut();
 			}
@@ -107,9 +107,9 @@ namespace PracticeWithExceptionHandling
 					"AB2331", "Уборщик", -5, "Заключён контракт");
 
 				//попытка редактирования
-				service.EditEmployee(0, employeeEdited);
+				service.UpdateEmployee(0, employeeEdited);
 				employeeEdited.Salary = 10000;
-				service.EditEmployee(0, employeeEdited);
+				service.UpdateEmployee(0, employeeEdited);
 				WriteLine();
 				service.PrintOut();
 			}

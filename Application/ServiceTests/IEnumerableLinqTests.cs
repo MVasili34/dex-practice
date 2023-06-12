@@ -80,12 +80,9 @@ namespace ServiceTests.Tests
 		public static void AddingClientToStorage()
 		{
 			ClientStorage clientStorage = new();
-
 			Client newClient = new("FName", "LName", new(2001, 02, 21),
 				"123456", "AB1234", "NONE", "Adress");
-
 			clientStorage.AddClient(newClient);
-
 			Assert.True(clientStorage.clients.ContainsKey(newClient));
 		}
 
@@ -93,12 +90,9 @@ namespace ServiceTests.Tests
 		public static void AddingEmployeeToStorage()
 		{
 			EmployeeStorage employeeStorage = new();
-
 			Employee newEmployee = new("FName", "LName", new(2001, 02, 21),
 				"123456", "AB1234", "Уборщик", 10000);
-
 			employeeStorage.AddEmployee(newEmployee);
-
 			Assert.True(employeeStorage.employees?.Contains(newEmployee));
 		}
 		private static Dictionary<Client, List<Account>> clients = new()

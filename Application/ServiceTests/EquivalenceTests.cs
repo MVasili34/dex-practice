@@ -2,7 +2,7 @@ using Models;
 using Services;
 using static System.Console;
 
-namespace ServiceTests
+namespace ServiceTests.Tests
 {
 	public class EquivalenceTests
 	{

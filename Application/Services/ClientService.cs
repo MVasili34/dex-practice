@@ -1,5 +1,6 @@
 ﻿using Models;
 using System;
+using Services.Storage;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,31 +10,31 @@ using System.Security.Principal;
 
 namespace Services
 {
-	public class ClientService
+	public class ClientService : IClientStorage
 	{
-		private Dictionary<Client, List<Account>> clientStorage;
-		public ClientService() => clientStorage = new();
-		public ClientService(Dictionary<Client, List<Account>> clientStorage) => this.clientStorage = clientStorage;
+		public Dictionary<Client, List<Account>> Data { get; }
+		public ClientService() => Data = new();
+		public ClientService(Dictionary<Client, List<Account>> clientStorage) => Data = clientStorage;
 
 		public IEnumerable<KeyValuePair<Client, List<Account>>> FilterMethod(string fName, string lName, string phone, string info,
-		  DateOnly sDate, DateOnly eDate) => clientStorage.Where(p => 
+		  DateOnly sDate, DateOnly eDate) => Data.Where(p => 
 			p.Key.FirstName.Contains(fName, StringComparison.OrdinalIgnoreCase) &&
 			p.Key.LastName.Contains(lName, StringComparison.OrdinalIgnoreCase) &&
 			p.Key.Phone.Contains(phone, StringComparison.OrdinalIgnoreCase) &&
 			p.Key.Passport.Contains(info, StringComparison.OrdinalIgnoreCase) &&
 			(p.Key.DateOfBirth >= sDate && p.Key.DateOfBirth <= eDate));
 
-		public IEnumerable<KeyValuePair<Client, List<Account>>> GetOldestClients() => clientStorage.Where(p => 
-		p.Key.DateOfBirth == clientStorage.Min(t => t.Key.DateOfBirth));
+		public IEnumerable<KeyValuePair<Client, List<Account>>> GetOldestClients() => Data.Where(p => 
+		p.Key.DateOfBirth == Data.Min(t => t.Key.DateOfBirth));
 
-		public IEnumerable<KeyValuePair<Client, List<Account>>> GetYoungestClients()=> clientStorage.Where(p => 
-		p.Key.DateOfBirth == clientStorage.Max(t => t.Key.DateOfBirth));
+		public IEnumerable<KeyValuePair<Client, List<Account>>> GetYoungestClients()=> Data.Where(p => 
+		p.Key.DateOfBirth == Data.Max(t => t.Key.DateOfBirth));
 
-		public int GetAvarageAge() => DateTime.Now.DayOfYear < clientStorage.Keys.Average(p => p.DateOfBirth.DayOfYear) ?
-			DateTime.Now.Year - (int)clientStorage.Keys.Average(p => p.DateOfBirth.Year) :
-			DateTime.Now.Year - (int)clientStorage.Keys.Average(p => p.DateOfBirth.Year) - 1;
+		public int GetAvarageAge() => DateTime.Now.DayOfYear < Data.Keys.Average(p => p.DateOfBirth.DayOfYear) ?
+			DateTime.Now.Year - (int)Data.Keys.Average(p => p.DateOfBirth.Year) :
+			DateTime.Now.Year - (int)Data.Keys.Average(p => p.DateOfBirth.Year) - 1;
 
-		public void AddClient(Client? client) 
+		public void Add(Client? client) 
 		{
 			try
 			{
@@ -50,7 +51,7 @@ namespace Services
 					}
 					else
 					{
-						clientStorage[client] = new List<Account> { new Account(new Currency("RUB", "Руб."), 0) };
+						Data[client] = new List<Account> { new Account(new Currency("RUB", "Руб."), 0) };
 					}
 				}
 			}
@@ -67,11 +68,11 @@ namespace Services
 				Console.WriteLine(ex.Message);
 			}
 		}
-		public void AddAccountToClient(Client client, Account account)
+		public void AddAccount(Client client, Account account)
 		{
 			try
 			{
-				if (!clientStorage.ContainsKey(client))
+				if (!Data.ContainsKey(client))
 				{
 					throw new ClientDoesntExistException("Клиент не зарегистрирован!");
 				}
@@ -82,7 +83,7 @@ namespace Services
 				}
 				else
 				{
-					clientStorage[client].Add(account);
+					Data[client].Add(account);
 				}
 			}
 			catch (IncorrectAccountException ex)
@@ -99,11 +100,11 @@ namespace Services
 			}
 		}
 
-		public void EditClientsAccount(Client client, int accNumber, Account account)
+		public void UpdateAccount(Client client, int accNumber, Account account)
 		{
 			try
 			{
-				if (!clientStorage.ContainsKey(client))
+				if (!Data.ContainsKey(client))
 				{
 					throw new ClientDoesntExistException("Клиент не имеет дефолтного лицевого счёта!");
 				}
@@ -114,7 +115,7 @@ namespace Services
 				}
 				else
 				{
-					clientStorage[client][accNumber] = account;
+					Data[client][accNumber] = account;
 				}
 			}
 			catch (IncorrectAccountException ex)
@@ -131,17 +132,62 @@ namespace Services
 			}
 		}
 
+		public void Delete(Client? client)
+		{
+			try
+			{
+				if (client is not null)
+				{
+					if (!Data.Remove(client))
+						throw new FailedToRemoveException("Невозможнло удалить клиента!");
+				}
+				else
+					throw new FailedToRemoveException("Невозможнло удалить клиента!");
+			}
+			catch (FailedToRemoveException ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+		}
+
+		public void DeleteAccount(Client client, Account account)
+		{
+			try
+			{
+				if (client is not null && account is not null)
+				{
+					if (!Data[client].Remove(account))
+						throw new FailedToRemoveException("Невозможнло удалить cчёт клиента!");
+				}
+				else
+					throw new FailedToRemoveException("Невозможнло удалить счёт клиента!");
+			}
+			catch (FailedToRemoveException ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+		}
+
+
 		public IEnumerable<Account>? RetrieveAllAccounts(Client client)
 		{
 			try
 			{
-				if (!clientStorage.ContainsKey(client))
+				if (!Data.ContainsKey(client))
 				{
 					throw new ClientDoesntExistException("Клиент не имеет дефолтного лицевого счёта!");
 				}
 				else
 				{
-					return clientStorage[client];
+					return Data[client];
 				}
 			}
 			catch (ClientDoesntExistException ex)
@@ -157,13 +203,13 @@ namespace Services
 
 		public void PrintOut()
 		{
-			foreach (var key in clientStorage.Keys)
+			foreach (var key in Data.Keys)
 			{
 				Console.WriteLine($"Владелец счёта: {key.FirstName}, {key.LastName}; ДР: {key.DateOfBirth}; Пасспорт: {key.Passport}; Список счетов:");
-				for (int i = 0; i < clientStorage[key].Count; i++)
+				for (int i = 0; i < Data[key].Count; i++)
 				{
-					Console.WriteLine($"{i+1}) Код валюты: {clientStorage[key][i].Currency.CurrencyCode};" +
-						$" Имя валюты: {clientStorage[key][i].Currency.Name}; Сумма: {clientStorage[key][i].Amount};");
+					Console.WriteLine($"{i+1}) Код валюты: {Data[key][i].Currency.CurrencyCode};" +
+						$" Имя валюты: {Data[key][i].Currency.Name}; Сумма: {Data[key][i].Amount};");
 				}
 			}
 		}
@@ -173,10 +219,10 @@ namespace Services
 			foreach (var key in toprint.Keys)
 			{
 				Console.WriteLine($"Владелец счёта: {key.FirstName}, {key.LastName}; ДР: {key.DateOfBirth}; Пасспорт: {key.Passport}; Список счетов:");
-				for (int i = 0; i < clientStorage[key].Count; i++)
+				for (int i = 0; i < Data[key].Count; i++)
 				{
-					Console.WriteLine($"{i + 1}) Код валюты: {clientStorage[key][i].Currency.CurrencyCode};" +
-						$" Имя валюты: {clientStorage[key][i].Currency.Name}; Сумма: {clientStorage[key][i].Amount};");
+					Console.WriteLine($"{i + 1}) Код валюты: {Data[key][i].Currency.CurrencyCode};" +
+						$" Имя валюты: {Data[key][i].Currency.Name}; Сумма: {Data[key][i].Amount};");
 				}
 			}
 		}

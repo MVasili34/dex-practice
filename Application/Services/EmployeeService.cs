@@ -1,32 +1,28 @@
 ﻿using Models;
 using Services.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Services.Storage;
 
 namespace Services
 {
-	public class EmployeeService
+	public class EmployeeService : IEmployeeStorage
 	{
-		private List<Employee>? employeeStorage;
-		public EmployeeService() => employeeStorage = new();
-		public EmployeeService(List<Employee>? employees) => employeeStorage = employees is not null ? employees : new();
+		public List<Employee> Data { get; }
+		public EmployeeService() => Data = new();
+		public EmployeeService(List<Employee>? employees) => Data = employees is not null ? employees : new();
 		public IEnumerable<Employee> FilterMethod(string fName, string lName, string phone, string passport,
-		  DateOnly sDate, DateOnly eDate) => employeeStorage?.Where(p => 
+		  DateOnly sDate, DateOnly eDate) => Data?.Where(p => 
 			p.FirstName.Contains(fName, StringComparison.OrdinalIgnoreCase) &&
 		    p.LastName.Contains(lName, StringComparison.OrdinalIgnoreCase) &&
 		    p.Phone.Contains(phone, StringComparison.OrdinalIgnoreCase) &&
 		    p.Passport.Contains(passport, StringComparison.OrdinalIgnoreCase) &&
 		    (p.DateOfBirth >= sDate && p.DateOfBirth <= eDate))!;
-		public IEnumerable<Employee> GetOldestEmployees() => employeeStorage?.Where(p => p.DateOfBirth == employeeStorage.Min(t => t.DateOfBirth))!;
+		public IEnumerable<Employee> GetOldestEmployees() => Data?.Where(p => p.DateOfBirth == Data.Min(t => t.DateOfBirth))!;
 
-		public IEnumerable<Employee> GetYoungestEmployees() => employeeStorage?.Where(p => p.DateOfBirth == employeeStorage.Max(t => t.DateOfBirth))!;
+		public IEnumerable<Employee> GetYoungestEmployees() => Data?.Where(p => p.DateOfBirth == Data.Max(t => t.DateOfBirth))!;
 
-		public int GetAvarageAge() => DateTime.Now.DayOfYear < employeeStorage?.Average(p => p.DateOfBirth.DayOfYear) ?
-			DateTime.Now.Year - (int)employeeStorage.Average(p => p.DateOfBirth.Year) :
-			DateTime.Now.Year - (int)employeeStorage?.Average(p => p.DateOfBirth.Year)! - 1;
+		public int GetAvarageAge() => DateTime.Now.DayOfYear < Data?.Average(p => p.DateOfBirth.DayOfYear) ?
+			DateTime.Now.Year - (int)Data.Average(p => p.DateOfBirth.Year) :
+			DateTime.Now.Year - (int)Data?.Average(p => p.DateOfBirth.Year)! - 1;
 
 		public void AddEmployee(Employee? employee)
 		{
@@ -45,7 +41,7 @@ namespace Services
 					}
 					else
 					{
-						employeeStorage?.Add(employee);
+						Data?.Add(employee);
 					}
 				}
 			}
@@ -63,11 +59,11 @@ namespace Services
 			}
 		}
 
-		public void EditEmployee(int empNumber, Employee employee)
+		public void UpdateEmployee(int empNumber, Employee employee)
 		{
 			try
 			{
-				if (employeeStorage is not null)
+				if (Data is not null)
 				{
 					if (String.IsNullOrEmpty(employee.Contract) || String.IsNullOrEmpty(employee.Position) ||
 						employee.Salary < 0)
@@ -76,7 +72,7 @@ namespace Services
 					}
 					else
 					{
-						employeeStorage[empNumber] = employee;
+						Data[empNumber] = employee;
 					}
 				}
 			}
@@ -94,14 +90,36 @@ namespace Services
 			}
 		}
 
+		public void DeleteEmployee(Employee? employee)
+		{
+			try
+			{
+				if (employee is not null)
+				{
+					if (!Data.Remove(employee))
+						throw new FailedToRemoveException("Невозможнло удалить сотрудника!");
+				}
+				else
+					throw new FailedToRemoveException("Невозможнло удалить сотрудника!");
+			}
+			catch (FailedToRemoveException ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+		}
+
 		public void PrintOut()
 		{
 			Console.WriteLine($"Список сотрудников:");
-			for (int i = 0; i < employeeStorage?.Count; i++)
+			for (int i = 0; i < Data?.Count; i++)
 			{
-				Console.WriteLine($"{i + 1}) FName: {employeeStorage[i].FirstName}, LName: {employeeStorage[i].LastName};" +
-					$" ДР: {employeeStorage[i].DateOfBirth}; Пасспорт: {employeeStorage[i].Passport}; " +
-					$"Должность: {employeeStorage[i].Position}; Контракт: {employeeStorage[i].Contract}");
+				Console.WriteLine($"{i + 1}) FName: {Data[i].FirstName}, LName: {Data[i].LastName};" +
+					$" ДР: {Data[i].DateOfBirth}; Пасспорт: {Data[i].Passport}; " +
+					$"Должность: {Data[i].Position}; Контракт: {Data[i].Contract}");
 			}
 		}
 		public void PrintOut(List<Employee>? employees)
