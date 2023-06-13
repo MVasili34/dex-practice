@@ -29,9 +29,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApplicationDb", "Applicatio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityModels", "ApplicationDb\Models\EntityModels.csproj", "{F7A4FDEF-790E-40D0-AA6F-D8FDA0A462DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicesDb", "ApplicationDb\ServicesDb\ServicesDb.csproj", "{A4463538-3F65-4A4B-A23B-1DF4ED828127}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServicesDb", "ApplicationDb\ServicesDb\ServicesDb.csproj", "{A4463538-3F65-4A4B-A23B-1DF4ED828127}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicesDbTests.Tests", "ApplicationDb\ServicesDbTests.Tests\ServicesDbTests.Tests.csproj", "{BF6E30EF-717C-4C2F-B848-FA1CE160B744}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServicesDbTests.Tests", "ApplicationDb\ServicesDbTests.Tests\ServicesDbTests.Tests.csproj", "{BF6E30EF-717C-4C2F-B848-FA1CE160B744}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SqlPractice", "SqlPractice", "{0E3E5760-789C-43D7-B82C-36863635FBEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
