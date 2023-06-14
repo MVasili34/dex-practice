@@ -36,8 +36,6 @@ namespace Services
 
 		public void Add(Client? client) 
 		{
-			try
-			{
 				if (client is not null) 
 				{
 					if ((client.DateOfBirth.DayOfYear<=DateTime.Now.DayOfYear ? DateTime.Now.Year-client.DateOfBirth.Year : 
@@ -54,24 +52,9 @@ namespace Services
 						Data[client] = new List<Account> { new Account(new Currency("RUB", "Руб."), 0) };
 					}
 				}
-			}
-			catch (PassportNullException ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-			catch (Below18Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-			catch(Exception ex) 
-			{
-				Console.WriteLine(ex.Message);
-			}
 		}
 		public void AddAccount(Client client, Account account)
 		{
-			try
-			{
 				if (!Data.ContainsKey(client))
 				{
 					throw new ClientDoesntExistException("Клиент не зарегистрирован!");
@@ -85,31 +68,15 @@ namespace Services
 				{
 					Data[client].Add(account);
 				}
-			}
-			catch (IncorrectAccountException ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-			catch (ClientDoesntExistException ex)
-			{ 
-				Console.WriteLine(ex.Message); 
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
 		}
 
 		public void UpdateAccount(Client client, int accNumber, Account account)
 		{
-			try
-			{
 				if (!Data.ContainsKey(client))
 				{
 					throw new ClientDoesntExistException("Клиент не имеет дефолтного лицевого счёта!");
 				}
-				else if (String.IsNullOrEmpty(account.Currency.Name) || String.IsNullOrEmpty(account.Currency.CurrencyCode) ||
-					account.Amount < 0)
+				else if (String.IsNullOrEmpty(account.Currency.Name) || String.IsNullOrEmpty(account.Currency.CurrencyCode))
 				{
 					throw new IncorrectAccountException("Некорректный лицевой счёт!");
 				}
@@ -117,25 +84,11 @@ namespace Services
 				{
 					Data[client][accNumber] = account;
 				}
-			}
-			catch (IncorrectAccountException ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-			catch (ClientDoesntExistException ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
 		}
 
 		public void Delete(Client? client)
 		{
-			try
-			{
+
 				if (client is not null)
 				{
 					if (!Data.Remove(client))
@@ -143,21 +96,10 @@ namespace Services
 				}
 				else
 					throw new FailedToRemoveException("Невозможнло удалить клиента!");
-			}
-			catch (FailedToRemoveException ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
 		}
 
 		public void DeleteAccount(Client client, Account account)
 		{
-			try
-			{
 				if (client is not null && account is not null)
 				{
 					if (!Data[client].Remove(account))
@@ -165,22 +107,12 @@ namespace Services
 				}
 				else
 					throw new FailedToRemoveException("Невозможнло удалить счёт клиента!");
-			}
-			catch (FailedToRemoveException ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
 		}
 
 
 		public IEnumerable<Account>? RetrieveAllAccounts(Client client)
 		{
-			try
-			{
+
 				if (!Data.ContainsKey(client))
 				{
 					throw new ClientDoesntExistException("Клиент не имеет дефолтного лицевого счёта!");
@@ -189,16 +121,6 @@ namespace Services
 				{
 					return Data[client];
 				}
-			}
-			catch (ClientDoesntExistException ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-			return null;
 		}
 
 		public void PrintOut()

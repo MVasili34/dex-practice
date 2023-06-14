@@ -26,8 +26,6 @@ namespace Services
 
 		public void AddEmployee(Employee? employee)
 		{
-			try
-			{
 				if (employee is not null)
 				{
 					if ((employee.DateOfBirth.DayOfYear <= DateTime.Now.DayOfYear ? DateTime.Now.Year - employee.DateOfBirth.Year :
@@ -44,25 +42,10 @@ namespace Services
 						Data?.Add(employee);
 					}
 				}
-			}
-			catch (NullContractException ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-			catch (Below18Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
 		}
 
 		public void UpdateEmployee(int empNumber, Employee employee)
 		{
-			try
-			{
 				if (Data is not null)
 				{
 					if (String.IsNullOrEmpty(employee.Contract) || String.IsNullOrEmpty(employee.Position) ||
@@ -75,25 +58,10 @@ namespace Services
 						Data[empNumber] = employee;
 					}
 				}
-			}
-			catch (IncorrectEmployeeException ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-			catch (IndexOutOfRangeException ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
 		}
 
 		public void DeleteEmployee(Employee? employee)
 		{
-			try
-			{
 				if (employee is not null)
 				{
 					if (!Data.Remove(employee))
@@ -101,15 +69,6 @@ namespace Services
 				}
 				else
 					throw new FailedToRemoveException("Невозможнло удалить сотрудника!");
-			}
-			catch (FailedToRemoveException ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
 		}
 
 		public void PrintOut()
