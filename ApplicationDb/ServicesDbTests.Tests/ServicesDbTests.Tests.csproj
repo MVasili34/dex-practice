@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ExportTool\ExportTool.csproj" />
     <ProjectReference Include="..\Models\EntityModels.csproj" />
     <ProjectReference Include="..\ServicesDb\ServicesDb.csproj" />
   </ItemGroup>
