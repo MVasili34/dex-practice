@@ -15,6 +15,7 @@ namespace ServicesDbTests.Tests
 		[Fact]
 		public void ExportImportClientsTest()
 		{
+			File.Delete(Path.Combine(Environment.CurrentDirectory, "exportimport.csv"));
 			ClientService db = new(new BankingServiceContext());
 			ExportService exportService = new(Environment.CurrentDirectory, "exportimport.csv");
 			var collection = db.RetrieveAll().ToList();
