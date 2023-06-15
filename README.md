@@ -15,3 +15,4 @@
 ---
 10) ApplicationDb - в данной папке реализуется практика по EntityFramework и миграциям. Предществующие сервисы были пересозданы в соответствии с изменившимися условиям работы. В ServicesDbTests.Tests реализуются соответствующие тесты
 11) ApplicationDb/ServiceDbTests/CsvFileTests - практика по Stream, FileStream, CSV файлам
+12) ApplicationDb/ServiceDbTests/ExtensionsMethodsTests - Методы расширения, Extensions
