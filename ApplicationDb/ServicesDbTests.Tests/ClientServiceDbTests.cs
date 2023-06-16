@@ -3,6 +3,7 @@ using ServicesDb;
 
 namespace ServicesDbTests.Tests
 {
+	
 	public class ClientServiceDbTests
 	{
 		[Fact]
