@@ -70,10 +70,12 @@ public class ThreadAndTaskTests
 	public void RateUpdaterTest()
 	{
 		RateUpdater.accounts = DataGenerator.GenerateAccounts(10).ToList();
-		var expected = RateUpdater.accounts[4].Amount;
+		decimal?[] expected = RateUpdater.accounts.Select(account => account.Amount * 1.05m).ToArray();
 		RateUpdater rateUpdater = new RateUpdater();
-		expected += 0.05M * expected;
-		Assert.Equal(expected, RateUpdater.accounts[4].Amount);
+		for (int i = 0; i < expected.Length; i++)
+		{
+			Assert.Equal(expected[i], RateUpdater.accounts[i].Amount);
+		}
 	}
 
 	[Fact] //тест возможности обналичивания средств
@@ -93,6 +95,8 @@ public class ThreadAndTaskTests
 		var results = await Task.WhenAll(tasks);
 
 		for (int i = 0; i < accounts.Count; i++)
-			Assert.Equal(accounts[i].Amount, results[i]+100.00m);
+		{
+			Assert.Equal(accounts[i].Amount, results[i] + 100.00m);
+		}
 	}
 }
