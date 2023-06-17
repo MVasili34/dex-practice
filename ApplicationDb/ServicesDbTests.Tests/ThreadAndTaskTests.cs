@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using System.Security.Cryptography;
 
 namespace ServicesDbTests.Tests;
 
 public class ThreadAndTaskTests
 {
-	[Fact]
+	[Fact] //параллельный экспорт и импорт клиентов из БД
 	public void ParallelExportImportTest()
 	{
 		var exportCompleted = new ManualResetEvent(false);
@@ -44,7 +45,8 @@ public class ThreadAndTaskTests
 		WaitHandle.WaitAll(new[] { exportCompleted, importCompleted });
 		Assert.True(!exportService.ImportClients()!.Except(db.Clients).Any());
 	}
-	[Fact]
+
+	[Fact] //параллельное начисление денег на один и тот же тестовый счет
 	public void ParallelIncreaseTest()
 	{
 		Account account = new(new Guid(), "USD", 0);
@@ -62,5 +64,35 @@ public class ThreadAndTaskTests
 			}
 		});
 		Assert.Equal(2000, account.Amount);
+	}
+
+	[Fact] //начисляющий процентную ставку каждому клиенту
+	public void RateUpdaterTest()
+	{
+		RateUpdater.accounts = DataGenerator.GenerateAccounts(10).ToList();
+		var expected = RateUpdater.accounts[4].Amount;
+		RateUpdater rateUpdater = new RateUpdater();
+		expected += 0.05M * expected;
+		Assert.Equal(expected, RateUpdater.accounts[4].Amount);
+	}
+
+	[Fact] //тест возможности обналичивания средств
+	public async Task DispenseCashAsync_ShouldDispenseCash()
+	{
+		var accounts = DataGenerator.GenerateAccounts(5).ToList();
+		var dispenserService = new CashDispenserService(5);
+		List<Task<decimal?>> tasks = new();
+
+		foreach (var account in accounts)
+		{
+			var task = dispenserService.DispenseCashAsync(account, 100.00m);
+			tasks.Add(task);
+			await task;
+		}
+
+		var results = await Task.WhenAll(tasks);
+
+		for (int i = 0; i < accounts.Count; i++)
+			Assert.Equal(accounts[i].Amount, results[i]+100.00m);
 	}
 }

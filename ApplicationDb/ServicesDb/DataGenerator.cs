@@ -12,7 +12,16 @@ public class DataGenerator
 {
 	public static IEnumerable<Client> GenerateClints(int amount) => Enumerable.Range(0, amount).Select(p => GenereteClient());
 
+	public static IEnumerable<Account> GenerateAccounts(int amount) => Enumerable.Range(0, amount).Select(p => GenerateAccount());
+
 	public static IEnumerable<Employee> GenerateEmployees(int amount) => Enumerable.Range(0, amount).Select(p => GenerateEmployee());
+
+	public static Account GenerateAccount() => new Faker<Account>("ru")
+		.RuleFor(b => b.AccountId, t => new Guid())
+		.RuleFor(b => b.OwnerId, t => new Guid())
+		.RuleFor(b => b.CurrencyIso, t=> t.Finance.Currency().Code)
+		.RuleFor(b => b.Amount, t => t.Finance.Random.Decimal(100, 10000));
+
 	public static Employee GenerateEmployee() => new Faker<Employee>("ru")
 			.RuleFor(b => b.FirstName, t => t.Name.FirstName())
 			.RuleFor(b => b.LastName, t => t.Name.LastName())
