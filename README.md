@@ -17,5 +17,5 @@
 11) ApplicationDb/ServicesDbTests/CsvFileTests - практика по Stream, FileStream, CSV файлам
 12) ApplicationDb/ServicesDbTests/ExtensionsMethodsTests - практика по определению методов расширения, Extensions Methods
 13) ApplicationDb/ServicesDbTests/ReflectionTests - практика по рефлексии, метаданным классов: Reflection
-14) ApplicationDb/ServicesDbTests/ThreadAndTaskTests - практика по многопоточности, блокировкам, дедлокам
-15) 
+14) ApplicationDb/ServicesDbTests/ThreadAndTaskTests - практика по многопоточности, блокировкам, дедлокам, задачи и класс Task
+15)
