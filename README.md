@@ -18,4 +18,5 @@
 12) ApplicationDb/ServicesDbTests/ExtensionsMethodsTests - практика по определению методов расширения, Extensions Methods
 13) ApplicationDb/ServicesDbTests/ReflectionTests - практика по рефлексии, метаданным классов: Reflection
 14) ApplicationDb/ServicesDbTests/ThreadAndTaskTests - практика по многопоточности, блокировкам, дедлокам, задачи и класс Task
-15)
+15) ApplicationDb/ServicesDbTests/AsyncTaskTests - практика по асинхронности. Также переписаны сервисы и их тесты по работе с клиентами и сотрудниками
+16) 
