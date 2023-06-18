@@ -10,7 +10,7 @@ using System.IO;
 
 namespace ServicesDbTests.Tests;
 
-public class SerialisationTests
+public class SerializationTests
 {
 	[Fact]
 	public void SerializeAndDeserializeClientTest()
