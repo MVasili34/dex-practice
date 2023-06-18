@@ -11,37 +11,37 @@ namespace ServicesDbTests.Tests;
 public class EmployeeServiceDbTests
 {
 	[Fact]
-	public void AddingEmployeeTest()
+	public async void AddingEmployeeTest()
 	{
 		EmployeeService db = new(new BankingServiceContext());
 		var someEmployee = DataGenerator.GenerateEmployee();
 
-		db.AddEmployee(someEmployee);
+		await db.AddEmployee(someEmployee);
 
-		Assert.Contains(someEmployee, db.RetrieveAll());
+		Assert.Contains(someEmployee, db.RetrieveAll().Result);
 	}
 	[Fact]
 	public void GetEmployeeByIdTest()
 	{
 		EmployeeService db = new(new BankingServiceContext());
-		Assert.Equal(db.RetrieveAll().First().EmployeeId, 
-			db.RetrieveEmployeeById(db.RetrieveAll().First().EmployeeId)?.EmployeeId);
+		Assert.Equal(db.RetrieveAll().Result.First().EmployeeId, 
+			db.RetrieveEmployeeById(db.RetrieveAll().Result.First().EmployeeId).Result?.EmployeeId);
 	}
 
 	[Fact]
 	public void EditEmployeeByIdTest()
 	{
 		EmployeeService db = new(new BankingServiceContext());
-		Employee client = db.RetrieveEmployeeById(db.RetrieveAll().First().EmployeeId)!;
+		Employee client = db.RetrieveEmployeeById(db.RetrieveAll().Result.First().EmployeeId).Result!;
 		client.FirstName = "TEST";
-		Assert.Equal(client, db.EditEmployee(db.RetrieveAll().First().EmployeeId, client));
+		Assert.Equal(client, db.EditEmployee(db.RetrieveAll().Result.First().EmployeeId, client).Result);
 	}
 
 	[Fact]
 	public void DeleteEmployeeTest()
 	{
 		EmployeeService db = new(new BankingServiceContext());
-		Assert.True(db.DeleteEmoployee(db.RetrieveAll().Reverse().First().EmployeeId));
+		Assert.True(db.DeleteEmoployee(db.RetrieveAll().Result.Reverse().First().EmployeeId).Result);
 	}
 	
 }

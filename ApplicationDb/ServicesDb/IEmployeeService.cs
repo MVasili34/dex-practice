@@ -8,9 +8,9 @@ using EntityModels;
 namespace ServicesDb;
 public interface IEmployeeService
 {
-	Employee? AddEmployee(Employee c);
-	IEnumerable<Employee> RetrieveAll();
-	Employee? RetrieveEmployeeById(Guid id);
-	Employee? EditEmployee(Guid id, Employee c);
-	bool? DeleteEmoployee(Guid id);
+	Task<Employee?> AddEmployee(Employee c);
+	Task<IEnumerable<Employee>> RetrieveAll();
+	Task<Employee?> RetrieveEmployeeById(Guid id);
+	Task<Employee?> EditEmployee(Guid id, Employee c);
+	Task<bool?> DeleteEmoployee(Guid id);
 }

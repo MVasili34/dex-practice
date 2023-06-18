@@ -17,7 +17,7 @@ namespace ServicesDbTests.Tests
 		{
 			ClientService db = new(new BankingServiceContext());
 			ExportService<Client> exportService = new(Environment.CurrentDirectory, "exportimport.csv");
-			var collection = db.RetrieveAll().ToList();
+			var collection = db.RetrieveAll().Result.ToList();
 			exportService.ExportClients(collection);
 			Assert.Equal(collection, exportService.ImportClients()!);
 		}

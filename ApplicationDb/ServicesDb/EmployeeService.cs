@@ -25,11 +25,10 @@ public class EmployeeService : IEmployeeService
 		}
 	}
 
-
-	public Employee? AddEmployee(Employee c)
+	public async Task<Employee?> AddEmployee(Employee c)
 	{
-		EntityEntry<Employee> added = db.Employees.Add(c);
-		int affected = db.SaveChanges();
+		EntityEntry<Employee> added = await db.Employees.AddAsync(c);
+		int affected = await db.SaveChangesAsync();
 		if (affected == 1)
 		{
 			if (employeeCache is null)
@@ -40,20 +39,19 @@ public class EmployeeService : IEmployeeService
 		return null;
 	}
 
-	public IEnumerable<Employee> RetrieveAll() => employeeCache is null ?
-		Enumerable.Empty<Employee>() : employeeCache.Values;
+	public Task<IEnumerable<Employee>> RetrieveAll() => Task.FromResult(employeeCache is null ?
+		Enumerable.Empty<Employee>() : employeeCache.Values);
 
-	public IEnumerable<Employee> GetFiltered(DateOnly startDate, DateOnly endDate) => employeeCache is null ?
-		Enumerable.Empty<Employee>() : employeeCache.Values.Where(p =>
-		p.DateOfBirth > startDate && p.DateOfBirth < endDate).OrderBy(p =>
-		p.DateOfBirth);
+	public Task<IEnumerable<Employee>> GetFiltered(DateOnly startDate, DateOnly endDate) =>
+		Task.FromResult(employeeCache is null ? Enumerable.Empty<Employee>() : employeeCache.Values.Where(p =>
+		p.DateOfBirth > startDate && p.DateOfBirth < endDate).OrderBy(p => p.DateOfBirth));
 
 
-	public Employee? RetrieveEmployeeById(Guid id)
+	public Task<Employee?> RetrieveEmployeeById(Guid id)
 	{
 		if (employeeCache is null) return null!;
 		employeeCache.TryGetValue(id, out Employee? employee);
-		return employee;
+		return Task.FromResult(employee);
 	}
 
 	private Employee UpdateCache(Guid id, Employee c)
@@ -72,11 +70,11 @@ public class EmployeeService : IEmployeeService
 		return null!;
 	}
 
-	public Employee? EditEmployee(Guid id, Employee c)
+	public async Task<Employee?> EditEmployee(Guid id, Employee c)
 	{
 		//обновляем в базе
 		db.Entry(c).State = EntityState.Modified;
-		int affected = db.SaveChanges();
+		int affected = await db.SaveChangesAsync();
 		if (affected == 1)
 		{
 			return UpdateCache(id, c);
@@ -84,12 +82,12 @@ public class EmployeeService : IEmployeeService
 		return null;
 	}
 
-	public bool? DeleteEmoployee(Guid id)
+	public async Task<bool?> DeleteEmoployee(Guid id)
 	{
 		Employee? c = db.Employees.Find(id);
 		if (c is null) return null;
 		db.Employees.Remove(c);
-		int affected = db.SaveChanges();
+		int affected = await db.SaveChangesAsync();
 		if (affected == 1)
 		{
 			if (employeeCache is null) return null;
