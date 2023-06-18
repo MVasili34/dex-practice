@@ -5,11 +5,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace EntityModels;
 
 [Table("client")]
-public class Client
+public class Client : IPerson
 {
 	public Client() { }
 

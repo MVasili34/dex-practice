@@ -1,10 +1,11 @@
 ﻿using CsvHelper;
 using EntityModels;
 using System.Globalization;
+using Newtonsoft.Json;
 
 namespace ExportTool
 {
-	public class ExportService<T> where T : Client
+	public class ExportService<T> where T : IPerson
 	{
 		private string _pathToDirecory { get; set; }
 		private string _csvFileName { get; set; }
@@ -14,7 +15,7 @@ namespace ExportTool
 			_csvFileName = csvFileName;
 		}
 
-		public void ExportClients(IEnumerable<T> clients)
+		public void ExportPersons(IEnumerable<T> clients)
 		{
 			// Создаём каталог для файла
 			DirectoryInfo dirInfo = new DirectoryInfo(_pathToDirecory);
@@ -41,7 +42,7 @@ namespace ExportTool
 			}
 		}
 
-		public IEnumerable<T>? ImportClients()
+		public IEnumerable<T>? ImportPersons()
 		{
 			using (FileStream fileStream = new FileStream(Path.Combine(_pathToDirecory, _csvFileName),
 			FileMode.OpenOrCreate))
@@ -57,5 +58,25 @@ namespace ExportTool
 				}
 			}
 		}
+
+		public static void SerializePerson(T person, string path)
+		{
+			FileInfo patInfo = new(path);
+			if (!patInfo.Exists)
+			{
+				patInfo.Create();
+			}
+			using (FileStream fileStream = new FileStream(path, FileMode.Create))
+			{
+				using (StreamWriter streamWriter = new StreamWriter(fileStream))
+				{
+					JsonSerializer jsonSerializer = new();
+				    jsonSerializer.Serialize(streamWriter, person);
+				}
+			}
+		}
+
+		public static Task<T?>? DeSerializePerson(string path) => !(new FileInfo(path)).Exists ? null:
+			Task.FromResult(JsonConvert.DeserializeObject<T?>(File.ReadAllText(path)));
 	}
 }

@@ -16,10 +16,20 @@ namespace ServicesDbTests.Tests
 		public void ExportImportClientsTest()
 		{
 			ClientService db = new(new BankingServiceContext());
-			ExportService<Client> exportService = new(Environment.CurrentDirectory, "exportimport.csv");
+			ExportService<Client> exportService = new(Environment.CurrentDirectory, "expimpclient.csv");
 			var collection = db.RetrieveAll().Result.ToList();
-			exportService.ExportClients(collection);
-			Assert.Equal(collection, exportService.ImportClients()!);
+			exportService.ExportPersons(collection);
+			Assert.Equal(collection, exportService.ImportPersons()!);
+		}
+
+		[Fact]
+		public void ExportImportEmployeeTest()
+		{
+			EmployeeService db = new(new BankingServiceContext());
+			ExportService<Employee> exportService = new(Environment.CurrentDirectory, "expimpemployee.csv");
+			var collection = db.RetrieveAll().Result.ToList();
+			exportService.ExportPersons(collection);
+			Assert.Equal(collection, exportService.ImportPersons()!);
 		}
 	}
 }

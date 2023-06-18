@@ -5,7 +5,7 @@ using System.Diagnostics;
 namespace EntityModels;
 
 [Table("employee")]
-public class Employee
+public class Employee : IPerson
 {
 	public Employee() { }
 
@@ -55,4 +55,40 @@ public class Employee
 	[Column("contract")]
 	[StringLength(100)]
 	public string? Contract { get; set; }
+
+	public override bool Equals(object? obj)
+	{
+		if (obj is null)
+			return false;
+		if (!(obj is Employee))
+			return false;
+		var other = obj as Employee;
+		return other?.Position == Position &&
+			other?.EmployeeId == EmployeeId &&
+			other?.Contract == Contract &&
+			other?.Salary == Salary &&
+			other.FirstName == FirstName &&
+			other.LastName == LastName &&
+			other.Phone == Phone &&
+			other.Passport == Passport &&
+			other.DateOfBirth.CompareTo(DateOfBirth) == 0;
+	}
+
+	public override int GetHashCode()
+	{
+		unchecked
+		{
+			int hash = 17;
+			hash *= 23 + Position.GetHashCode();
+			hash *= 23 + Salary.GetHashCode();
+			hash *= 23 + Contract!.GetHashCode();
+			hash *= 23 + FirstName.GetHashCode();
+			hash *= 23 + LastName.GetHashCode();
+			hash *= 23 + Phone!.GetHashCode();
+			hash *= 23 + Passport.GetHashCode();
+			hash *= 23 + DateOfBirth.GetHashCode();
+			hash *= 23 + EmployeeId.GetHashCode();
+			return hash;
+		}
+	}
 }

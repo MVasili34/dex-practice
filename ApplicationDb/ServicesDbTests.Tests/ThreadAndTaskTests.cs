@@ -21,13 +21,13 @@ public class ThreadAndTaskTests
 		var db = new BankingServiceContext();
 		ExportService<Client> exportService = new(Environment.CurrentDirectory, "export.csv");
 		ExportService<Client> importService = new(Environment.CurrentDirectory, "import.csv");
-		importService.ExportClients(db.Clients);
+		importService.ExportPersons(db.Clients);
 
 		ThreadPool.QueueUserWorkItem(_ =>
 		{
 			using (var exp = new BankingServiceContext())
 			{
-				exportService.ExportClients(exp.Clients);
+				exportService.ExportPersons(exp.Clients);
 				exp.Clients.RemoveRange(exp.Clients);
 				exp.SaveChanges();
 				exportCompleted.Set();
@@ -37,13 +37,13 @@ public class ThreadAndTaskTests
 		{
 			using (var imp = new BankingServiceContext())
 			{
-				imp.AddRange(importService.ImportClients()!);
+				imp.AddRange(importService.ImportPersons()!);
 				imp.SaveChanges();
 				importCompleted.Set();
 			}
 		});
 		WaitHandle.WaitAll(new[] { exportCompleted, importCompleted });
-		Assert.True(!exportService.ImportClients()!.Except(db.Clients).Any());
+		Assert.True(!exportService.ImportPersons()!.Except(db.Clients).Any());
 	}
 
 	[Fact] //параллельное начисление денег на один и тот же тестовый счет
