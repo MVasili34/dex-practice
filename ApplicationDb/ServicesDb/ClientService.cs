@@ -8,7 +8,7 @@ namespace ServicesDb;
 
 public class ClientService : IClientService
 {
-     private static ConcurrentDictionary<Guid, Client>? clientCache;
+    private static ConcurrentDictionary<Guid, Client>? clientCache;
 
 	private BankingServiceContext db;
 	public ClientService(BankingServiceContext injectedContext)
@@ -21,8 +21,7 @@ public class ClientService : IClientService
 		}
 	}
 
-
-	public async Task<Client?> AddClient(Client c)
+	public async Task<Client?> AddClientAsync(Client c)
 	{
 		EntityEntry<Client> added = await db.Clients.AddAsync(c);
 		int affected = await db.SaveChangesAsync();
@@ -44,15 +43,14 @@ public class ClientService : IClientService
 		return Task.FromResult(db.SaveChanges());
 	}
 
-	public Task<IEnumerable<Client>> RetrieveAll() => Task.FromResult(clientCache is null ?
+	public Task<IEnumerable<Client>> RetrieveAllAsync() => Task.FromResult(clientCache is null ?
 		Enumerable.Empty<Client>() : clientCache.Values);
 
 	public Task<IEnumerable<Client>> GetFiltered(DateOnly startDate, DateOnly endDate) => 
 		Task.FromResult(clientCache is null ? Enumerable.Empty<Client>() : clientCache.Values.Where(p =>
 		p.DateOfBirth > startDate && p.DateOfBirth < endDate).OrderBy(p => p.DateOfBirth));
 		
-
-	public Task<Client?> RetrieveClientById(Guid id)
+	public Task<Client?> RetrieveClientAsync(Guid id)
 	{
 		if (clientCache is null) return null!;
 		clientCache.TryGetValue(id, out Client? client);
@@ -75,9 +73,11 @@ public class ClientService : IClientService
 		return null!;
 	}
 
-	public async Task<Client?> EditClient(Guid id, Client c)
+	public async Task<Client?> UpdateClientAsync(Guid id, Client c)
 	{
 		//обновляем в базе
+		//db.Entry(c).State = EntityState.Modified;
+		db.Entry(c).State = EntityState.Detached;
 		db.Entry(c).State = EntityState.Modified;
 		int affected = await db.SaveChangesAsync();
 		if (affected == 1)
@@ -87,7 +87,7 @@ public class ClientService : IClientService
 		return null;
 	}
 
-	public async Task<bool?> DeleteClient(Guid id)
+	public async Task<bool?> DeleteClientAsync(Guid id)
 	{
 		Client? c = db.Clients.Find(id);
 		if (c is null) return null;

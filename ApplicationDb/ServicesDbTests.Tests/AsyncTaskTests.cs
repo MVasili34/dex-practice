@@ -27,7 +27,7 @@ public class AsyncTaskTests
 			{
 				Output.WriteLine($"Запуск задачи");
 				OutputTreadInfo();
-				Thread.Sleep(2000);
+				Thread.Sleep(20000);
 				Output.WriteLine($"Завершение задачи");
 			});
 			Thread.Sleep(1000);

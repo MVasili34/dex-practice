@@ -25,7 +25,7 @@ public class EmployeeService : IEmployeeService
 		}
 	}
 
-	public async Task<Employee?> AddEmployee(Employee c)
+	public async Task<Employee?> AddEmployeeAsync(Employee c)
 	{
 		EntityEntry<Employee> added = await db.Employees.AddAsync(c);
 		int affected = await db.SaveChangesAsync();
@@ -39,7 +39,7 @@ public class EmployeeService : IEmployeeService
 		return null;
 	}
 
-	public Task<IEnumerable<Employee>> RetrieveAll() => Task.FromResult(employeeCache is null ?
+	public Task<IEnumerable<Employee>> RetrieveAllAsync() => Task.FromResult(employeeCache is null ?
 		Enumerable.Empty<Employee>() : employeeCache.Values);
 
 	public Task<IEnumerable<Employee>> GetFiltered(DateOnly startDate, DateOnly endDate) =>
@@ -47,7 +47,7 @@ public class EmployeeService : IEmployeeService
 		p.DateOfBirth > startDate && p.DateOfBirth < endDate).OrderBy(p => p.DateOfBirth));
 
 
-	public Task<Employee?> RetrieveEmployeeById(Guid id)
+	public Task<Employee?> RetrieveEmployeeAsync(Guid id)
 	{
 		if (employeeCache is null) return null!;
 		employeeCache.TryGetValue(id, out Employee? employee);
@@ -70,7 +70,7 @@ public class EmployeeService : IEmployeeService
 		return null!;
 	}
 
-	public async Task<Employee?> EditEmployee(Guid id, Employee c)
+	public async Task<Employee?> UpdateEmployeeAsync(Guid id, Employee c)
 	{
 		//обновляем в базе
 		db.Entry(c).State = EntityState.Modified;
@@ -82,7 +82,7 @@ public class EmployeeService : IEmployeeService
 		return null;
 	}
 
-	public async Task<bool?> DeleteEmoployee(Guid id)
+	public async Task<bool?> DeleteEmployeeAsync(Guid id)
 	{
 		Employee? c = db.Employees.Find(id);
 		if (c is null) return null;

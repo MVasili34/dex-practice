@@ -12,16 +12,16 @@ namespace ServicesDbTests.Tests
 			ClientService db = new(new BankingServiceContext());
 			var someClient = DataGenerator.GenereteClient();
 
-			await db.AddClient(someClient);
+			await db.AddClientAsync(someClient);
 
-			Assert.Contains(someClient, db.RetrieveAll().Result);
+			Assert.Contains(someClient, db.RetrieveAllAsync().Result);
 		}
 		[Fact]
 		public void GetClientByIdTest()
 		{
 			ClientService db = new(new BankingServiceContext());
-			Assert.Equal(db.RetrieveAll().Result.First().ClientId, 
-				db.RetrieveClientById(db.RetrieveAll().Result.First().ClientId)!.Result?.ClientId);
+			Assert.Equal(db.RetrieveAllAsync().Result.First().ClientId, 
+				db.RetrieveClientAsync(db.RetrieveAllAsync().Result.First().ClientId)!.Result?.ClientId);
 		}
 
 		[Fact]
@@ -29,23 +29,23 @@ namespace ServicesDbTests.Tests
 		{
 			ClientService db = new(new BankingServiceContext());
 
-			Assert.Equal(1, db.AddAccount(new Account(db.RetrieveAll().Result.First().ClientId, "RUB", 0)).Result);
+			Assert.Equal(1, db.AddAccount(new Account(db.RetrieveAllAsync().Result.First().ClientId, "RUB", 0)).Result);
 		}
 
 		[Fact]
 		public void EditClientByIdTest()
 		{
 			ClientService db = new(new BankingServiceContext());
-			Client client = db.RetrieveClientById(db.RetrieveAll().Result.First().ClientId).Result!;
+			Client client = db.RetrieveClientAsync(db.RetrieveAllAsync().Result.First().ClientId).Result!;
 			client.FirstName = "TEST";
-			Assert.Equal(client, db.EditClient(db.RetrieveAll().Result.First().ClientId, client).Result);
+			Assert.Equal(client, db.UpdateClientAsync(client.ClientId, client).Result);
 		}
 
 		[Fact]
 		public void DeleteClientTest()
 		{
 			ClientService db = new(new BankingServiceContext());
-			Assert.True(db.DeleteClient(db.RetrieveAll().Result.Reverse().First().ClientId).Result);
+			Assert.True(db.DeleteClientAsync(db.RetrieveAllAsync().Result.Reverse().First().ClientId).Result);
 		}
 	}
 }

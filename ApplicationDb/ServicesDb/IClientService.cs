@@ -9,11 +9,11 @@ namespace ServicesDb;
 
 public interface IClientService
 {
-	Task<Client?> AddClient(Client c);
+	Task<Client?> AddClientAsync(Client c);
 	Task<int> AddAccount(Account account);
-	Task<IEnumerable<Client>> RetrieveAll();
+	Task<IEnumerable<Client>> RetrieveAllAsync();
 	Task<IEnumerable<Client>> GetFiltered(DateOnly startDate, DateOnly endDate);
-	Task<Client?> RetrieveClientById(Guid id);
-	Task<Client?> EditClient(Guid id, Client c);
-	Task<bool?> DeleteClient(Guid id);
+	Task<Client?> RetrieveClientAsync(Guid id);
+	Task<Client?> UpdateClientAsync(Guid id, Client c);
+	Task<bool?> DeleteClientAsync(Guid id);
 }
