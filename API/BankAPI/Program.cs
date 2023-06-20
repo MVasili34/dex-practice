@@ -1,6 +1,7 @@
 using EntityModels;
 using ServicesDb;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.HttpLogging;
 
 namespace BankAPI
 {
@@ -22,9 +23,11 @@ namespace BankAPI
 			builder.Services.AddSwaggerGen();
 			builder.Services.AddScoped<IClientService, ClientService>();
 			builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+			
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
+			app.UseHttpLogging();
 			if (app.Environment.IsDevelopment())
 			{
 				app.UseSwagger();

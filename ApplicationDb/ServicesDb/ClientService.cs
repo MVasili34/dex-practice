@@ -17,7 +17,7 @@ public class ClientService : IClientService
 		if (clientCache is null)
 		{
 			clientCache = new ConcurrentDictionary<Guid, Client>(
-			db.Clients.ToDictionary(c => c.ClientId));
+			db.Clients.Include(p=>p.Accounts).ToDictionary(c => c.ClientId));
 		}
 	}
 
