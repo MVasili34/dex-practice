@@ -1,0 +1,394 @@
+{
+	"id": "bae26633-0738-4db6-99e3-ef49fa091032",
+	"name": "BankAPI",
+	"timestamp": "2023-06-21T16:36:32.782Z",
+	"collection_id": "28096328-38a6a37a-6f93-4200-9d0e-5ea64d5c72b6",
+	"folder_id": 0,
+	"environment_id": "28096328-f2daf424-69c0-4821-9645-7e2cd1fe647e",
+	"totalPass": 12,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2023-06-21T16:36:31.611Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "5a84d381-c24d-4c1a-b926-a900d6ef5184",
+			"name": "Add Employee",
+			"url": "https://localhost:5001/api/Employees",
+			"time": 7,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"Status code is 201": true
+				}
+			]
+		},
+		{
+			"id": "480bd528-d464-4d9a-b171-5d483954aff0",
+			"name": "Get Created Employee",
+			"url": "https://localhost:5001/api/Employees/3fa85f64-5717-4562-b3fc-2c963f66a123",
+			"time": 5,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "595e65ce-761a-4e03-8895-958a398e31af",
+			"name": "Edit Employee",
+			"url": "https://localhost:5001/api/Employees/3fa85f64-5717-4562-b3fc-2c963f66a123",
+			"time": 8,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status code is 204": true
+			},
+			"testPassFailCounts": {
+				"Status code is 204": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"Status code is 204": true
+				}
+			]
+		},
+		{
+			"id": "67906c94-861b-469b-8f4d-2d678e0402df",
+			"name": "Get Updated Employee",
+			"url": "https://localhost:5001/api/Employees/3fa85f64-5717-4562-b3fc-2c963f66a123",
+			"time": 5,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "ecca1344-4b36-4af6-ac8a-36803882af9a",
+			"name": "Delete Employee",
+			"url": "https://localhost:5001/api/Employees/3fa85f64-5717-4562-b3fc-2c963f66a123",
+			"time": 11,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status code is 204": true
+			},
+			"testPassFailCounts": {
+				"Status code is 204": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"Status code is 204": true
+				}
+			]
+		},
+		{
+			"id": "714836d1-b8a5-49b5-8de3-d79200bf2a71",
+			"name": "Get Deleted Employee",
+			"url": "https://localhost:5001/api/Employees/3fa85f64-5717-4562-b3fc-2c963f66a123",
+			"time": 4,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status code is 404": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status code is 404": true
+				}
+			]
+		},
+		{
+			"id": "de7c674c-eaf5-43c0-8beb-71c3ca8550bb",
+			"name": "Add Client",
+			"url": "https://localhost:5001/api/Clients",
+			"time": 41,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				41
+			],
+			"allTests": [
+				{
+					"Status code is 201": true
+				}
+			]
+		},
+		{
+			"id": "586694a3-1ca3-4dd7-ad00-70540ad086fc",
+			"name": "Get Created Client",
+			"url": "https://localhost:5001/api/Clients/44f85f64-5717-4562-b3fc-2c963f66a123",
+			"time": 7,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "7bdf3f48-e63d-446f-9613-55a91a7898ee",
+			"name": "Edit Client",
+			"url": "https://localhost:5001/api/Clients/44f85f64-5717-4562-b3fc-2c963f66a123",
+			"time": 13,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status code is 204": true
+			},
+			"testPassFailCounts": {
+				"Status code is 204": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13
+			],
+			"allTests": [
+				{
+					"Status code is 204": true
+				}
+			]
+		},
+		{
+			"id": "ad79540a-3e20-4e2d-9581-a90871e02a62",
+			"name": "Get Updated Client",
+			"url": "https://localhost:5001/api/Clients/44f85f64-5717-4562-b3fc-2c963f66a123",
+			"time": 4,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "7c6ed4c4-1e62-496c-8949-aa30f699a87d",
+			"name": "Delete Client",
+			"url": "https://localhost:5001/api/Clients/44f85f64-5717-4562-b3fc-2c963f66a123",
+			"time": 8,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status code is 204": true
+			},
+			"testPassFailCounts": {
+				"Status code is 204": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"Status code is 204": true
+				}
+			]
+		},
+		{
+			"id": "c074620c-3944-4755-b947-09ede3a97c1d",
+			"name": "Get Deleted Client",
+			"url": "https://localhost:5001/api/Clients/44f85f64-5717-4562-b3fc-2c963f66a123",
+			"time": 5,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status code is 404": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Status code is 404": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 118,
+	"collection": {
+		"requests": [
+			{
+				"id": "5a84d381-c24d-4c1a-b926-a900d6ef5184",
+				"method": "POST"
+			},
+			{
+				"id": "480bd528-d464-4d9a-b171-5d483954aff0",
+				"method": "GET"
+			},
+			{
+				"id": "595e65ce-761a-4e03-8895-958a398e31af",
+				"method": "PUT"
+			},
+			{
+				"id": "67906c94-861b-469b-8f4d-2d678e0402df",
+				"method": "GET"
+			},
+			{
+				"id": "ecca1344-4b36-4af6-ac8a-36803882af9a",
+				"method": "DELETE"
+			},
+			{
+				"id": "714836d1-b8a5-49b5-8de3-d79200bf2a71",
+				"method": "GET"
+			},
+			{
+				"id": "de7c674c-eaf5-43c0-8beb-71c3ca8550bb",
+				"method": "POST"
+			},
+			{
+				"id": "586694a3-1ca3-4dd7-ad00-70540ad086fc",
+				"method": "GET"
+			},
+			{
+				"id": "7bdf3f48-e63d-446f-9613-55a91a7898ee",
+				"method": "PUT"
+			},
+			{
+				"id": "ad79540a-3e20-4e2d-9581-a90871e02a62",
+				"method": "GET"
+			},
+			{
+				"id": "7c6ed4c4-1e62-496c-8949-aa30f699a87d",
+				"method": "DELETE"
+			},
+			{
+				"id": "c074620c-3944-4755-b947-09ede3a97c1d",
+				"method": "GET"
+			}
+		]
+	}
+}

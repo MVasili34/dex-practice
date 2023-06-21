@@ -11,7 +11,7 @@ namespace BankAPI
 		{
 			var builder = WebApplication.CreateBuilder(args);
 
-			//Adding DataBasec context
+			//Adding DataBase context
 			builder.Services.AddBankingServiceContext();
 
 			// Add services to the container.
