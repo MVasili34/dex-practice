@@ -1,0 +1,100 @@
+﻿﻿<EditForm Model="@Employee" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator/>
+    <div class="form-group">
+        <div>
+            <label>Идентификатор Сотрудника</label>
+            <div>
+                  <label>@Employee.EmployeeId</label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            <label>Фамилия</label>
+            <div>
+                <InputText @bind-Value="@Employee.FirstName" />
+                <ValidationMessage For="@(() => Employee.FirstName)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            <label>Имя</label>
+            <div>
+                <InputText @bind-Value="@Employee.LastName" />
+                <ValidationMessage For="@(() => Employee.LastName)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            <label>Дата рождения</label>
+            <div>
+                <InputDate @bind-Value="@Employee.DateOfBirth" min="1900-01-01"/>
+                <ValidationMessage For="@(() => Employee.DateOfBirth)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            <label>Номер телефона</label>
+            <div>
+                <InputText @bind-Value="@Employee.Phone" />
+                <ValidationMessage For="@(() => Employee.Phone)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            <label>Паспорт</label>
+            <div>
+                <InputText @bind-Value="@Employee.Passport" />
+                <ValidationMessage For="@(() => Employee.Passport)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            <label>Должность</label>
+            <div>
+                <InputText @bind-Value="@Employee.Position" />
+                <ValidationMessage For="@(() => Employee.Position)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            <label>Заработная плата</label>
+            <div>
+                <InputNumber @bind-Value="@Employee.Salary" />
+                <ValidationMessage For="@(() => Employee.Salary)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            <label>Контракт</label>
+            <div>
+                <InputTextArea @bind-Value="@Employee.Contract" />
+                <ValidationMessage For="@(() => Employee.Contract)" />
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-@ButtonStyle">
+        @ButtonText
+    </button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public Employee Employee { get; set; } = null!;
+
+    [Parameter]
+    public string ButtonText { get; set; } = "Сохранить изменения";
+
+    [Parameter]
+    public string ButtonStyle { get; set; } = "info";
+
+    [Parameter]
+    public EventCallback OnValidSubmit { get; set; }
+}

@@ -1,0 +1,116 @@
+﻿@using Microsoft.EntityFrameworkCore
+@page "/employees"
+<PageTitle>Сотрудники</PageTitle>
+<h3>Сотрудники банка</h3>
+@if (employees is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h6>Найти сотрудника</h6>
+    <InputText @bind-Value="SearchId" placeholder="Идентификатор" style="width: 300px; margin-bottom: 20px"></InputText>
+    <button class="btn btn-info" @onclick="GetEmployeeClick">Найти</button>
+        <div>
+        <h6>Фильтрация по дате рождения</h6>
+        <InputDate @bind-Value="@startDate" min="@startDate" style="margin-bottom: 20px" />
+        <InputDate @bind-Value="@endDate" max="@endDate" style="margin-bottom: 20px" />
+        <button class="btn btn-info" @onclick="FilterEmployeesClick">Найти</button>
+        </div>
+    <div class="form-group">
+        <a class="btn btn-info" href="createemployee">
+        <i class="oi oi-plus"></i>Добавить сотрудника</a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="width:10%">Идентификатор</th>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Дата рождения</th>
+                <th>Номер телефона</th>
+                <th>Паспорт</th>
+                <th>Должность</th>
+                <th>ЗП</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(Employee emp in employees)
+            {
+                <tr>
+                    <td style="width:10%">@emp.EmployeeId</td>
+                    <td>@emp.FirstName</td>
+                    <td>@emp.LastName</td>
+                    <td>@emp.DateOfBirth</td>
+                    <td>@emp.Phone</td>
+                    <td>@emp.Passport</td>
+                    <td>@emp.Position</td>
+                    <td>@emp.Salary</td>
+                    <td>
+                        <a class="btn btn-info" href="editemployee/@emp.EmployeeId">
+                            <i class="oi oi-pencil"></i></a>
+                        <a class="btn btn-danger" href="deleteemployee/@emp.EmployeeId">
+                            <i class="oi oi-trash"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    private DateOnly startDate { get; set; } = new(1900, 01, 01);
+    private DateOnly endDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+    private string? SearchId { get; set; }
+    private IEnumerable<Employee>? employees;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        using (HttpClient http = new())
+        {
+            employees = await http.GetFromJsonAsync<IEnumerable<Employee>>("https://localhost:5001/api/employees");
+        }
+    }
+    private async Task GetEmployeeClick()
+    {
+        startDate = new(1900, 01, 01);
+        endDate = DateOnly.FromDateTime(DateTime.Now);
+        using (HttpClient http = new())
+        {
+            HttpResponseMessage response = await http.GetAsync($"https://localhost:5001/api/employees/{SearchId}");
+
+            if (response.IsSuccessStatusCode && !String.IsNullOrEmpty(SearchId?.Trim()))
+            {
+                Employee? employee = await response.Content.ReadFromJsonAsync<Employee>();
+
+                if (employee is not null)
+                {
+                    employees = new[] { employee };
+                }
+                else
+                {
+                    employees = Enumerable.Empty<Employee>();
+                }
+            }
+            else if (response.StatusCode == System.Net.HttpStatusCode.NotFound || String.IsNullOrEmpty(SearchId?.Trim()))
+            {
+                employees = await http.GetFromJsonAsync<IEnumerable<Employee>>("https://localhost:5001/api/employees");
+            }
+        }
+        StateHasChanged();
+    }
+
+    private async Task FilterEmployeesClick()
+    {
+        if (employees is not null)
+        {
+            employees = employees.Where(p => (p.DateOfBirth > startDate && p.DateOfBirth < endDate));
+            if (employees.Count() == 0)
+            {
+                SearchId = String.Empty;
+                await GetEmployeeClick();
+            }
+        }
+        StateHasChanged();
+    }
+
+}

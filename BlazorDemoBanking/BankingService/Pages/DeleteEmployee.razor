@@ -1,0 +1,39 @@
+﻿@page "/deleteemployee/{employeeid}"
+@inject NavigationManager navigation
+
+<h3>Удалить информацию о сотруднике</h3>
+<div class="alert alert-danger"> Внимание! Удаление сотрудника приведёт
+    к удалению всех связанных с ним данных. </div>
+<EmployeeDetail ButtonText="Удалить"
+                ButtonStyle="danger"
+                Employee="@employee"
+                OnValidSubmit="@Delete"/>
+
+@code {
+    [Parameter]
+    public string EmployeeId { get; set; } = null!;
+    private Employee? employee = new();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        using (HttpClient http = new())
+        {
+            employee = await http.GetFromJsonAsync<Employee>($"https://localhost:5001/api/employees/{EmployeeId}");
+        }
+    }
+
+    private async Task Delete()
+    {
+        if (employee is not null)
+        {
+            using (HttpClient http = new())
+            {
+                HttpResponseMessage response = await http.DeleteAsync($"https://localhost:5001/api/employees/{EmployeeId}");
+                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                {
+                    navigation.NavigateTo("employees");
+                }
+            }
+        }
+    }
+}

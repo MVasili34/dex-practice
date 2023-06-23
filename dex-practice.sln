@@ -41,6 +41,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankAPI", "API\BankAPI\Bank
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PostmanTestsResults", "PostmanTestsResults", "{8694A047-8908-481C-9205-ABD9F14857CE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BlazorDemoBanking", "BlazorDemoBanking", "{60740680-84D0-4482-955D-50814BD4B3CA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankingService", "BlazorDemoBanking\BankingService\BankingService.csproj", "{F8BDDF6C-392A-484C-8D04-8322DEF603B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +103,10 @@ Global
 		{F14CA692-5577-4674-9B8A-089D9795A1D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F14CA692-5577-4674-9B8A-089D9795A1D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F14CA692-5577-4674-9B8A-089D9795A1D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8BDDF6C-392A-484C-8D04-8322DEF603B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8BDDF6C-392A-484C-8D04-8322DEF603B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8BDDF6C-392A-484C-8D04-8322DEF603B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8BDDF6C-392A-484C-8D04-8322DEF603B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -117,6 +125,7 @@ Global
 		{BF6E30EF-717C-4C2F-B848-FA1CE160B744} = {B5164F30-D72E-4BCE-B967-A1C4AF2725BE}
 		{629E2EAF-6E00-4C01-A4F4-12FFCF10984A} = {B5164F30-D72E-4BCE-B967-A1C4AF2725BE}
 		{F14CA692-5577-4674-9B8A-089D9795A1D5} = {AC4C2190-CFAF-4AA1-9078-EA66B04957DD}
+		{F8BDDF6C-392A-484C-8D04-8322DEF603B8} = {60740680-84D0-4482-955D-50814BD4B3CA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B3D6B427-113B-4AB6-833C-223840D86F09}

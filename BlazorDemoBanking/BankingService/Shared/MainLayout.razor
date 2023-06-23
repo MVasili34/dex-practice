@@ -1,0 +1,34 @@
+﻿@inherits LayoutComponentBase
+
+<PageTitle>BankingService</PageTitle>
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4" style="font-size: 20px">
+            @theTime
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+@code {
+    private string theTime { get; set; } = null!;
+    private Timer aTimer = null!;
+
+    protected override void OnInitialized()
+    {
+        aTimer = new Timer(Tick!, null, 0, 1000);
+    }
+
+    private void Tick(object _)
+    {
+        theTime = DateTime.Now.ToString("F");
+        InvokeAsync(StateHasChanged);
+    }
+}
