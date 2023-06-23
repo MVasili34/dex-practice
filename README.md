@@ -22,3 +22,4 @@
 16) ApplicationDb/ServicesDbTests/SerializationTests - практика по сериализации объектов класса
 17) API/BankAPI - практика по созданию RESTful API сервиса (контекст базы данных добавляется с помощью Extension-метода в ApplicationDb/EntityModels)
 18) ApplicationDb/ServicesDbTests/ConvertCurrencyTests - практика по использованию HttpClient для создания запросов удалённому API-Сервису для конвертации валют
+19) PostmanTestsResults - пратика по использовнию Postman. Включает в себя json-результат тестирования по предложенному сценарию, а также общий скриншот успешного завершения тестов 
