@@ -1,73 +1,74 @@
 ﻿@page "/clients"
 <PageTitle>Клиенты</PageTitle>
-<h3>Клиенты банка</h3>
+<h1>Клиенты банка</h1>
 @if (clients is null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <div class="accordion" id="accordionExample">
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Accordion Item #1
-                </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                </div>
-            </div>
-        </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    Accordion Item #2
-                </button>
-            </h2>
-            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                </div>
-            </div>
-        </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingThree">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    Accordion Item #3
-                </button>
-            </h2>
-            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                </div>
-            </div>
-        </div>
+<div style="font-size: 1.3em">
+    <h3>Найти клиента</h3>
+        <InputText @bind-Value="SearchId" placeholder="Идентификатор" style="width: 300px; margin-bottom: 20px; font-size: 1em"></InputText>
+        <button class="btn btn-info" @onclick="GetClientClick">Найти</button>
+        <div style="float: right;">
+            <h3>Фильтрация по количеству счетов</h3>
+            @filtvalue<RadzenSlider @bind-Value=@filtvalue TValue="int" Min="1" Max="9" />9
+            <button class="btn btn-info" @onclick="FilterClientsClick">Найти</button>
     </div>
-	@foreach (var client in clients)
-	{
-		<div class="accordion-item">
-			<h2 class="accordion-header" id="header@(client.ClientId)">
-				<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse@(client.ClientId)" aria-expanded="true" aria-controls="collapse@(client.ClientId)">
-					@client.ClientId имеет @client.Accounts.Count() счетов
-				</button>
-			</h2>
-			<div id="collapse@(client.ClientId)" class="accordion-collapse collapse" aria-labelledby="heading@(client.ClientId)" data-bs-parent="#accordionClients">
-				<div class="accordian-body">
-					<ul>
-						@foreach (Account c in client.Accounts)
-						{
-							<li>@c.AccountId</li>
-						}
-					</ul>
-				</div>
-			</div>
-		</div>
-	}
+    <div class="form-group" style="margin-bottom: 20px">
+        <a class="btn btn-info" href="createclient">
+            <i class="oi oi-plus"></i>Добавить клиента
+        </a>
+    </div>
+    <table class=" table table-striped ">
+        <thead>
+            <tr>
+                <th style="width:10%">Идентификатор</th>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Дата рождения</th>
+                <th>Номер телефона</th>
+                <th>Паспорт</th>
+                <th>Связанная компания</th>
+                <th>Адрес</th>
+                <th>Кол-во счетов</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Client clien in clients)
+            {
+                <tr>
+                    <td style="width:10%">@clien.ClientId</td>
+                    <td>@clien.FirstName</td>
+                    <td>@clien.LastName</td>
+                    <td>@clien.DateOfBirth</td>
+                    <td>@clien.Phone</td>
+                    <td>@clien.Passport</td>
+                    <td>@clien.ConnectedCompany</td>
+                    <td>@clien.Adress</td>
+                    <td>@clien.Accounts.Count()</td>
+                    <td>
+                        <a class="btn btn-info" href="editclient/@clien.ClientId">
+                            <i class="oi oi-pencil"></i>
+                        </a>
+                        <a class="btn btn-danger" href="deleteclient/@clien.ClientId">
+                            <i class="oi oi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </div>
 }
 
+
 @code {
+    private int filtvalue { get; set; } = 2;
+    private DateOnly startDate { get; set; } = new(1900, 01, 01);
+    private DateOnly endDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+    private string? SearchId { get; set; }
     private IEnumerable<Client>? clients;
 
     protected override async Task OnParametersSetAsync()
@@ -76,5 +77,48 @@ else
         {
             clients = await http.GetFromJsonAsync<IEnumerable<Client>>("https://localhost:5001/api/clients");
         }
+    }
+    private async Task GetClientClick()
+    {
+        startDate = new(1900, 01, 01);
+        endDate = DateOnly.FromDateTime(DateTime.Now);
+        using (HttpClient http = new())
+        {
+            HttpResponseMessage response = await http.GetAsync($"https://localhost:5001/api/clients/{SearchId}");
+
+            if (response.IsSuccessStatusCode && !String.IsNullOrEmpty(SearchId?.Trim()))
+            {
+                Client? client = await response.Content.ReadFromJsonAsync<Client>();
+
+                if (client is not null)
+                {
+                    clients = new[] { client };
+                }
+                else
+                {
+                    clients = Enumerable.Empty<Client>();
+                }
+            }
+            else if (response.StatusCode == System.Net.HttpStatusCode.NotFound || String.IsNullOrEmpty(SearchId?.Trim()))
+            {
+                clients = await http.GetFromJsonAsync<IEnumerable<Client>>("https://localhost:5001/api/clients");
+            }
+        }
+        StateHasChanged();
+    }
+
+    private async Task FilterClientsClick()
+    {
+        if (clients is not null)
+        {
+            clients = clients.Where(p => (p.Accounts.Count() >= filtvalue && p.Accounts.Count() <= 9));
+            if (clients.Count() == 0)
+            {
+                SearchId = String.Empty;
+                await GetClientClick();
+                return;
+            }
+        }
+        StateHasChanged();
     }
 }

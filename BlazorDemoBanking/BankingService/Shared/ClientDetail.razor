@@ -1,0 +1,91 @@
+﻿<EditForm Model="@Client" OnValidSubmit="@OnValidSubmit" style="font-size: 1.3em">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <div>
+            <label>Идентификатор клиента:</label>
+            <div>
+                <label>@Client.ClientId</label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            <label>Имя</label>
+            <div>
+                <InputText placeholder="Имя" style="width: 300px;  font-size: 1em" @bind-Value="@Client.FirstName" />
+                <ValidationMessage For="@(() => Client.FirstName)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            <label>Фамилия</label>
+            <div>
+                <InputText placeholder="Фамилия" style="width: 300px;  font-size: 1em" @bind-Value="@Client.LastName" />
+                <ValidationMessage For="@(() => Client.LastName)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            <label>Дата рождения</label>
+            <div>
+                <InputDate @bind-Value="@Client.DateOfBirth" style="width: 300px;  font-size: 1em" min="1900-01-01" />
+                <ValidationMessage For="@(() => Client.DateOfBirth)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            <label>Номер телефона</label>
+            <div>
+                <InputText placeholder="Телефон" style="width: 300px;  font-size: 1em" @bind-Value="@Client.Phone" />
+                <ValidationMessage For="@(() => Client.Phone)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            <label>Паспорт</label>
+            <div>
+                <InputText placeholder="Серия и номер паспорта" style="width: 300px;  font-size: 1em" @bind-Value="@Client.Passport" />
+                <ValidationMessage For="@(() => Client.Passport)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            <label>Компания</label>
+            <div>
+                <InputText placeholder="Компания, представляемая клиентом" style="width: 300px;  font-size: 1em" @bind-Value="@Client.ConnectedCompany" />
+                <ValidationMessage For="@(() => Client.ConnectedCompany)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            <label>Адрес</label>
+            <div>
+                <InputTextArea placeholder="Адрес" style="width: 300px;  font-size: 1em"
+                @bind-Value="@Client.Adress" />
+                <ValidationMessage For="@(() => Client.Adress)" />
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-@ButtonStyle">
+        @ButtonText
+    </button>
+</EditForm>
+@code {
+    [Parameter]
+    public Client Client { get; set; } = null!;
+
+    [Parameter]
+    public string ButtonText { get; set; } = "Сохранить изменения";
+
+    [Parameter]
+    public string ButtonStyle { get; set; } = "info";
+
+    [Parameter]
+    public EventCallback OnValidSubmit { get; set; }
+}

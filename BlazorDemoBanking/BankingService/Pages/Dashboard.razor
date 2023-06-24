@@ -1,4 +1,4 @@
-﻿@page "/counter"
+﻿@page "/dashboard"
 @using Microsoft.EntityFrameworkCore;
 <PageTitle>Панель управления</PageTitle>
 @if (clients is null || employees is null)
@@ -9,14 +9,14 @@ else
 {
 <div class="d-flex justify-content-center flex-wrap">
         <div class="card text-white bg-success mb-3 mx-2" style="max-width: 18rem; font-size: 18px;">
-        <div  class="card-header">Клиентов</div>
+        <div  class="card-header">Клиенты</div>
         <div class="card-body">
             <h4 class="card-title" style="color: #fff">На текущий момент банком обслуживается:</h4>
             <p class="card-text">@clients?.Count() клиентов</p>
         </div>
     </div>
         <div class="card text-white bg-info mb-3 mx-2" style="max-width: 18rem; font-size: 18px;">
-    <div  class="card-header">Банковских счетов</div>
+    <div  class="card-header">Банковские счета</div>
     <div class="card-body">
         <h4 class="card-title" style="color: #fff">На текущий момент в банке открыто:</h4>
         <p class="card-text">@accounts счетов</p>

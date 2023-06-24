@@ -1,0 +1,25 @@
+﻿@page "/createclient"
+@inject NavigationManager navigation
+
+<h1>Добавление клиента</h1>
+
+<ClientDetail ButtonText="Добавиить клиента"
+                Client="client"
+                OnValidSubmit="@Create" />
+
+@code {
+    private Client client = new() { ClientId = Guid.NewGuid(), DateOfBirth = new(2000, 1, 1) };
+
+    private async Task Create()
+    {
+        using (HttpClient http = new())
+        {
+            HttpResponseMessage httpResponse = await http.PostAsJsonAsync("https://localhost:5001/api/clients", client);
+            if (httpResponse.StatusCode == System.Net.HttpStatusCode.Created)
+            {
+                navigation.NavigateTo("clients");
+            }
+        }
+    }
+}
+

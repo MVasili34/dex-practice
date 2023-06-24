@@ -1,0 +1,101 @@
+﻿@page "/deleteclient/{clientid}"
+@inject NavigationManager navigation
+
+<h1>Удалить информацию о клиенте</h1>
+<div class="alert alert-danger" style="font-size: 1.3em">
+    Внимание! Удаление клиента приведёт
+    к удалению всех связанных с ним счетов.
+</div>
+<div style="display: flex;">
+    <div style="margin-right: 20px;">
+<ClientDetail ButtonText="Удалить"
+                ButtonStyle="danger"
+                Client="@client"
+                OnValidSubmit="@Delete" />
+    </div>
+    <div>
+    <h1>Список счетов клиента</h1>
+    @if (client?.Accounts.Count() !=0)
+    {
+        <table class=" table table-striped " style="width: 750px; font-size: 1.3em">
+            <thead>
+                <tr>
+                    <th style="width:30%">Идентификатор счёта</th>
+                    <th>Валюта (ISO)</th>
+                    <th>Сумма</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Account acc in client!.Accounts)
+                {
+                    <tr>
+                        <td style="width:10%">@acc.AccountId</td>
+                        <td>@acc.CurrencyIso</td>
+                        <td>@acc.Amount</td>
+                        <td>
+                            <button class="btn btn-danger" @onclick="() => DeleteAccountClick(acc.AccountId)">
+                                <i class="oi oi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            </table>
+        }
+        else
+        {
+            <h2 style="color: darkred;">У клиента нет счетов!</h2>
+        }
+
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public string ClientId { get; set; } = null!;
+    private Client? client = new();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        using (HttpClient http = new())
+        {
+            client = await http.GetFromJsonAsync<Client>($"https://localhost:5001/api/clients/{ClientId}");
+        }
+    }
+
+    private async Task Delete()
+    {
+        if (client is not null)
+        {
+            using (HttpClient http = new())
+            {
+                HttpResponseMessage response = await http.DeleteAsync($"https://localhost:5001/api/clients/{ClientId}");
+                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                {
+                    navigation.NavigateTo("clients");
+                }
+            }
+        }
+    }
+
+    private async Task DeleteAccountClick(Guid id)
+    {
+        if (client is not null)
+        {
+            bool? deleted = client.Accounts.Remove(client.Accounts.Where(p=>p.AccountId == id).First());
+            if (deleted is true)
+            {
+                using (HttpClient http = new())
+                {
+                    HttpResponseMessage response = await http.PutAsJsonAsync<Client>($"https://localhost:5001/api/clients/{ClientId}", client);
+                    
+                    if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                    {
+                        navigation.NavigateTo("clients");
+                    }
+                }
+            }
+        }
+    }
+}

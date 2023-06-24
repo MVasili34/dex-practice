@@ -1,27 +1,28 @@
 ﻿@using Microsoft.EntityFrameworkCore
 @page "/employees"
 <PageTitle>Сотрудники</PageTitle>
-<h3>Сотрудники банка</h3>
+<h1>Сотрудники банка</h1>
 @if (employees is null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <h6>Найти сотрудника</h6>
-    <InputText @bind-Value="SearchId" placeholder="Идентификатор" style="width: 300px; margin-bottom: 20px"></InputText>
+  <div style="font-size: 1.3em">
+    <h3>Найти сотрудника</h3>
+        <InputText @bind-Value="SearchId" placeholder="Идентификатор" style="width: 300px; margin-bottom: 20px; font-size: 1em"></InputText>
     <button class="btn btn-info" @onclick="GetEmployeeClick">Найти</button>
         <div>
-        <h6>Фильтрация по дате рождения</h6>
-        <InputDate @bind-Value="@startDate" min="@startDate" style="margin-bottom: 20px" />
-        <InputDate @bind-Value="@endDate" max="@endDate" style="margin-bottom: 20px" />
+        <h3>Фильтрация по дате рождения</h3>
+            <InputDate @bind-Value="@startDate" min="@startDate" style="margin-bottom: 20px; font-size: 1.1em" />
+            <InputDate @bind-Value="@endDate" max="@endDate" style="margin-bottom: 20px; font-size: 1.1em" />
         <button class="btn btn-info" @onclick="FilterEmployeesClick">Найти</button>
         </div>
-    <div class="form-group">
+    <div class="form-group" style="margin-bottom: 20px">
         <a class="btn btn-info" href="createemployee">
         <i class="oi oi-plus"></i>Добавить сотрудника</a>
     </div>
-    <table class="table">
+    <table class=" table table-striped ">
         <thead>
             <tr>
                 <th style="width:10%">Идентификатор</th>
@@ -56,6 +57,7 @@ else
             }
         </tbody>
     </table>
+   </div>
 }
 @code {
     private DateOnly startDate { get; set; } = new(1900, 01, 01);

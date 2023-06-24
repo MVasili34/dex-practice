@@ -1,8 +1,8 @@
-﻿﻿<EditForm Model="@Employee" OnValidSubmit="@OnValidSubmit">
+﻿<EditForm Model="@Employee" OnValidSubmit="@OnValidSubmit" style="font-size: 1.3em">
     <DataAnnotationsValidator/>
     <div class="form-group">
         <div>
-            <label>Идентификатор Сотрудника</label>
+            <label>Идентификатор cотрудника:</label>
             <div>
                   <label>@Employee.EmployeeId</label>
             </div>
@@ -10,18 +10,18 @@
     </div>
     <div class="form-group">
         <div>
-            <label>Фамилия</label>
+            <label>Имя</label>
             <div>
-                <InputText @bind-Value="@Employee.FirstName" />
+                <InputText placeholder="Имя" style="width: 300px;  font-size: 1em" @bind-Value="@Employee.FirstName" />
                 <ValidationMessage For="@(() => Employee.FirstName)" />
             </div>
         </div>
     </div>
     <div class="form-group">
         <div>
-            <label>Имя</label>
+            <label>Фамилия</label>
             <div>
-                <InputText @bind-Value="@Employee.LastName" />
+                <InputText placeholder="Фамилия" style="width: 300px;  font-size: 1em" @bind-Value="@Employee.LastName" />
                 <ValidationMessage For="@(() => Employee.LastName)" />
             </div>
         </div>
@@ -30,7 +30,7 @@
         <div>
             <label>Дата рождения</label>
             <div>
-                <InputDate @bind-Value="@Employee.DateOfBirth" min="1900-01-01"/>
+                <InputDate @bind-Value="@Employee.DateOfBirth" style="width: 300px;  font-size: 1em" min="1900-01-01" />
                 <ValidationMessage For="@(() => Employee.DateOfBirth)" />
             </div>
         </div>
@@ -39,7 +39,7 @@
         <div>
             <label>Номер телефона</label>
             <div>
-                <InputText @bind-Value="@Employee.Phone" />
+                <InputText placeholder="Телефон" style="width: 300px;  font-size: 1em" @bind-Value="@Employee.Phone" />
                 <ValidationMessage For="@(() => Employee.Phone)" />
             </div>
         </div>
@@ -48,7 +48,7 @@
         <div>
             <label>Паспорт</label>
             <div>
-                <InputText @bind-Value="@Employee.Passport" />
+                <InputText placeholder="Серия и номер паспорта" style="width: 300px;  font-size: 1em" @bind-Value="@Employee.Passport" />
                 <ValidationMessage For="@(() => Employee.Passport)" />
             </div>
         </div>
@@ -57,7 +57,7 @@
         <div>
             <label>Должность</label>
             <div>
-                <InputText @bind-Value="@Employee.Position" />
+                <InputText placeholder="Занимаемая должность" style="width: 300px;  font-size: 1em" @bind-Value="@Employee.Position" />
                 <ValidationMessage For="@(() => Employee.Position)" />
             </div>
         </div>
@@ -66,7 +66,7 @@
         <div>
             <label>Заработная плата</label>
             <div>
-                <InputNumber @bind-Value="@Employee.Salary" />
+                <InputNumber @bind-Value="@Employee.Salary" style="width: 300px;  font-size: 1em" />
                 <ValidationMessage For="@(() => Employee.Salary)" />
             </div>
         </div>
@@ -75,7 +75,8 @@
         <div>
             <label>Контракт</label>
             <div>
-                <InputTextArea @bind-Value="@Employee.Contract" />
+                <InputTextArea placeholder="Информация о контракте" style="width: 300px;  font-size: 1em"
+                @bind-Value="@Employee.Contract" />
                 <ValidationMessage For="@(() => Employee.Contract)" />
             </div>
         </div>
@@ -84,7 +85,6 @@
         @ButtonText
     </button>
 </EditForm>
-
 @code {
     [Parameter]
     public Employee Employee { get; set; } = null!;
