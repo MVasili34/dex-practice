@@ -37,12 +37,6 @@ public class ClientService : IClientService
 			return null;
 	}
 
-	public Task<int> AddAccount(Account account)
-	{
-		EntityEntry<Account> added = db.Accounts.Add(account);
-		return Task.FromResult(db.SaveChanges());
-	}
-
 	public Task<IEnumerable<Client>> RetrieveAllAsync() => Task.FromResult(clientCache is null ?
 		Enumerable.Empty<Client>() : clientCache.Values);
 
@@ -75,11 +69,10 @@ public class ClientService : IClientService
 
 	public async Task<Client?> UpdateClientAsync(Guid id, Client c)
 	{
-		//обновляем в базе
-		//db.Entry(c).State = EntityState.Modified;
-		db.Entry(c).State = EntityState.Detached;
-		db.Entry(c).State = EntityState.Modified;
-		int affected = await db.SaveChangesAsync();
+		c.Accounts = db.Accounts.Where(a => a.OwnerId == id).ToList();   
+        db.Entry(c).State = EntityState.Detached;
+        db.Entry(c).State = EntityState.Modified;
+        int affected = await db.SaveChangesAsync();
 		if (affected == 1)
 		{
 			return UpdateCache(id, c);
@@ -87,7 +80,7 @@ public class ClientService : IClientService
 		return null;
 	}
 
-	public async Task<bool?> DeleteClientAsync(Guid id)
+    public async Task<bool?> DeleteClientAsync(Guid id)
 	{
 		Client? c = db.Clients.Find(id);
 		if (c is null) return null;
@@ -103,4 +96,21 @@ public class ClientService : IClientService
 			return null;
 		}
 	}
+
+    public async Task<bool?> DeleteAccountAsync(Guid id)
+    {
+        Account? c = db.Accounts.Find(id);
+        if (c is null) return null;
+        db.Accounts.Remove(c);
+        int affected = await db.SaveChangesAsync();
+        if (affected == 1)
+        {
+            clientCache = new (db.Clients.Include(p => p.Accounts).ToDictionary(c => c.ClientId));
+            return true;
+        }
+        else
+        {
+            return null;
+        }
+    }
 }

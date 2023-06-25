@@ -14,8 +14,8 @@ else
     <button class="btn btn-info" @onclick="GetEmployeeClick">Найти</button>
         <div>
         <h3>Фильтрация по дате рождения</h3>
-            <InputDate @bind-Value="@startDate" min="@startDate" style="margin-bottom: 20px; font-size: 1.1em" />
-            <InputDate @bind-Value="@endDate" max="@endDate" style="margin-bottom: 20px; font-size: 1.1em" />
+            <InputDate @bind-Value="@startDate" min="1900-01-01" style="margin-bottom: 20px; font-size: 1.1em" />
+            <InputDate @bind-Value="@endDate" min="1900-01-01" style="margin-bottom: 20px; font-size: 1.1em" />
         <button class="btn btn-info" @onclick="FilterEmployeesClick">Найти</button>
         </div>
     <div class="form-group" style="margin-bottom: 20px">

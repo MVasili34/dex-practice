@@ -1,47 +1,120 @@
 ﻿@page "/fetchdata"
 @using BankingService.Data
-@inject WeatherForecastService ForecastService
+@inject CurrencyService currency
 
-<PageTitle>Weather forecast</PageTitle>
+<PageTitle>Конвертер</PageTitle>
 
-<h1>Weather forecast</h1>
+<h1>Сервис обмена валют</h1>
 
-<p>This component demonstrates fetching data from a service.</p>
+<div style="font-size: 1.5em">
+    <hr />
+<div class="card text-center">
+    <div class="card-header">
+        Покупка
+    </div>
+    <div class="card-body">
+        <p class="card-text">Выбор валют</p>
+        <div class="flex-column">
+            <InputSelect @bind-Value="selectedFrom">
+                @foreach (var c in currencies)
+                {
+                    <option value="@c">@c</option>
+                }
+            </InputSelect>
+                &rarr;
+            <InputSelect @bind-Value="selectedTo">
+                @foreach (var c in currencies)
+                { 
+                    <option value="@c">@c</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="flex-column">
+                <InputNumber @bind-Value="@amountFrom" />
+                &rarr;
+                <InputNumber @bind-Value="@amountTo" disabled="true" />
+        </div>
+        <a @onclick="SellClick" style="margin-top: 10px; color: white" class="btn btn-primary">Продать</a>
+    </div>
+</div>
+<hr />
+<div class="card text-center">
+    <div class="card-header">
+        Продажа
+    </div>
+        <div class="card-body">
+            <p class="card-text">Выбор валют</p>
+            <div class="flex-column">
+                <InputSelect @bind-Value="selectedFrom">
+                    @foreach (var c in currencies)
+                    {
+                        <option value="@c">@c</option>
+                    }
+                </InputSelect>
+                &rarr;
+                <InputSelect @bind-Value="selectedTo">
+                    @foreach (var c in currencies)
+                    {
+                        <option value="@c">@c</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="flex-column">
+                <InputNumber @bind-Value="@amountFrom" />
+                &rarr;
+                <InputNumber @bind-Value="@amountTo" disabled="true" />
+            </div>
+            <a @onclick="BuyClick" style="margin-top: 10px; color: white" class="btn btn-primary">Купить</a>
+    </div>
+</div>
 
-@if (forecasts == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in forecasts)
-            {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-
+</div>
+<RadzenAlert AlertStyle="AlertStyle.Warning" Variant="Variant.Filled" Shade="Shade.Light" Visible="showerror">
+    Сервис обмена валют временно не работает. Проверьте ограничения ключа Amdoren API.
+</RadzenAlert>
 @code {
-    private WeatherForecast[]? forecasts;
+    private bool showerror = false;
+    private decimal amountFrom = 1;
+    private decimal amountTo;
+    private string selectedFrom = "USD";
+    private string selectedTo = "BYN";
+    private readonly string[] currencies = new[] {"USD", "RUB", "MDL", "EUR", "BYN"};
 
-    protected override async Task OnInitializedAsync()
+    private async Task SellClick()
     {
-        forecasts = await ForecastService.GetForecastAsync(DateOnly.FromDateTime(DateTime.Now));
+        showerror = false;
+        AmdorenResponse response = await currency.Convert(new ConvertCurrency()
+            {
+                From = selectedFrom,
+                To = selectedTo,
+                Amount = amountFrom
+            });
+        if (response.Error == 0)
+        {
+            amountTo = response.Amount-response.Amount*0.02M;
+        }
+        else
+        {
+            showerror = true;
+        }
+    }
+
+    private async Task BuyClick()
+    {
+        showerror = false;
+        AmdorenResponse response = await currency.Convert(new ConvertCurrency()
+            {
+                From = selectedFrom,
+                To = selectedTo,
+                Amount = amountFrom
+            });
+        if (response.Error == 0)
+        {
+            amountTo = response.Amount + response.Amount * 0.05M;
+        }
+        else
+        {
+            showerror = true;
+        }
     }
 }

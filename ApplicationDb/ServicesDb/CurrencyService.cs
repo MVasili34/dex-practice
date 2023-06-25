@@ -17,22 +17,24 @@ public class CurrencyService
 
 	public async Task<AmdorenResponse> Convert(ConvertCurrency convertCurrency)
 	{
-		HttpClient httpClient = new HttpClient();
-		Uri request;
-		if (convertCurrency.Amount==0)
+		using (HttpClient httpClient = new())
 		{
-			request = new($"https://www.amdoren.com/api/currency.php?api_key={apikey}&" +
-				$"from={convertCurrency.From}&to={convertCurrency.To}");
+			Uri request;
+			if (convertCurrency.Amount == 0)
+			{
+				request = new($"https://www.amdoren.com/api/currency.php?api_key={apikey}&" +
+					$"from={convertCurrency.From}&to={convertCurrency.To}");
+			}
+			else
+			{
+				request = new($"https://www.amdoren.com/api/currency.php?api_key={apikey}" +
+					$"&from={convertCurrency.From}&to={convertCurrency.To}&amount={convertCurrency.Amount}");
+			}
+			HttpResponseMessage responseMessage = await httpClient.GetAsync(request);
+			responseMessage.EnsureSuccessStatusCode();
+			string message = await responseMessage.Content.ReadAsStringAsync();
+			return JsonConvert.DeserializeObject<AmdorenResponse>(message)!;
 		}
-		else
-		{
-			request = new($"https://www.amdoren.com/api/currency.php?api_key={apikey}" +
-				$"&from={convertCurrency.From}&to={convertCurrency.To}&amount={convertCurrency.Amount}");
-		}
-		HttpResponseMessage responseMessage = await httpClient.GetAsync(request);
-		responseMessage.EnsureSuccessStatusCode();
-		string message = await responseMessage.Content.ReadAsStringAsync();
-		return JsonConvert.DeserializeObject<AmdorenResponse>(message)!;
 	}
 }
 

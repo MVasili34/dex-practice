@@ -17,7 +17,7 @@ namespace BankingService
 			// Add services to the container.
 			builder.Services.AddRazorPages();
 			builder.Services.AddServerSideBlazor();
-			builder.Services.AddSingleton<WeatherForecastService>();
+			builder.Services.AddSingleton(new CurrencyService("L4tz65xgEvSuCcSPnYjzjBzhU4EAWd"));
 			builder.Services.AddHttpClient("BankAPI", options =>
 			{
 				options.BaseAddress = new Uri("https://localhost:5001/");

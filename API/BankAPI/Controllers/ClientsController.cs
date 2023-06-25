@@ -58,9 +58,9 @@ namespace BankAPI.Controllers
 			}
 		}
 
-		//PUT: api/clients/[id]
-		//BODY: Client (JSON)
-		[HttpPut("{id:guid}")]
+        //PUT: api/clients/[id]
+        //BODY: Client (JSON)
+        [HttpPut("{id:guid}")]
 		[ProducesResponseType(204)]
 		[ProducesResponseType(404)]
 		[ProducesResponseType(400)]
@@ -101,5 +101,23 @@ namespace BankAPI.Controllers
 				return BadRequest($"При удалении клиента {id} произошла ошибка");
 			}
 		}
-	}
+
+        //DELETE: api/clients/accounts/[id]
+        [HttpDelete("accounts/{id:guid}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> DeleteAccount(Guid id)
+        {
+            bool? deleted = await clientService.DeleteAccountAsync(id);
+            if (deleted.HasValue && deleted.Value)
+            {
+                return new NoContentResult();
+            }
+            else
+            {
+                return BadRequest($"При удалении клиента {id} произошла ошибка");
+            }
+        }
+    }
 }
