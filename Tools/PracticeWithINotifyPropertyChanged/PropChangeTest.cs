@@ -1,28 +1,27 @@
 ﻿using System.ComponentModel;
 
-namespace PracticeWithINotifyPropertyChanged
+namespace PracticeWithINotifyPropertyChanged;
+
+public class PropChangeTest : INotifyPropertyChanged
 {
-    public class PropChangeTest : INotifyPropertyChanged
+    private string dogName = String.Empty;
+    private string dogAge = String.Empty;
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected virtual void OnPropertyChanged(string propertyName)
     {
-        private string dogName = String.Empty;
-        private string dogAge = String.Empty;
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
+    public string DogName
+    {
+        get { return dogName; }
+        set 
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public string DogName
-        {
-            get { return dogName; }
-            set 
-            {
-                if (dogName != value)
-                 dogName = value;
-                 OnPropertyChanged(nameof(dogName));
-            }
+            if (dogName != value)
+             dogName = value;
+             OnPropertyChanged(nameof(dogName));
         }
     }
 }

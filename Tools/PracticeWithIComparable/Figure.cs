@@ -17,24 +17,29 @@ namespace PracticeWithIComparable
 			square = length * length;
 		}
 
-		public int Square
-		{
-			get => square;
-		}
+        public int Square
+        {
+            get => square;
+        }
 
-		public int Length
-		{
-			get => length;
-			set => length = value;
-		}
-		public int CompareTo(Figure? other)
+        public int Length
+        {
+            get => length;
+            set
+            {
+                length = value;
+                square = length * length;
+            }
+        }
+
+        public int CompareTo(Figure? other)
 		{
 			if (other is null)
 			{
 				throw new ArgumentNullException("Other in not Figure object");
 			}
 			else
-				return this.Length.CompareTo(other.Length);
+				return this.Square.CompareTo(other.Square);
 		}
 	}
 }

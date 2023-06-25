@@ -4,48 +4,47 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PracticeWithINotifyPropertyChanged
+namespace PracticeWithINotifyPropertyChanged;
+
+public delegate void Message(object sender, string someText);
+public class EventQueue<T>
 {
-    public delegate void Message(object sender, string someText);
-    public class EventQueue<T>
+    public event Message? QueueMes;
+
+    public Queue<T>? someQueue;
+    private T? value;
+
+    public EventQueue()
     {
-        public event Message? QueueMes;
+        someQueue = new Queue<T>();
+    }
 
-        public Queue<T>? someQueue;
-        private T? value;
-
-        public EventQueue()
+    public EventQueue(Queue<T> values) 
+    {
+        someQueue = values;
+    }
+    public void AddInqueue(T item) 
+    {
+        if (someQueue?.Count >= 2)
         {
-            someQueue = new Queue<T>();
+            QueueMes?.Invoke(this, "Очередь превысела два элемента");
         }
+        else
+            someQueue?.Enqueue(item);
+    }
 
-        public EventQueue(Queue<T> values) 
+    public T GetOutqueue()
+    {
+        if (someQueue is not null)
         {
-            someQueue = values;
-        }
-        public void AddInqueue(T item) 
-        {
-            if (someQueue?.Count >= 2)
+            if (!someQueue.TryDequeue(out value))
             {
-                QueueMes?.Invoke(this, "Очередь превысела два элемента");
+                QueueMes?.Invoke(this, "Очередь пуста");
+                return default(T)!;
             }
             else
-                someQueue?.Enqueue(item);
+                return value;
         }
-
-        public T GetOutqueue()
-        {
-            if (someQueue is not null)
-            {
-                if (!someQueue.TryDequeue(out value))
-                {
-                    QueueMes?.Invoke(this, "Очередь пуста");
-                    return default(T)!;
-                }
-                else
-                    return value;
-            }
-            return default(T)!;
-        }
+        return default(T)!;
     }
 }
