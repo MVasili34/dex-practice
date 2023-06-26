@@ -37,10 +37,7 @@ namespace Services
 					{
 						throw new NullContractException("У сотрудника нет контракта");
 					}
-					else
-					{
 						Data?.Add(employee);
-					}
 				}
 		}
 
@@ -53,10 +50,7 @@ namespace Services
 					{
 						throw new IncorrectEmployeeException("Некорректные данные сотрудника!");
 					}
-					else
-					{
 						Data[empNumber] = employee;
-					}
 				}
 		}
 

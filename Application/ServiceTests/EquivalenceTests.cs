@@ -13,9 +13,11 @@ namespace ServiceTests.Tests
 			Dictionary<Client, List<Account>>?  accounts = TestDataGenerator.GenerateAccounts()
 				.ToDictionary(pair => pair.Key, pair => pair.Value);
 
-			Client someClient = new(accounts.Keys.First().FirstName, accounts.Keys.First().LastName,
-				accounts.Keys.First().DateOfBirth, accounts.Keys.First().Phone, accounts.Keys.First().Passport,
-				accounts.Keys.First().Company, accounts.Keys.First().AdressInfo);
+			Client testclient = accounts.Keys.First();
+
+			Client someClient = new(testclient.FirstName, testclient.LastName,
+				testclient.DateOfBirth, testclient.Phone, testclient.Passport,
+				testclient.Company, testclient.AdressInfo);
 
 			Assert.Equal(accounts[accounts.Keys.First()], accounts[someClient]);
 		}

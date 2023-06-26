@@ -28,10 +28,7 @@ namespace Services.Storage
 					{
 						throw new NullContractException("У сотрудника нет контракта");
 					}
-					else
-					{
 						employees?.Add(employee);
-					}
 				}
 			}
 			catch (NullContractException ex)

@@ -29,10 +29,7 @@ namespace Services.Storage
 					{
 						throw new PassportNullException("У клиента нет паспортных данных");
 					}
-					else
-					{
 						clients[client] = new List<Account> { new Account(new Currency("RUB", "Руб."), 0) };
-					}
 				}
 			}
 			catch (PassportNullException ex)

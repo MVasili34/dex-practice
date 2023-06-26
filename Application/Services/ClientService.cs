@@ -47,10 +47,7 @@ namespace Services
 					{
 						throw new PassportNullException("У клиента нет паспортных данных");
 					}
-					else
-					{
 						Data[client] = new List<Account> { new Account(new Currency("RUB", "Руб."), 0) };
-					}
 				}
 		}
 		public void AddAccount(Client client, Account account)
@@ -64,10 +61,7 @@ namespace Services
 				{
 					throw new IncorrectAccountException("Некорректный лицевой счёт!");
 				}
-				else
-				{
 					Data[client].Add(account);
-				}
 		}
 
 		public void UpdateAccount(Client client, int accNumber, Account account)
@@ -80,10 +74,7 @@ namespace Services
 				{
 					throw new IncorrectAccountException("Некорректный лицевой счёт!");
 				}
-				else
-				{
 					Data[client][accNumber] = account;
-				}
 		}
 
 		public void Delete(Client? client)
@@ -117,10 +108,7 @@ namespace Services
 				{
 					throw new ClientDoesntExistException("Клиент не имеет дефолтного лицевого счёта!");
 				}
-				else
-				{
 					return Data[client];
-				}
 		}
 
 		public void PrintOut()
