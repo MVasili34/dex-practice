@@ -86,8 +86,7 @@ internal class Program
 		if (someclients is not null && phone is not null)
 		{
 			stopWatch3.Start();
-			if (someclients.ContainsKey(phone))
-				Console.WriteLine(true);
+			Console.WriteLine(someclients.ContainsKey(phone));
 			stopWatch3.Stop();
 			long elapsedTime4 = stopWatch3.ElapsedTicks;
 			if (elapsedTime3 > elapsedTime4)
