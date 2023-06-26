@@ -42,9 +42,10 @@ internal class Program
 		stopWatch.Start();
 		Console.WriteLine(someclients?.Any(phone => phone.Phone == someclients[400].Phone));
 		stopWatch.Stop();
-		Console.WriteLine("Прошло тиков " + stopWatch.ElapsedTicks + "\n");
+		Console.WriteLine($"Прошло тиков {stopWatch.ElapsedTicks} \n");
 
 	}
+
 	//поиск клиента по телефону с применением StopWatch в словаре
 	static void B(Dictionary<string, Client>? someclients, string? phone)
 	{
@@ -52,7 +53,7 @@ internal class Program
 		stopWatch2.Start();
 		Console.WriteLine(someclients?.Any(t => t.Key == phone));
 		stopWatch2.Stop();
-		Console.WriteLine("Прошло тиков " + stopWatch2.ElapsedTicks + "\n");
+		Console.WriteLine($"Прошло тиков {stopWatch2.ElapsedTicks} \n");
 	}
 
 	//выборка клиентов, возраст которых ниже определенного значения;
@@ -85,12 +86,13 @@ internal class Program
 		long elapsedTime3 = stopWatch3.ElapsedTicks;
 		if (someclients is not null && phone is not null)
 		{
-			stopWatch3.Start();
+            stopWatch3 = new Stopwatch();
+            stopWatch3.Start();
 			Console.WriteLine(someclients.ContainsKey(phone));
 			stopWatch3.Stop();
 			long elapsedTime4 = stopWatch3.ElapsedTicks;
 			if (elapsedTime3 > elapsedTime4)
-				Console.WriteLine($"Поиск FirstOrDefault медленнее; \nFirstOrDefault: {elapsedTime3}\nByKeyValue: {elapsedTime4}");
+				Console.WriteLine($"Поиск ByKeyValue быстрее; \nFirstOrDefault: {elapsedTime3}\nByKeyValue: {elapsedTime4}");
 			else
 				Console.WriteLine($"Поиск FirstOrDefault быстрее; \nFirstOrDefault: {elapsedTime3}\nByKeyValue: {elapsedTime4}");
 		}
