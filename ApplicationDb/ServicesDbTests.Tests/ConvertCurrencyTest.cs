@@ -22,7 +22,7 @@ public class ConvertCurrencyTest
 	public async Task GetExschangeRateTest()
 	{
 		ConvertCurrency convert = new() { From = "EUR", To = "USD" };
-		CurrencyService service = new("L4tz65xgEvSuCcSPnYjzjBzhU4EAWd");
+		CurrencyService service = new("AmdorenKeyHere");
 		AmdorenResponse response = await service.Convert(convert);
 		Output.WriteLine($"Error: {response.Error}-{response.Error_Message}, Amount: {response.Amount}");
 	}
@@ -31,7 +31,7 @@ public class ConvertCurrencyTest
 	public async Task ConvertAmountTest()
 	{
 		ConvertCurrency convert = new() { From = "USD", To = "RUB", Amount = 10 };
-		CurrencyService service = new("L4tz65xgEvSuCcSPnYjzjBzhU4EAWd");
+		CurrencyService service = new("AmdorenKeyHere");
 		AmdorenResponse response = await service.Convert(convert);
 		Output.WriteLine($"Error: {response.Error}-{response.Error_Message}, Amount: {response.Amount}");
 	}
@@ -49,7 +49,7 @@ public class ConvertCurrencyTest
 	public async Task WrongAmountTest()
 	{
 		ConvertCurrency convert = new() { From = "USD", To = "RUB", Amount = (decimal)-10.5 };
-		CurrencyService service = new("L4tz65xgEvSuCcSPnYjzjBzhU4EAWd");
+		CurrencyService service = new("AmdorenKeyHere");
 		AmdorenResponse response = await service.Convert(convert);
 		Assert.Equal(300, response.Error);
 	}
