@@ -117,7 +117,7 @@ public class ReflectionTests
 
 		if (type is not null)
 		{
-			object instance = Activator.CreateInstance(type)!;
+			object? instance = Activator.CreateInstance(type);
 			if (instance is not null)
 			{
 				var propertyInfo = type.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance);

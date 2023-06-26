@@ -116,7 +116,7 @@ namespace BankAPI.Controllers
             }
             else
             {
-                return BadRequest($"При удалении клиента {id} произошла ошибка");
+                return BadRequest($"При удалении аккаунта {id} произошла ошибка");
             }
         }
     }

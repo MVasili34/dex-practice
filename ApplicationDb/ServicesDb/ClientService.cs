@@ -37,7 +37,13 @@ public class ClientService : IClientService
 			return null;
 	}
 
-	public Task<IEnumerable<Client>> RetrieveAllAsync() => Task.FromResult(clientCache is null ?
+    public Task<int> AddAccount(Account account)
+    {
+        EntityEntry<Account> added = db.Accounts.Add(account);
+        return Task.FromResult(db.SaveChanges());
+    }
+
+    public Task<IEnumerable<Client>> RetrieveAllAsync() => Task.FromResult(clientCache is null ?
 		Enumerable.Empty<Client>() : clientCache.Values);
 
 	public Task<IEnumerable<Client>> GetFiltered(DateOnly startDate, DateOnly endDate) => 

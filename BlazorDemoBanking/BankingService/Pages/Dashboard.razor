@@ -8,35 +8,35 @@
 else
 {
 <div class="d-flex justify-content-center flex-wrap">
-        <div class="card text-white bg-success mb-3 mx-2" style="max-width: 18rem; font-size: 18px;">
+    <div class="card text-white bg-success mb-3 mx-2" style="max-width: 18rem; font-size: 18px;">
         <div  class="card-header">Клиенты</div>
         <div class="card-body">
             <h4 class="card-title" style="color: #fff">На текущий момент банком обслуживается:</h4>
             <p class="card-text">@clients?.Count() клиентов</p>
         </div>
     </div>
-        <div class="card text-white bg-info mb-3 mx-2" style="max-width: 18rem; font-size: 18px;">
-    <div  class="card-header">Банковские счета</div>
-    <div class="card-body">
-        <h4 class="card-title" style="color: #fff">На текущий момент в банке открыто:</h4>
-        <p class="card-text">@accounts счетов</p>
+    <div class="card text-white bg-info mb-3 mx-2" style="max-width: 18rem; font-size: 18px;">
+        <div  class="card-header">Банковские счета</div>
+        <div class="card-body">
+            <h4 class="card-title" style="color: #fff">На текущий момент в банке открыто:</h4>
+            <p class="card-text">@accounts счетов</p>
+        </div>
     </div>
-</div>
-        <div class="card text-white bg-secondary mb-3 mx-2" style="max-width: 18rem; font-size: 18px;">
+    <div class="card text-white bg-secondary mb-3 mx-2" style="max-width: 18rem; font-size: 18px;">
         <div class="card-header">Сотрудники</div>
         <div class="card-body">
             <h4 class="card-title" style="color: #fff">На текущий момент в банке работает:</h4>
             <p class="card-text">@employees?.Count() сотрудников</p>
         </div>
     </div>
-        <div class="card text-white bg-danger mb-3 mx-2" style="max-width: 18rem; font-size: 18px;">
+    <div class="card text-white bg-danger mb-3 mx-2" style="max-width: 18rem; font-size: 18px;">
         <div class="card-header">Валюты</div>
         <div class="card-body">
              <h4 class="card-title" style="color: #fff">На текущий момент в обороте банка используется:</h4>
              <p class="card-text">@chartData?.Length валют</p>
         </div>
     </div>
-    </div>
+</div>
 <div class="container">
     <div class="row">
         <div class="col-sm-6">
@@ -119,44 +119,57 @@ else
                 {
                     accounts += client.Accounts.Count();
                 }
-                GenerateChartData();
+                await GenerateChartData();
             }
         }
     }
 
-    private void GenerateChartData()
+    /// <summary>
+    /// Метод обработки данных для построения диаграмм
+    /// </summary>
+    private async Task GenerateChartData()
     {
-        var chart = clients?
-                .SelectMany(client => client.Accounts)
-                .GroupBy(account => account.CurrencyIso)
-                .Select(group => new
-                {
-                    Currency = group.Key,
-                    TotalAmount = group.Sum(account => account.Amount),
-                    TotalCount = group.Count()
-                }).Distinct().OrderByDescending(p => p.TotalAmount).ToArray();
+        var chart = await Task.Run(() => clients?
+            .SelectMany(client => client.Accounts)
+            .GroupBy(account => account.CurrencyIso)
+            .Select(group => new
+            {
+                Currency = group.Key,
+                TotalAmount = group.Sum(account => account.Amount),
+                TotalCount = group.Count()
+            }).Distinct().OrderByDescending(p => p.TotalAmount).ToArray()
+        );
         chartData = new DataItem[chart!.Length];
         pieData = new CurrencyCount[chart!.Length];
-        for (int i = 0; i < chart?.Length; i++)
+
+        if (chart is not null)
         {
-            chartData[i] = new DataItem() { Currency = chart[i].Currency, TotalAmount = chart[i].TotalAmount };
-            pieData[i] = new CurrencyCount() { Currency = chart[i].Currency, Count = chart[i].TotalCount };
+            Parallel.For(0, chart.Length, i =>
+            {
+                chartData[i] = new DataItem() { Currency = chart[i].Currency, TotalAmount = chart[i].TotalAmount };
+                pieData[i] = new CurrencyCount() { Currency = chart[i].Currency, Count = chart[i].TotalCount };
+            });
         }
 
-        var ages = clients?
-        .Select(p => new
-        {
-            Age = DateTime.Now.Year - p.DateOfBirth.Year,
-        }).GroupBy(c => c.Age)
-        .Select(p => new
-        {
-            Age = p.Key,
-            TotalAmount = (double)p.Count() / clients.Count() * 100
-        }).ToArray();
+        var ages = await Task.Run(() =>  clients?
+            .Select(p => new
+            {
+                Age = DateTime.Now.Year - p.DateOfBirth.Year,
+            }).GroupBy(c => c.Age)
+            .Select(p => new
+            {
+                Age = p.Key,
+                TotalAmount = (double)p.Count() / clients.Count() * 100
+            }).ToArray()
+        );
         lineData = new ClientsAge[ages!.Length];
-        for (int i = 0; i < ages?.Length; i++)
+
+        if (chart is not null)
         {
-            lineData[i] = new ClientsAge() { Age = ages[i].Age, TotalAmount = ages[i].TotalAmount };
+            Parallel.For(0, ages.Length, i =>
+            {
+                lineData[i] = new ClientsAge() { Age = ages[i].Age, TotalAmount = ages[i].TotalAmount };
+            });
         }
     }
 }

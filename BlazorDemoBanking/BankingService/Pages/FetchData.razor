@@ -62,7 +62,7 @@
             <div class="flex-column">
                 <InputNumber @bind-Value="@amountFrom" />
                 &rarr;
-                <InputNumber @bind-Value="@amountTo" disabled="true" />
+                <InputNumber @bind-Value="@amountToBuy" disabled="true" />
             </div>
             <a @onclick="BuyClick" style="margin-top: 10px; color: white" class="btn btn-primary">Купить</a>
     </div>
@@ -76,6 +76,7 @@
     private bool showerror = false;
     private decimal amountFrom = 1;
     private decimal amountTo;
+    private decimal amountToBuy;
     private string selectedFrom = "USD";
     private string selectedTo = "BYN";
     private readonly string[] currencies = new[] {"USD", "RUB", "MDL", "EUR", "BYN"};
@@ -110,7 +111,7 @@
             });
         if (response.Error == 0)
         {
-            amountTo = response.Amount + response.Amount * 0.05M;
+            amountToBuy = response.Amount + response.Amount * 0.05M;
         }
         else
         {
