@@ -21,10 +21,7 @@ namespace Services
 				if (person is Client)
 				{
 					Client? client = person as Client;
-					if (client is not null)
-					{
-						client.AdressInfo += " BONUS";
-					}
+					client!.AdressInfo += " BONUS";
 				}
 				else
 				{
@@ -54,10 +51,7 @@ namespace Services
 				if (person is Client)
 				{
 					Client? client = person as Client;
-					if (client is not null)
-					{
-						blackListClient.Add(client);
-					}
+					blackListClient.Add(client!);
 				}
 				else
 				{
@@ -87,13 +81,11 @@ namespace Services
 				if (person is Client)
 				{
 					Client? client = person as Client;
-					if (client is not null)
+					if (blackListClient.Contains(client!))
 					{
-						if (blackListClient.Contains(client))
-							return true;
-						else
-							return false;
+						return true;
 					}
+					return false;
 				}
 				else
 				{
@@ -101,9 +93,10 @@ namespace Services
 					if (employee is not null)
 					{
 						if (blackListEmployee.Contains(employee))
+						{
 							return true;
-						else
-							return false;
+						}
+						return false;
 					}
 				}
 			}
