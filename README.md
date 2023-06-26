@@ -1,25 +1,49 @@
 # dex-practice
-Для проверки выполнения практических заданий проводились как Unit-тесты, так и тесты в консольных приложениях.
-Практика по работе с базами данных и скриншоты SQL-запросов находятся в папке SQLPractice
+Для проверки правильности выполнения практических заданий было создано 57 Unit-тестов. В пунктах 1-4, 6 - задания реализованы в виде консольных приложений.
+Практика по работе с SQL-запросами находится в <a href="SqlPractice"> SQLPractice </a>
 
-Список папок и файлов по соответствующим темам:
-1) Tools/PraticeWithTypes - Типы значений и ссылочные типы (Value type and Reference type)
-2) Tools/PraticeWithCasting - Приведение и преобразование типов
-3) Tools/PraticeWithINotifyPropertyChanged - События. Events: INotifyPropertyChanged
-4) Tools/PracticeWithListDictionaryBogus - Практика List, Dictionary, Bogus
-5) Application/ServiceTests/EquivalenceTests - Эквивалентность, Equals, GetHashCode
-6) Tools/PracticeWithIComparable - IComparable: сравнение объектов
-7) Application/ServiceTests/ExceptionHandlingTests - Тестирование ClientService и EmployeeService, обработка исключений (Exception handling)
-8) Application/ServiceTests/IEnumerableLinqTests - Тестирование интерфейсов для работы со списками (IEnumerable, IEnumerator)
-9) Application/ServiceTests/BlackListTests - Тестирование работы методов с применением Generic Type  
+Ссылки на решения практических заданий по соответствующим темам:
+1) <a href="Tools/PracticeWithTypes/Program.cs"> Типы значений и ссылочные типы (Value type and Reference type) </a>
+2) <a href="Tools/PracticeWithCasting/Program.cs"> Приведение и преобразование типов </a>
+3) <a href="Tools/PracticeWithINotifyPropertyChanged"> События. Events: INotifyPropertyChanged </a>
+4) <a href="Tools/PracticeWithListDictionaryBogus/Program.cs"> Практика List, Dictionary, Bogus </a>
+5) <a href="Application/ServiceTests/EquivalenceTests.cs"> Эквивалентность, Equals, GetHashCode </a>
+6) <a href="Tools/PracticeWithIComparable/Program.cs"> IComparable: сравнение объектов </a>
+7) <a href="Application/Services/ClientService.cs">ClientService</a> и <a href="Application/Services/EmployeeService.cs">EmployeeService</a>; <a href="Application/ServiceTests/ExceptionHandlingTests.cs">Обработка исключений (Exception handling) </a>
+8) <a href="Application/ServiceTests/IEnumerableLinqTests.cs"> Тестирование интерфейсов для работы со списками (IEnumerable, IEnumerator) </a>
+9) <a href="Application/ServiceTests/BlackListTests.cs"> Практика по Generic Type </a>
 ---
-10) ApplicationDb - в данной папке реализуется практика по EntityFramework и миграциям. Предществующие сервисы были пересозданы в соответствии с изменившимися условиям работы. В ServicesDbTests.Tests реализуются соответствующие тесты
-11) ApplicationDb/ServicesDbTests/CsvFileTests - практика по Stream, FileStream, CSV файлам
-12) ApplicationDb/ServicesDbTests/ExtensionsMethodsTests - практика по определению методов расширения, Extensions Methods
-13) ApplicationDb/ServicesDbTests/ReflectionTests - практика по рефлексии, метаданным классов: Reflection
-14) ApplicationDb/ServicesDbTests/ThreadAndTaskTests - практика по многопоточности, блокировкам, дедлокам, задачи и класс Task
-15) ApplicationDb/ServicesDbTests/AsyncTaskTests - практика по асинхронности. Также переписаны сервисы и их тесты по работе с клиентами и сотрудниками
-16) ApplicationDb/ServicesDbTests/SerializationTests - практика по сериализации объектов класса
-17) API/BankAPI - практика по созданию RESTful API сервиса (контекст базы данных добавляется с помощью Extension-метода в ApplicationDb/EntityModels)
-18) ApplicationDb/ServicesDbTests/ConvertCurrencyTests - практика по использованию HttpClient для создания запросов удалённому API-Сервису для конвертации валют
-19) PostmanTestsResults - пратика по использовнию Postman. Включает в себя json-результат тестирования по предложенному сценарию, а также общий скриншот успешного завершения тестов 
+10) В <a href="ApplicationDb"> ApplicationDb </a> реализуется практика по Entity Framework и миграциям: <a href="ApplicationDb/Models">Контекст БД</a>.  Предществующие сервисы были пересозданы в соответствии с изменившимися условиям работы: <a href="ApplicationDb/ServicesDb/ClientService.cs">ClientService</a>, <a href="ApplicationDb/ServicesDb/EmployeeService.cs">EmployeeService</a>. Также реализуются соответствующие <a href="ApplicationDb/ServicesDbTests.Tests">тесты</a>
+11) <a href="ApplicationDb/ExportTool/ExportService.cs">Практика по Stream, FileStream, CSV файлам</a> + <a href="ApplicationDb/ServicesDbTests.Tests/CsvFileTests.cs">тесты</a>
+12) <a href="ApplicationDb/ServicesDbTests.Tests/ExtensionsMethodsTests.cs"> Практика по определению методов расширения, Extensions Methods </a>
+13) <a href="ApplicationDb/ServicesDbTests.Tests/ReflectionTests.cs">Практика по рефлексии, метаданным классов: Reflection</a>
+14) <a href="ApplicationDb/ServicesDbTests.Tests/ThreadAndTaskTests.cs"> Многопоточность, блокировки, дедлоки, задачи и класс Task </a>
+15) <a href="ApplicationDb/ServicesDbTests.Tests/AsyncTaskTests.cs"> Асинхронность </a>
+16) <a href="ApplicationDb/ServicesDbTests.Tests/SerializationTests.cs"> Cериализация объектов </a>
+17) <a href="API/BankAPI"> Практика по созданию RESTful API сервиса </a>
+18) <a href="ApplicationDb/ServicesDb/CurrencyService.cs"> Практика по использованию HttpClient </a> + <a href="ApplicationDb/ServicesDbTests.Tests/ConvertCurrencyTest.cs">тесты</a>
+19) <a href="PostmanTestsResults"> Пратика по использовнию Postman </a>
+
+В качестве дополнения к практике было построено небольшое <strong><em>Blazor</em></strong>-приложение, реализующее часть сервисов, сделанных в процессе практики. Приложение устанавливает соединение с RESTful API сервисом, созданным ранее, при этом обновления DOM происходит в реальном времени посредством SignalR. В качестве временного представления данных используется таблицы. Для более упрощённого тестирования во всех таблицах отображаются идентификаторы. Ниже представлены скриншоты приложения.
+
+Окно статистики банка. Реализует SQL-запросы соответствующей практики, представленные в виде диаграмм.
+
+![adminpanel](https://github.com/MVasili34/dex-practice/assets/117523384/4c50facf-27d9-4dd9-8db5-ae6680f10a93)
+
+Окно редактирования сведений о сотрудниках банка. Реализуется система фильтрации по дате рождения, поиск сотрудника по идентификатору, а также операции CRUD над записями.
+
+![employeespage](https://github.com/MVasili34/dex-practice/assets/117523384/3c4c7293-a296-4f1b-99bc-1f322fcaec82)
+
+Окно редактирования сведений о клиентах и счетах банка. Реализуется система фильтрации по количеству счетов клиента, поиск клиента по идентификатору, а также операции CRUD над записями.
+
+![clientspage](https://github.com/MVasili34/dex-practice/assets/117523384/120a58a9-06bc-4f7f-ad8d-da9873a29506)
+
+Пример окна редактирования. У пользователя есть возможность как удалить клиента, так и его счета по отдельности.
+
+![editexample](https://github.com/MVasili34/dex-practice/assets/117523384/37bce6ac-9252-4a82-b748-5f6f5cba9681)
+
+Сервис конвертации валют банка. Клиент может как продать валюту, так и купить её, заплатив дополнительную комиссию банка. Работа сервиса ограничена, так как доступ к информации о состоянии курса осуществляется через сторонний API сервис.
+
+![exchange](https://github.com/MVasili34/dex-practice/assets/117523384/687f44a4-76f5-4292-877c-b2ce13111297)
+
+
