@@ -11,7 +11,7 @@
 6) <a href="Tools/PracticeWithIComparable/Program.cs"> IComparable: сравнение объектов </a>
 7) <a href="Application/Services/ClientService.cs">ClientService</a> и <a href="Application/Services/EmployeeService.cs">EmployeeService</a>; <a href="Application/ServiceTests/ExceptionHandlingTests.cs">Обработка исключений (Exception handling) </a>
 8) <a href="Application/ServiceTests/IEnumerableLinqTests.cs"> Тестирование интерфейсов для работы со списками (IEnumerable, IEnumerator) </a>
-9) <a href="Application/ServiceTests/BlackListTests.cs"> Практика по Generic Type </a>
+9) <a href="Application/Services/BankService.cs"> Практика по Generic Type </a> + <a href="Application/ServiceTests/BlackListTests.cs">тесты</a>
 ---
 10) В <a href="ApplicationDb"> ApplicationDb </a> реализуется практика по Entity Framework и миграциям: <a href="ApplicationDb/Models">Контекст БД</a>.  Предществующие сервисы были пересозданы в соответствии с изменившимися условиям работы: <a href="ApplicationDb/ServicesDb/ClientService.cs">ClientService</a>, <a href="ApplicationDb/ServicesDb/EmployeeService.cs">EmployeeService</a>. Также реализуются соответствующие <a href="ApplicationDb/ServicesDbTests.Tests">тесты</a>
 11) <a href="ApplicationDb/ExportTool/ExportService.cs">Практика по Stream, FileStream, CSV файлам</a> + <a href="ApplicationDb/ServicesDbTests.Tests/CsvFileTests.cs">тесты</a>
