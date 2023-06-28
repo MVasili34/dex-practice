@@ -9,6 +9,7 @@ internal class Program
 	static List<Client>? clients;
 	static Dictionary<string, Client>? dictionary;
 	static List<Employee>? employees;
+	static Stopwatch? timer;
 	static void Main(string[] args)
 	{
 		clients = GenerateClints(1000).ToList();
@@ -38,59 +39,47 @@ internal class Program
 	//поиск клиента по телефону с применением StopWatch
 	static void A(List<Client>? someclients)
 	{
-		Stopwatch stopWatch = new Stopwatch();
-		stopWatch.Start();
+		timer = Stopwatch.StartNew();
 		Console.WriteLine(someclients?.Any(phone => phone.Phone == someclients[400].Phone));
-		stopWatch.Stop();
-		Console.WriteLine($"Прошло тиков {stopWatch.ElapsedTicks} \n");
+		Console.WriteLine($"Прошло тиков {timer.ElapsedTicks} \n");
 
 	}
 
 	//поиск клиента по телефону с применением StopWatch в словаре
 	static void B(Dictionary<string, Client>? someclients, string? phone)
 	{
-		Stopwatch stopWatch2 = new Stopwatch();
-		stopWatch2.Start();
-		Console.WriteLine(someclients?.Any(t => t.Key == phone));
-		stopWatch2.Stop();
-		Console.WriteLine($"Прошло тиков {stopWatch2.ElapsedTicks} \n");
+        timer = Stopwatch.StartNew();
+        Console.WriteLine(someclients?.Any(t => t.Key == phone));
+		Console.WriteLine($"Прошло тиков {timer.ElapsedTicks} \n");
 	}
 
 	//выборка клиентов, возраст которых ниже определенного значения;
 	static void C(List<Client>? someclients)
 	{
-		Stopwatch stopWatch2 = new Stopwatch();
-		stopWatch2.Start();
+        timer = Stopwatch.StartNew();
 		var needed = someclients?.Where(d => (DateTime.Now.Year - d.DateOfBirth.Year < 25)).ToList();
-		stopWatch2.Stop();
-		Console.WriteLine($"Найдено {needed?.Count()}. Прошло тиков {stopWatch2.ElapsedTicks}\n"); ;
+		Console.WriteLine($"Найдено {needed?.Count()}. Прошло тиков {timer.ElapsedTicks}\n"); ;
 	}
 
 	//поиск сотрудника с минимальной заработной платой;
 	static void D(List<Employee>? someemployees)
 	{
-		Stopwatch stopWatch2 = new Stopwatch();
-		stopWatch2.Start();
+        timer = Stopwatch.StartNew();
 		var needed = someemployees?.Where(d => d.Salary == someemployees.Min(e => e.Salary)).ToList();
-		stopWatch2.Stop();
-		Console.WriteLine($"Всего таких сотрудников: {needed?.Count()}. Прошло тиков  {stopWatch2.ElapsedTicks} \n"); ;
+		Console.WriteLine($"Всего таких сотрудников: {needed?.Count()}. Прошло тиков  {timer.ElapsedTicks} \n"); ;
 	}
 
 	//сравнение скорости поиска по словарю двумя методами
 	static void E(Dictionary<string, Client>? someclients, string? phone)
 	{
-		Stopwatch stopWatch3 = new Stopwatch();
-		stopWatch3.Start();
+        timer = Stopwatch.StartNew();
 		someclients?.Reverse().FirstOrDefault();
-		stopWatch3.Stop();
-		long elapsedTime3 = stopWatch3.ElapsedTicks;
+		long elapsedTime3 = timer.ElapsedTicks;
 		if (someclients is not null && phone is not null)
 		{
-            stopWatch3 = new Stopwatch();
-            stopWatch3.Start();
-			Console.WriteLine(someclients.ContainsKey(phone));
-			stopWatch3.Stop();
-			long elapsedTime4 = stopWatch3.ElapsedTicks;
+            timer = Stopwatch.StartNew();
+            Console.WriteLine(someclients.ContainsKey(phone));
+			long elapsedTime4 = timer.ElapsedTicks;
 			if (elapsedTime3 > elapsedTime4)
 				Console.WriteLine($"Поиск ByKeyValue быстрее; \nFirstOrDefault: {elapsedTime3}\nByKeyValue: {elapsedTime4}");
 			else
