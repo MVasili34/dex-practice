@@ -15,6 +15,10 @@ namespace ExportTool
 			_csvFileName = csvFileName;
 		}
 
+		/// <summary>
+		/// Метод экспортирования сущностей в CSV файл
+		/// </summary>
+		/// <param name="clients">Коллекция объектов, реализующих IPerson</param>
 		public void ExportPersons(IEnumerable<T> clients)
 		{
 			// Создаём каталог для файла
@@ -42,6 +46,10 @@ namespace ExportTool
 			}
 		}
 
+		/// <summary>
+		/// Метод импортирования сущностей из CSV файла
+		/// </summary>
+		/// <returns>Коллекция объектов из CSV файла</returns>
 		public IEnumerable<T>? ImportPersons()
 		{
 			using (FileStream fileStream = new FileStream(Path.Combine(_pathToDirecory, _csvFileName),
@@ -59,6 +67,11 @@ namespace ExportTool
 			}
 		}
 
+		/// <summary>
+		/// Метод сериализации объекта в JSON формат
+		/// </summary>
+		/// <param name="person">Сущность, реализующая IPerson</param>
+		/// <param name="path">Путь к файлу</param>
 		public static void SerializePerson(T person, string path)
 		{
 			FileInfo patInfo = new(path);
@@ -76,7 +89,12 @@ namespace ExportTool
 			}
 		}
 
-		public static Task<T?>? DeSerializePerson(string path) => !(new FileInfo(path)).Exists ? null:
+        /// <summary>
+        /// Метод десериализации объекта из JSON файла
+        /// </summary>
+        /// <param name="path">Путь к файлу</param>
+        /// <returns>Объект, если файл существует</returns>
+        public static Task<T?>? DeSerializePerson(string path) => !(new FileInfo(path)).Exists ? null:
 			Task.FromResult(JsonConvert.DeserializeObject<T?>(File.ReadAllText(path)));
 	}
 }

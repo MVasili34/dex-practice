@@ -14,7 +14,31 @@ public class RateUpdater
 	public static List<Account> accounts = null!;
 	private Task? update;
 	private decimal percent = 0.05M;
-	private void InitializeUpdateTask()
+
+    public RateUpdater()
+    {
+        InitializeUpdateTask();
+
+        //даём работать сервису 3 секунды в качестве теста
+        Thread.Sleep(3000);
+
+        cancelTokenSource.Cancel();
+    }
+
+    public RateUpdater(int delayInSeconds)
+    {
+        InitializeUpdateTask();
+
+        //даём работать сервису указанное количество секунд
+        Thread.Sleep(delayInSeconds * 1000);
+
+        cancelTokenSource.Cancel();
+    }
+
+    /// <summary>
+    /// Сервис, работающий в фоне. Обновляет ставку клиентов каждые две секунды
+    /// </summary>
+    private void InitializeUpdateTask()
 	{
 		cancelTokenSource = new CancellationTokenSource();
 		update = new Task(() =>
@@ -31,25 +55,4 @@ public class RateUpdater
 
 		update.Start();
 	}
-
-	public RateUpdater()
-	{
-		InitializeUpdateTask();
-
-		//даём работать сервису 3 секунды в качестве теста
-		Thread.Sleep(3000);
-
-		cancelTokenSource.Cancel();
-	}
-
-	public RateUpdater(int delayInSeconds)
-	{
-		InitializeUpdateTask();
-
-		//даём работать сервису указанное количество секунд
-		Thread.Sleep(delayInSeconds * 1000);
-
-		cancelTokenSource.Cancel();
-	}
-
 }

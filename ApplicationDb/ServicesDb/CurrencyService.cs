@@ -15,7 +15,12 @@ public class CurrencyService
 		this.apikey = apikey;
 	}
 
-	public async Task<AmdorenResponse> Convert(ConvertCurrency convertCurrency)
+    /// <summary>
+    /// Метод, отвечающий за конвертацию валюту
+    /// </summary>
+    /// <param name="convertCurrency">Объект класса ConvertCurrency</param>
+    /// <returns>Объект класса AmdorenResponse</returns>
+    public async Task<AmdorenResponse> Convert(ConvertCurrency convertCurrency)
 	{
 		using (HttpClient httpClient = new())
 		{

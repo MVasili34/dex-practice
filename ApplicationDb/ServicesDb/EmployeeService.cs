@@ -12,7 +12,8 @@ namespace ServicesDb;
 
 public class EmployeeService : IEmployeeService
 {
-	private static ConcurrentDictionary<Guid, Employee>? employeeCache;
+    //потокобезопасный словрь для хранения сотрудников
+    private static ConcurrentDictionary<Guid, Employee>? employeeCache;
 
 	private BankingServiceContext db;
 	public EmployeeService(BankingServiceContext injectedContext)
@@ -25,7 +26,12 @@ public class EmployeeService : IEmployeeService
 		}
 	}
 
-	public async Task<Employee?> AddEmployeeAsync(Employee c)
+    /// <summary>
+    /// Метод добавления сотрудника в БД
+    /// </summary>
+    /// <param name="c">Сотрудник</param>
+    /// <returns>Сотрудник, если процесс добавления прошёл успешно</returns>
+    public async Task<Employee?> AddEmployeeAsync(Employee c)
 	{
 		EntityEntry<Employee> added = await db.Employees.AddAsync(c);
 		int affected = await db.SaveChangesAsync();
@@ -39,22 +45,42 @@ public class EmployeeService : IEmployeeService
 		return null;
 	}
 
-	public Task<IEnumerable<Employee>> RetrieveAllAsync() => Task.FromResult(employeeCache is null ?
+    /// <summary>
+    /// Метод получения всех сотрудников из кэша
+    /// </summary>
+    /// <returns>Содержимое кэша</returns>
+    public Task<IEnumerable<Employee>> RetrieveAllAsync() => Task.FromResult(employeeCache is null ?
 		Enumerable.Empty<Employee>() : employeeCache.Values);
 
-	public Task<IEnumerable<Employee>> GetFiltered(DateOnly startDate, DateOnly endDate) =>
+    /// <summary>
+    /// Метод фильтрации сотрудников по дате рождения
+    /// </summary>
+    /// <param name="startDate"></param>
+    /// <param name="endDate"></param>
+    /// <returns>Отфильтрованная коллекция</returns>
+    public Task<IEnumerable<Employee>> GetFiltered(DateOnly startDate, DateOnly endDate) =>
 		Task.FromResult(employeeCache is null ? Enumerable.Empty<Employee>() : employeeCache.Values.Where(p =>
 		p.DateOfBirth > startDate && p.DateOfBirth < endDate).OrderBy(p => p.DateOfBirth));
 
-
-	public Task<Employee?> RetrieveEmployeeAsync(Guid id)
+    /// <summary>
+    /// Метод получения сотрудника по идентификатору
+    /// </summary>
+    /// <param name="id">Идентификатор</param>
+    /// <returns>Сотрудник из кэша</returns>
+    public Task<Employee?> RetrieveEmployeeAsync(Guid id)
 	{
 		if (employeeCache is null) return null!;
 		employeeCache.TryGetValue(id, out Employee? employee);
 		return Task.FromResult(employee);
 	}
 
-	private Employee UpdateCache(Guid id, Employee c)
+    /// <summary>
+    /// Метод обновления кэша
+    /// </summary>
+    /// <param name="id">Идентификатор</param>
+    /// <param name="c">Сотрудник</param>
+    /// <returns>Сотрудник, если кэш обновлён</returns>
+    private Employee UpdateCache(Guid id, Employee c)
 	{
 		Employee? old;
 		if (employeeCache is not null)
@@ -70,7 +96,13 @@ public class EmployeeService : IEmployeeService
 		return null!;
 	}
 
-	public async Task<Employee?> UpdateEmployeeAsync(Guid id, Employee c)
+    /// <summary>
+    /// Метод обновления данных сотрудника
+    /// </summary>
+    /// <param name="id">Идентификатор</param>
+    /// <param name="c">Сотрудник</param>
+    /// <returns>Сотрудник, если успешно обновлён</returns>
+    public async Task<Employee?> UpdateEmployeeAsync(Guid id, Employee c)
 	{
 		//обновляем в базе
 		db.Entry(c).State = EntityState.Modified;
@@ -82,7 +114,12 @@ public class EmployeeService : IEmployeeService
 		return null;
 	}
 
-	public async Task<bool?> DeleteEmployeeAsync(Guid id)
+    /// <summary>
+    /// Метод удаления сотрудника по идентификатору
+    /// </summary>
+    /// <param name="id">Идентификатор</param>
+    /// <returns>Статус операции</returns>
+    public async Task<bool?> DeleteEmployeeAsync(Guid id)
 	{
 		Employee? c = db.Employees.Find(id);
 		if (c is null) return null;
