@@ -10,9 +10,19 @@ namespace Services
 {
     public class TestDataGenerator
     {
+        /// <summary>
+        ///  Метод генерации N клиентов
+        /// </summary>
+        /// <param name="amount">Количество клиентов</param>
+        /// <returns>Коллекция из N клиентов</returns>
         public static IEnumerable<Client> GenerateClints(int amount) => ClientRule().Generate(amount);
 
-		public static IDictionary<string, Client> GenerateClintesDictionary(IEnumerable<Client> values)
+        /// <summary>
+        /// Метод генерации словаря типа Dictionary<string, Client>
+        /// </summary>
+        /// <param name="values">Коллекция клиентов</param>
+        /// <returns>Словарь сопоставляюший номер телефона клиенту</returns>
+        public static IDictionary<string, Client> GenerateClintesDictionary(IEnumerable<Client> values)
         {
             Dictionary<string, Client> newdictionary = new();
             foreach (var value in values) 
@@ -22,6 +32,11 @@ namespace Services
             return newdictionary;
         }
 
+		/// <summary>
+		/// Метод генерации N сотрудников
+		/// </summary>
+		/// <param name="amount">Количество сотрудников</param>
+		/// <returns>Коллекция из N сотрудников</returns>
         public static IEnumerable<Employee> GenerateEmployees(int amount)
         {
             var generate = new Faker<Employee>("ru")
@@ -35,7 +50,11 @@ namespace Services
                 .RuleFor(b => b.Salary, t => Math.Max((int)t.Random.Short(), 1000));
             return generate.Generate(amount);
         }
-
+		
+		/// <summary>
+		/// Метод генерации словаря на 10 элементов типа Dictionary<Client, List<Account>>
+		/// </summary>
+		/// <returns>Словарь сопоставляюший клиентов их списку счетов</returns>
 		public static IDictionary<Client, List<Account>> GenerateAccounts()
 		{
 			var dictionary = new Dictionary<Client, List<Account>>();
@@ -50,6 +69,11 @@ namespace Services
 			return dictionary;
 		}
 
+
+		/// <summary>
+		/// Метод генерации объекта Faker для клиента
+		/// </summary>
+		/// <returns>Иницилизированный объект класса Faker</returns>
 		private static Faker<Client> ClientRule() => new Faker<Client>("ru")
 			.RuleFor(b => b.FirstName, t => t.Name.FirstName())
 				.RuleFor(b => b.LastName, t => t.Name.LastName())

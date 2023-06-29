@@ -15,7 +15,7 @@ internal class Program
 		//вызов метода расчета зарплат владельцев банка
 		foreach (var owner in owners)
 		{
-			owner.Salary = BankService.OwnerPayment(owner, owners.Count());
+			owner.Salary = BankService.OwnerPayment(owners.Count());
 		}
 		Console.WriteLine($"\n***Новые зарплаты:");
 		PrintEmployees(owners);
@@ -34,7 +34,11 @@ internal class Program
 		Console.ReadKey();
 	}
 
-	static void PrintEmployees(List<Employee> toPrint)
+    /// <summary>
+    /// Метод вывода сотрудников в консоль
+    /// </summary>
+    /// <param name="toPrint">Список сотрудников</param>
+    static void PrintEmployees(List<Employee> toPrint)
 	{
 		if (toPrint is not null)
 		{

@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 namespace PracticeWithINotifyPropertyChanged;
 
 public delegate void Text(object sender, string someText);
+
+/// <summary>
+/// Реализовать класс анализирующий поток чисел, и если число
+/// отличается более чем x -процентов выбрасывает событие
+/// </summary>
 public class NumbersStreamAnalyze
 {
     public event Message? SomeMes;
@@ -17,6 +22,11 @@ public class NumbersStreamAnalyze
     {
         this.somePercent = somePercent;
     }
+
+    /// <summary>
+    /// Добавить число в поток чисел
+    /// </summary>
+    /// <param name="value">Входное число</param>
     public void AddElement(int value)
     {
         if (numbers.Count == 0)

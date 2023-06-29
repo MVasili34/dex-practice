@@ -29,16 +29,31 @@ internal class Program
 		Console.ReadKey();
 	}
 
+	/// <summary>
+	/// Метод обновления контракта сотрудника
+	/// </summary>
+	/// <param name="employee">Сотрудник передаётся по ссылке</param>
 	static void UpdateContract(Employee employee) => employee.Contract = $"Контракт обновлён у {employee.FirstName}, " +
 		$"{employee.LastName}. Дата и время: {DateTime.Now}";
 
-
+	/// <summary>
+	/// Метод, обновляющий сущность валюты
+	/// </summary>
+	/// <param name="t">Исходная сущность</param>
+	/// <param name="newCode">Новое значение</param>
+	/// <param name="newName">Новое значение</param>
+	/// <returns>Обновлённая сущность</returns>
 	static Currency ChangeCurrency(Currency t, string newCode, string newName)
 	{
 		t.CurrencyCode = newCode;
 		t.Name = newName;
 		return t;
 	}
+
+	/// <summary>
+	/// Метод вывода сотрудников в консоль
+	/// </summary>
+	/// <param name="toPrint">Список сотрудников</param>
 	static void PrintEmployees(List<Employee>? toPrint)
 	{
 		if (toPrint is not null)
@@ -51,6 +66,11 @@ internal class Program
 			}
 		}
 	}
+
+	/// <summary>
+	/// Метод вывода валют в консоль
+	/// </summary>
+	/// <param name="toPrint">Список валют</param>
 	static void PrintCurrencies(List<Currency>? toPrint)
 	{
 		if (toPrint is not null)

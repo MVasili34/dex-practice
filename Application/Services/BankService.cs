@@ -10,8 +10,19 @@ namespace Services
 		private static List<Employee> blackListEmployee = new List<Employee>(0);
 		public BankService() { }
 
-		public static int OwnerPayment(Employee employee, int amountofOwners) => amountofOwners != 0 ?
+        /// <summary>
+        /// Метод расчета зарплаты владельцев банка
+        /// </summary>
+        /// <param name="amountofOwners">Количество владельцев</param>
+        /// <returns>Зарплата владельца</returns>
+        public static int OwnerPayment(int amountofOwners) => amountofOwners != 0 ?
 			(int)(Income - Expense) / amountofOwners : 0;
+
+		/// <summary>
+		/// Метод добавления бонусу клиенту или сотруднику
+		/// </summary>
+		/// <typeparam name="T">Наследник класса Person</typeparam>
+		/// <param name="person">Входная сущность</param>
 		public void AddBonus<T>(T person) where T : Person
 		{
 			try
@@ -42,7 +53,12 @@ namespace Services
 			}
 		}
 
-		public void AddToBlackList<T>(T person) where T : Person
+        /// <summary>
+        /// Метод добавления сущности в чёрный список
+        /// </summary>
+        /// <typeparam name="T">Наследник класса Person</typeparam>
+        /// <param name="person">Входная сущность</param>
+        public void AddToBlackList<T>(T person) where T : Person
 		{
 			try
 			{
@@ -72,7 +88,13 @@ namespace Services
 			}
 		}
 
-		public bool? IsPersonInBlackList<T>(T person) where T : Person
+        /// <summary>
+        /// Метод проверки нахождения сущности в чёрном списке
+        /// </summary>
+        /// <typeparam name="T">Наследник класса Person</typeparam>
+        /// <param name="person">Входная сущность</param>
+        /// <returns>Статус пребывания</returns>
+        public bool? IsPersonInBlackList<T>(T person) where T : Person
 		{
 			try
 			{

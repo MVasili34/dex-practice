@@ -2,6 +2,11 @@
 
 namespace PracticeWithINotifyPropertyChanged;
 
+
+/// <summary>
+/// Реализовать интерфейс INotifyPropertyChanged на
+/// произвольном классе, продемонстрировать его работу
+/// </summary>
 public class PropChangeTest : INotifyPropertyChanged
 {
     private string dogName = String.Empty;

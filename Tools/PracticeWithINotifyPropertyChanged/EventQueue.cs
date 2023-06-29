@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 namespace PracticeWithINotifyPropertyChanged;
 
 public delegate void Message(object sender, string someText);
+
+/// <summary>
+/// Реализовать очередь, которая генерирует событие, когда кол - во
+/// объектов в ней превышает n и событие, когда становится пустой
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public class EventQueue<T>
 {
     public event Message? QueueMes;
@@ -23,6 +29,11 @@ public class EventQueue<T>
     {
         someQueue = values;
     }
+
+    /// <summary>
+    /// Добавить элемент в очередь
+    /// </summary>
+    /// <param name="item">Добавляемый элемент</param>
     public void AddInqueue(T item) 
     {
         if (someQueue?.Count >= 2)
@@ -33,6 +44,10 @@ public class EventQueue<T>
             someQueue?.Enqueue(item);
     }
 
+    /// <summary>
+    /// Получить элемент из очереди
+    /// </summary>
+    /// <returns>Элемент очереди</returns>
     public T GetOutqueue()
     {
         if (someQueue is not null)
