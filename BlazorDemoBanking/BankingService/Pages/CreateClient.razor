@@ -14,7 +14,8 @@
     {
         using (HttpClient http = new())
         {
-            HttpResponseMessage httpResponse = await http.PostAsJsonAsync("https://localhost:5001/api/clients", client);
+            HttpResponseMessage httpResponse = await http.PostAsJsonAsync(
+                "https://localhost:5001/api/clients", client);
             if (httpResponse.StatusCode == System.Net.HttpStatusCode.Created)
             {
                 navigation.NavigateTo("clients");

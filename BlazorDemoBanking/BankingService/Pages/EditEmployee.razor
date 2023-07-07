@@ -14,7 +14,8 @@
     {
         using (HttpClient http = new())
         {
-            employee = await http.GetFromJsonAsync<Employee>($"https://localhost:5001/api/employees/{EmployeeId}");
+            employee = await http.GetFromJsonAsync<Employee>(
+                $"https://localhost:5001/api/employees/{EmployeeId}");
         }
     }
 
@@ -24,7 +25,8 @@
         {
             using (HttpClient http = new())
             {
-                HttpResponseMessage response = await http.PutAsJsonAsync<Employee>($"https://localhost:5001/api/employees/{EmployeeId}", employee);
+                HttpResponseMessage response = await http.PutAsJsonAsync<Employee>(
+                    $"https://localhost:5001/api/employees/{EmployeeId}", employee);
                 if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                 {
                     navigation.NavigateTo("employees");

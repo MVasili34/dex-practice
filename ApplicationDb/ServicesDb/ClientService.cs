@@ -47,7 +47,7 @@ public class ClientService : IClientService
 	/// Метод добавления лицевого счёта в БД
 	/// </summary>
 	/// <param name="account">Лицевой счёт</param>
-	/// <returns></returns>
+	/// <returns>Состояние добавленного аккаунта</returns>
     public Task<int> AddAccount(Account account)
     {
         EntityEntry<Account> added = db.Accounts.Add(account);
@@ -113,7 +113,6 @@ public class ClientService : IClientService
 	/// <returns>Клиент, если успешно обновлён</returns>
 	public async Task<Client?> UpdateClientAsync(Guid id, Client c)
 	{
-		c.Accounts = db.Accounts.Where(a => a.OwnerId == id).ToList();   
         db.Entry(c).State = EntityState.Detached;
         db.Entry(c).State = EntityState.Modified;
         int affected = await db.SaveChangesAsync();

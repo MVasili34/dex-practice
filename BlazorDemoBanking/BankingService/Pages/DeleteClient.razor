@@ -60,7 +60,8 @@
     {
         using (HttpClient http = new())
         {
-            client = await http.GetFromJsonAsync<Client>($"https://localhost:5001/api/clients/{ClientId}");
+            client = await http.GetFromJsonAsync<Client>(
+                $"https://localhost:5001/api/clients/{ClientId}");
         }
     }
 
@@ -70,7 +71,8 @@
         {
             using (HttpClient http = new())
             {
-                HttpResponseMessage response = await http.DeleteAsync($"https://localhost:5001/api/clients/{ClientId}");
+                HttpResponseMessage response = await http.DeleteAsync(
+                    $"https://localhost:5001/api/clients/{ClientId}");
                 if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                 {
                     navigation.NavigateTo("clients");
@@ -84,7 +86,8 @@
 
         using (HttpClient http = new())
         {
-            HttpResponseMessage response = await http.DeleteAsync($"https://localhost:5001/api/clients/accounts/{id}");
+            HttpResponseMessage response = await http.DeleteAsync(
+                $"https://localhost:5001/api/clients/accounts/{id}");
 
             if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
             {

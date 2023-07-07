@@ -8,13 +8,17 @@
                 OnValidSubmit="@Create" />
 
 @code {
-    private Employee employee = new() { EmployeeId = Guid.NewGuid(), DateOfBirth = new(2000, 1, 1) };
+    private Employee employee = new() {
+        EmployeeId = Guid.NewGuid(), 
+        DateOfBirth = new(2000, 1, 1) 
+    };
 
     private async Task Create()
     {
         using (HttpClient http = new())
         {
-            HttpResponseMessage httpResponse = await http.PostAsJsonAsync("https://localhost:5001/api/employees", employee);
+            HttpResponseMessage httpResponse = await http.PostAsJsonAsync(
+                "https://localhost:5001/api/employees", employee);
             if (httpResponse.StatusCode == System.Net.HttpStatusCode.Created)
             {
                 navigation.NavigateTo("employees");

@@ -37,10 +37,10 @@ public class Account
 
 	[ForeignKey("CurrencyIso")]
 	[InverseProperty("Accounts")]
-	public virtual Currency CurrencyIsoNavigation { get; set; } = null!;
+	public virtual Currency? CurrencyIsoNavigation { get; set; }
 
 	[ForeignKey("OwnerId")]
 	[InverseProperty("Accounts")]
-	public virtual Client Owner { get; set; } = null!;
+	public virtual Client? Owner { get; set; }
 
 }

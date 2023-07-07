@@ -19,7 +19,8 @@
     {
         using (HttpClient http = new())
         {
-            employee = await http.GetFromJsonAsync<Employee>($"https://localhost:5001/api/employees/{EmployeeId}");
+            employee = await http.GetFromJsonAsync<Employee>(
+                $"https://localhost:5001/api/employees/{EmployeeId}");
         }
     }
 
@@ -29,7 +30,8 @@
         {
             using (HttpClient http = new())
             {
-                HttpResponseMessage response = await http.DeleteAsync($"https://localhost:5001/api/employees/{EmployeeId}");
+                HttpResponseMessage response = await http.DeleteAsync(
+                    $"https://localhost:5001/api/employees/{EmployeeId}");
                 if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                 {
                     navigation.NavigateTo("employees");

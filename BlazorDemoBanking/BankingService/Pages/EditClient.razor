@@ -47,7 +47,8 @@
     {
         using (HttpClient http = new())
         {
-            client = await http.GetFromJsonAsync<Client>($"https://localhost:5001/api/clients/{ClientId}");
+            client = await http.GetFromJsonAsync<Client>(
+                $"https://localhost:5001/api/clients/{ClientId}");
         }
     }
 
@@ -57,8 +58,8 @@
         {
             using (HttpClient http = new())
             {
-                client.Accounts = Array.Empty<Account>();
-                HttpResponseMessage response = await http.PutAsJsonAsync<Client>($"https://localhost:5001/api/clients/{ClientId}", client);
+                HttpResponseMessage response = await http.PutAsJsonAsync<Client>(
+                    $"https://localhost:5001/api/clients/{ClientId}", client);
                 if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                 {
                     navigation.NavigateTo("clients");
