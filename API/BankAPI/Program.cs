@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.WebHost.UseUrls("https://localhost:5001/");
 
-//Добавляем контекст БД
+//Adding Database context
 builder.Services.AddBankingServiceContext();
 
 builder.Services.AddControllers().AddJsonOptions(x =>
@@ -21,7 +21,7 @@ builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
 builder.Services.AddCors();
 
-//подключаем HTTP логирование
+//Configuring HTTP logging
 builder.Services.AddHttpLogging(options =>
 {
 	options.RequestHeaders.Add("Origin");
