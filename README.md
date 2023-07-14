@@ -9,17 +9,17 @@
 4) <a href="Tools/PracticeWithListDictionaryBogus/Program.cs"> Практика List, Dictionary, Bogus </a>
 5) <a href="Application/ServiceTests/EquivalenceTests.cs"> Эквивалентность, Equals, GetHashCode </a>
 6) <a href="Tools/PracticeWithIComparable/Program.cs"> IComparable: сравнение объектов </a>
-7) <a href="Application/Services/ClientService.cs">ClientService</a> и <a href="Application/Services/EmployeeService.cs">EmployeeService</a>; <a href="Application/ServiceTests/ExceptionHandlingTests.cs">Обработка исключений (Exception handling) </a>
+7) <a href="Application/Services/ClientService.cs">ClientService</a> и <a href="Application/Services/EmployeeService.cs">EmployeeService</a>; Тесты: <a href="Application/ServiceTests/ExceptionHandlingTests.cs">Обработка исключений (Exception handling) </a>
 8) <a href="Application/ServiceTests/IEnumerableLinqTests.cs"> Тестирование интерфейсов для работы со списками (IEnumerable, IEnumerator) </a>
 9) <a href="Application/Services/BankService.cs"> Практика по Generic Type </a> + <a href="Application/ServiceTests/BlackListTests.cs">тесты</a>
 ---
 10) В <a href="ApplicationDb"> ApplicationDb </a> реализуется практика по Entity Framework и миграциям: <a href="ApplicationDb/Models">Контекст БД</a>.  Предществующие сервисы были пересозданы в соответствии с изменившимися условиям работы: <a href="ApplicationDb/ServicesDb/ClientService.cs">ClientService</a>, <a href="ApplicationDb/ServicesDb/EmployeeService.cs">EmployeeService</a>. Также реализуются соответствующие <a href="ApplicationDb/ServicesDbTests.Tests">тесты</a>
 11) <a href="ApplicationDb/ExportTool/ExportService.cs">Практика по Stream, FileStream, CSV файлам</a> + <a href="ApplicationDb/ServicesDbTests.Tests/CsvFileTests.cs">тесты</a>
-12) <a href="ApplicationDb/ServicesDbTests.Tests/ExtensionsMethodsTests.cs"> Практика по определению методов расширения, Extensions Methods </a>
-13) <a href="ApplicationDb/ServicesDbTests.Tests/ReflectionTests.cs">Практика по рефлексии, метаданным классов: Reflection</a>
-14) <a href="ApplicationDb/ServicesDbTests.Tests/ThreadAndTaskTests.cs"> Многопоточность, блокировки, дедлоки, задачи и класс Task </a>
-15) <a href="ApplicationDb/ServicesDbTests.Tests/AsyncTaskTests.cs"> Асинхронность </a>
-16) <a href="ApplicationDb/ServicesDbTests.Tests/SerializationTests.cs"> Cериализация объектов </a>
+12) <a href="ApplicationDb/ServicesDbTests.Tests/ExtensionsMethodsTests.cs"> Практика по определению методов расширения, Extensions Methods (тесты) </a>
+13) <a href="ApplicationDb/ServicesDbTests.Tests/ReflectionTests.cs">Практика по рефлексии, метаданным классов: Reflection (тесты) </a>
+14) <a href="ApplicationDb/ServicesDbTests.Tests/ThreadAndTaskTests.cs"> Многопоточность, блокировки, дедлоки, задачи и класс Task (тесты) </a>
+15) <a href="ApplicationDb/ServicesDbTests.Tests/AsyncTaskTests.cs"> Асинхронность (тесты)</a>
+16) <a href="ApplicationDb/ServicesDbTests.Tests/SerializationTests.cs"> Cериализация объектов (тесты)</a>
 17) <a href="API/BankAPI"> Практика по созданию RESTful API сервиса </a>
 18) <a href="ApplicationDb/ServicesDb/CurrencyService.cs"> Практика по использованию HttpClient </a> + <a href="ApplicationDb/ServicesDbTests.Tests/ConvertCurrencyTest.cs">тесты</a>
 19) <a href="PostmanTestsResults"> Пратика по использовнию Postman </a>
