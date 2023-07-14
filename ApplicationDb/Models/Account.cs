@@ -16,7 +16,7 @@ public class Account
 
 	public Account(Guid OwnerId, string CurrencyIso, decimal Amount)
 	{
-		AccountId = new Guid();
+		this.AccountId = new Guid();
 		this.OwnerId = OwnerId;
 		this.CurrencyIso = CurrencyIso;
 		this.Amount = Amount;

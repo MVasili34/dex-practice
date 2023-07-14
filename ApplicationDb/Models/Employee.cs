@@ -12,7 +12,7 @@ public class Employee : IPerson
 	public Employee(string FirstName, string LastName, DateOnly DateOfBirth, string Phone,
 		string Passport, string Position, decimal Salary, string Contract)
 	{
-		EmployeeId = new Guid();
+		this.EmployeeId = new Guid();
 		this.FirstName = FirstName;
 		this.LastName = LastName;
 		this.DateOfBirth = DateOfBirth;
@@ -22,6 +22,7 @@ public class Employee : IPerson
 		this.Salary = Salary;
 		this.Contract = Contract;
 	}
+
 	[Key]
 	[Column("employee_id")]
 	public Guid EmployeeId { get; set; }

@@ -60,9 +60,9 @@ else
    </div>
 }
 @code {
-    private DateOnly startDate { get; set; } = new(1900, 01, 01);
-    private DateOnly endDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
-    private string? SearchId { get; set; }
+    private DateOnly startDate = new(1900, 01, 01);
+    private DateOnly endDate = DateOnly.FromDateTime(DateTime.Now);
+    private string? SearchId;
     private IEnumerable<Employee>? employees;
 
     protected override async Task OnParametersSetAsync()
@@ -80,7 +80,7 @@ else
         {
             HttpResponseMessage response = await http.GetAsync($"https://localhost:5001/api/employees/{SearchId}");
 
-            if (response.IsSuccessStatusCode && !String.IsNullOrEmpty(SearchId?.Trim()))
+            if (response.IsSuccessStatusCode && !string.IsNullOrEmpty(SearchId?.Trim()))
             {
                 Employee? employee = await response.Content.ReadFromJsonAsync<Employee>();
 
@@ -93,7 +93,7 @@ else
                     employees = Enumerable.Empty<Employee>();
                 }
             }
-            else if (response.StatusCode == System.Net.HttpStatusCode.NotFound || String.IsNullOrEmpty(SearchId?.Trim()))
+            else if (response.StatusCode == System.Net.HttpStatusCode.NotFound || string.IsNullOrEmpty(SearchId?.Trim()))
             {
                 employees = await http.GetFromJsonAsync<IEnumerable<Employee>>("https://localhost:5001/api/employees");
             }
@@ -108,7 +108,7 @@ else
             employees = employees.Where(p => (p.DateOfBirth > startDate && p.DateOfBirth < endDate));
             if (employees.Count() == 0)
             {
-                SearchId = String.Empty;
+                SearchId = string.Empty;
                 await GetEmployeeClick();
             }
         }

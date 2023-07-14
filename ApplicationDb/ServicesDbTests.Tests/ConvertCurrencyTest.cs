@@ -24,7 +24,7 @@ public class ConvertCurrencyTest
 		ConvertCurrency convert = new() { From = "EUR", To = "USD" };
 		CurrencyService service = new("AmdorenKeyHere");
 		AmdorenResponse response = await service.Convert(convert);
-		Output.WriteLine($"Error: {response.Error}-{response.Error_Message}, Amount: {response.Amount}");
+		Output.WriteLine($"Error: {response.Error}-{response.ErrorMessage}, Amount: {response.Amount}");
 	}
 
 	[Fact] //тестирование сервиса, передавая сумму
@@ -33,7 +33,7 @@ public class ConvertCurrencyTest
 		ConvertCurrency convert = new() { From = "USD", To = "RUB", Amount = 10 };
 		CurrencyService service = new("AmdorenKeyHere");
 		AmdorenResponse response = await service.Convert(convert);
-		Output.WriteLine($"Error: {response.Error}-{response.Error_Message}, Amount: {response.Amount}");
+		Output.WriteLine($"Error: {response.Error}-{response.ErrorMessage}, Amount: {response.Amount}");
 	}
 
 	[Fact] //тестирование серевиса, передавая неверный API ключ

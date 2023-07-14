@@ -25,12 +25,12 @@ namespace BankAPI.Controllers
 		[ProducesResponseType(400)]
 		public async Task<IActionResult> GetEmployee(Guid id)
 		{
-			Employee? c = await employeeService.RetrieveEmployeeAsync(id);
-			if (c is null)
+			Employee? employee = await employeeService.RetrieveEmployeeAsync(id);
+			if (employee is null)
 			{
 				return NotFound();
 			}
-			return Ok(c);
+			return Ok(employee);
 		}
 
 		//POST: api/employees
@@ -38,13 +38,13 @@ namespace BankAPI.Controllers
 		[HttpPost]
 		[ProducesResponseType(201, Type = typeof(Employee))]
 		[ProducesResponseType(400)]
-		public async Task<IActionResult> Create([FromBody] Employee c)
+		public async Task<IActionResult> Create([FromBody] Employee employee)
 		{
-			if (c is null)
+			if (employee is null)
 			{
 				return BadRequest();
 			}
-			Employee? addedEmployee = await employeeService.AddEmployeeAsync(c);
+			Employee? addedEmployee = await employeeService.AddEmployeeAsync(employee);
 			if (addedEmployee is null)
 			{
 				return BadRequest("Сервис не смог добавить сотрудника");
@@ -63,9 +63,9 @@ namespace BankAPI.Controllers
 		[ProducesResponseType(204)]
 		[ProducesResponseType(404)]
 		[ProducesResponseType(400)]
-		public async Task<IActionResult> Update(Guid id, [FromBody] Employee c)
+		public async Task<IActionResult> Update(Guid id, [FromBody] Employee employee)
 		{
-			if (c is null || c.EmployeeId != id)
+			if (employee is null || employee.EmployeeId != id)
 			{
 				return BadRequest();
 			}
@@ -74,7 +74,7 @@ namespace BankAPI.Controllers
 			{
 				return NotFound();
 			}
-			await employeeService.UpdateEmployeeAsync(id, c);
+			await employeeService.UpdateEmployeeAsync(id, employee);
 			return new NoContentResult();
 		}
 

@@ -10,11 +10,13 @@ namespace Models
 	{
 		private Currency currency;
 		private decimal amount;
+
 		public Account() { }
-		public Account(Currency currency, decimal amount)
+
+		public Account(Currency Currency, decimal Amount)
 		{
-			Currency = currency;
-			Amount = amount;
+			this.Currency = Currency;
+			this.Amount = Amount;
 		}
 
 		public Currency Currency

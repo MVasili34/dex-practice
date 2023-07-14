@@ -8,37 +8,27 @@ namespace ServicesDb;
 
 public class ClientService : IClientService
 {
-	//потокобезопасный словрь для хранения клиентов 
-    private static ConcurrentDictionary<Guid, Client>? clientCache;
 
 	private BankingServiceContext db;
-	public ClientService(BankingServiceContext injectedContext)
+	public ClientService(BankingServiceContext db)
 	{
-		db = injectedContext;
-		if (clientCache is null)
-		{
-			clientCache = new ConcurrentDictionary<Guid, Client>(
-			db.Clients.Include(p=>p.Accounts).ToDictionary(c => c.ClientId));
-		}
+		this.db = db;
 	}
 
     /// <summary>
     /// Метод добавления клиента в БД
     /// </summary>
-    /// <param name="c">Клиент</param>
+    /// <param name="client">Клиент</param>
     /// <returns>Клиент, если процесс добавления прошёл успешно</returns>
-    public async Task<Client?> AddClientAsync(Client c)
+    public async Task<Client?> AddClientAsync(Client client)
 	{
-		EntityEntry<Client> added = await db.Clients.AddAsync(c);
+		await db.Clients.AddAsync(client);
 		int affected = await db.SaveChangesAsync();
 		if (affected == 1)
 		{
-			if (clientCache is null)
-				return c;
-			await db.AddAsync(new Account(c.ClientId, "RUB", 0));
+			await db.AddAsync(new Account(client.ClientId, "RUB", 0));
 			await db.SaveChangesAsync();
-			//нового клиента в кэш, иначе вызываем UpdateCache
-			return clientCache.AddOrUpdate(c.ClientId, c, UpdateCache);
+			return db.Clients.Find(client.ClientId);
 		}
 			return null;
 	}
@@ -55,72 +45,48 @@ public class ClientService : IClientService
     }
 
 	/// <summary>
-	/// Метод получения всех клиентов из кэша
+	/// Метод получения всех клиентов из БД
 	/// </summary>
-	/// <returns>Содержимое кэша</returns>
-    public Task<IEnumerable<Client>> RetrieveAllAsync() => Task.FromResult(clientCache is null ?
-		Enumerable.Empty<Client>() : clientCache.Values);
+	/// <returns>Содержимое базы данных</returns>
+    public async Task<IEnumerable<Client>> RetrieveAllAsync() => await db.Clients
+		.Include(p => p.Accounts).ToListAsync();
 
-	/// <summary>
-	/// Метод фильтрации клиентов по дате рождения
-	/// </summary>
-	/// <param name="startDate"></param>
-	/// <param name="endDate"></param>
-	/// <returns>Отфильтрованная коллекция</returns>
-	public Task<IEnumerable<Client>> GetFiltered(DateOnly startDate, DateOnly endDate) => 
-		Task.FromResult(clientCache is null ? Enumerable.Empty<Client>() : clientCache.Values.Where(p =>
-		p.DateOfBirth > startDate && p.DateOfBirth < endDate).OrderBy(p => p.DateOfBirth));
+    /// <summary>
+    /// Метод фильтрации клиентов по дате рождения
+    /// </summary>
+    /// <param name="startDate"></param>
+    /// <param name="endDate"></param>
+    /// <returns>Отфильтрованная коллекция</returns>
+    public async Task<IEnumerable<Client>> GetFiltered(DateOnly startDate, DateOnly endDate) => await db.Clients
+		.Where(p => p.DateOfBirth > startDate && p.DateOfBirth < endDate)
+		.OrderBy(p => p.DateOfBirth).ToListAsync();
 	
 	/// <summary>
 	/// Метод получения клиента по идентификатору
 	/// </summary>
 	/// <param name="id">Идентификатор</param>
-	/// <returns>Клиент из кэша</returns>
-	public Task<Client?> RetrieveClientAsync(Guid id)
-	{
-		if (clientCache is null) return null!;
-		clientCache.TryGetValue(id, out Client? client);
-		return Task.FromResult(client);
-	}
-
-	/// <summary>
-	/// Метод обновления кэша
-	/// </summary>
-	/// <param name="id">Идентификатор</param>
-	/// <param name="c">Клиент</param>
-	/// <returns>Клиент, если кэш обновлён</returns>
-	private Client UpdateCache(Guid id, Client c)
-	{
-		Client? old;
-		if (clientCache is not null)
-		{
-			if (clientCache.TryGetValue(id, out old))
-			{
-				if (clientCache.TryUpdate(id, c, old))
-				{
-					return c;
-				}
-			}
-		}
-		return null!;
-	}
+	/// <returns>Клиент из базы данных</returns>
+	public async Task<Client?> RetrieveClientAsync(Guid id) => await db.Clients.FindAsync(id);
 
 	/// <summary>
 	/// Метод обновления данных клиента
 	/// </summary>
 	/// <param name="id">Идентификатор</param>
-	/// <param name="c">Клиент</param>
+	/// <param name="client">Клиент</param>
 	/// <returns>Клиент, если успешно обновлён</returns>
-	public async Task<Client?> UpdateClientAsync(Guid id, Client c)
+	public async Task<Client?> UpdateClientAsync(Guid id, Client client)
 	{
-        db.Entry(c).State = EntityState.Detached;
-        db.Entry(c).State = EntityState.Modified;
-        int affected = await db.SaveChangesAsync();
-		if (affected == 1)
+        Client? existingClient = await db.Clients.FindAsync(id);
+		if (existingClient is not null)
 		{
-			return UpdateCache(id, c);
+			db.Entry(existingClient).CurrentValues.SetValues(client);
+			int affected = await db.SaveChangesAsync();
+			if (affected == 1)
+			{
+				return db.Clients.Find(id);
+			}
 		}
-		return null;
+			return null;
 	}
 
 	/// <summary>
@@ -130,19 +96,16 @@ public class ClientService : IClientService
 	/// <returns>Статус операции</returns>
     public async Task<bool?> DeleteClientAsync(Guid id)
 	{
-		Client? c = db.Clients.Find(id);
-		if (c is null) return null;
-		db.Clients.Remove(c);
+		Client? client = db.Clients.Find(id);
+		if (client is null) 
+			return null;
+		db.Clients.Remove(client);
 		int affected = await db.SaveChangesAsync();
 		if (affected == 1)
 		{
-			if (clientCache is null) return null;
-			return clientCache.TryRemove(id, out c);
+			return true;
 		}
-		else
-		{
 			return null;
-		}
 	}
 
 	/// <summary>
@@ -153,17 +116,14 @@ public class ClientService : IClientService
     public async Task<bool?> DeleteAccountAsync(Guid id)
     {
         Account? c = db.Accounts.Find(id);
-        if (c is null) return null;
+        if (c is null) 
+			return null;
         db.Accounts.Remove(c);
         int affected = await db.SaveChangesAsync();
         if (affected == 1)
         {
-            clientCache = new (db.Clients.Include(p => p.Accounts).ToDictionary(c => c.ClientId));
             return true;
         }
-        else
-        {
-            return null;
-        }
+			return null;
     }
 }

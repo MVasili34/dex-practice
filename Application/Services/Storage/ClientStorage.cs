@@ -25,7 +25,7 @@ namespace Services.Storage
 					{
 						throw new Below18Exception("Клиент не может быть младше 18 лет");
 					}
-					else if (String.IsNullOrEmpty(client.Passport))
+					else if (string.IsNullOrEmpty(client.Passport))
 					{
 						throw new PassportNullException("У клиента нет паспортных данных");
 					}

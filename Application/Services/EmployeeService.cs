@@ -7,8 +7,14 @@ namespace Services
 	public class EmployeeService : IEmployeeStorage
 	{
 		public List<Employee> Data { get; }
-		public EmployeeService() => Data = new();
-		public EmployeeService(List<Employee>? employees) => Data = employees is not null ? employees : new();
+		public EmployeeService()
+		{
+			Data = new();
+		}
+		public EmployeeService(List<Employee> employees)
+		{
+			Data = employees;
+		}
 
         /// <summary>
         /// Метод фильтрации сотрудников по соответствующим параметрам
@@ -32,13 +38,15 @@ namespace Services
         /// Метод получения старейших сотрудников
         /// </summary>
         /// <returns>Словарь соответствующих сотрудников</returns>
-        public IEnumerable<Employee> GetOldestEmployees() => Data?.Where(p => p.DateOfBirth == Data.Min(t => t.DateOfBirth))!;
+        public IEnumerable<Employee> GetOldestEmployees() => Data?
+			.Where(p => p.DateOfBirth == Data.Min(t => t.DateOfBirth))!;
 
         /// <summary>
         /// Метод получения самых молодых сотрудников
         /// </summary>
         /// <returns>Словарь соответствующих сотрудников</returns>
-        public IEnumerable<Employee> GetYoungestEmployees() => Data?.Where(p => p.DateOfBirth == Data.Max(t => t.DateOfBirth))!;
+        public IEnumerable<Employee> GetYoungestEmployees() => Data?
+			.Where(p => p.DateOfBirth == Data.Max(t => t.DateOfBirth))!;
 
         /// <summary>
         /// Метод получения среднего возраста сотрудников
@@ -63,7 +71,7 @@ namespace Services
 				{
 					throw new Below18Exception("Сотружник не может быть младше 18 лет");
 				}
-				else if (String.IsNullOrEmpty(employee.Contract))
+				else if (string.IsNullOrEmpty(employee.Contract))
 				{
 					throw new NullContractException("У сотрудника нет контракта");
 				}
@@ -81,7 +89,7 @@ namespace Services
 		{
 			if (Data is not null)
 			{
-				if (String.IsNullOrEmpty(employee.Contract) || String.IsNullOrEmpty(employee.Position) ||
+				if (string.IsNullOrEmpty(employee.Contract) || string.IsNullOrEmpty(employee.Position) ||
 					employee.Salary < 0)
 				{
 					throw new IncorrectEmployeeException("Некорректные данные сотрудника!");

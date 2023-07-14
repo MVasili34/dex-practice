@@ -14,13 +14,13 @@ public delegate void Text(object sender, string someText);
 /// </summary>
 public class NumbersStreamAnalyze
 {
-    public event Message? SomeMes;
-    private readonly double somePercent = 0.1;
+    public event Message? OnNumbersExcess;
+    private readonly double percent = 0.1;
     private List<double> numbers = new List<double>();
     public NumbersStreamAnalyze() { }
-    public NumbersStreamAnalyze(double somePercent)
+    public NumbersStreamAnalyze(double percent)
     {
-        this.somePercent = somePercent;
+        this.percent = percent;
     }
 
     /// <summary>
@@ -35,12 +35,13 @@ public class NumbersStreamAnalyze
         }
         else
         {
-            if (numbers[numbers.Count - 1]>value && 1.0-(value / numbers[numbers.Count-1])>somePercent) 
+            if (numbers[numbers.Count - 1] > value && 1.0 - (value/numbers[numbers.Count - 1]) > percent) 
             {
-                SomeMes?.Invoke(this, "Превышение");
-            } else if (numbers[numbers.Count - 1] < value && 1.0-(numbers[numbers.Count - 1]/value) > somePercent)
+                OnNumbersExcess?.Invoke(this, "Превышение");
+            } 
+            else if (numbers[numbers.Count - 1] < value && 1.0 - (numbers[numbers.Count - 1]/value) > percent)
                 {
-                    SomeMes?.Invoke(this, "Превышение");
+                    OnNumbersExcess?.Invoke(this, "Превышение");
                 }
             numbers.Add(value);
         }

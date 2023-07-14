@@ -82,6 +82,6 @@ namespace Services
 				.RuleFor(b => b.Phone, t => t.Phone.PhoneNumberFormat())
 				.RuleFor(b => b.Passport, t => "AB" + t.Random.Byte().ToString())
 				.RuleFor(b => b.Company, t => t.Company.CompanyName())
-				.RuleFor(b => b.AdressInfo, t => t.Address.FullAddress());
+				.RuleFor(b => b.AddressInfo, t => t.Address.FullAddress());
 	}
 }

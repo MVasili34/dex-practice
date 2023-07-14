@@ -1,51 +1,51 @@
 using EntityModels;
 using ServicesDb;
 
-namespace ServicesDbTests.Tests
+namespace ServicesDbTests.Tests;
+
+
+public class ClientServiceDbTests
 {
-	
-	public class ClientServiceDbTests
+	[Fact]
+	public async void AddingClientTest()
 	{
-		[Fact]
-		public async void AddingClientTest()
-		{
-			ClientService db = new(new BankingServiceContext());
-			var someClient = DataGenerator.GenereteClient();
+		ClientService service = new(new BankingServiceContext());
+		var client = DataGenerator.GenereteClient();
 
-			await db.AddClientAsync(someClient);
+		await service.AddClientAsync(client);
 
-			Assert.Contains(someClient, db.RetrieveAllAsync().Result);
-		}
-		[Fact]
-		public void GetClientByIdTest()
-		{
-			ClientService db = new(new BankingServiceContext());
-			Assert.Equal(db.RetrieveAllAsync().Result.First().ClientId, 
-				db.RetrieveClientAsync(db.RetrieveAllAsync().Result.First().ClientId)!.Result?.ClientId);
-		}
+		Assert.Equal(client, service.RetrieveClientAsync(client.ClientId).Result);
+	}
 
-		[Fact]
-		public void AddAccountClientTest()
-		{
-			ClientService db = new(new BankingServiceContext());
+	[Fact]
+	public void AddAccountClientTest()
+	{
+		ClientService service = new(new BankingServiceContext());
+		var clientId = service.RetrieveAllAsync().Result.First().ClientId;
 
-			Assert.Equal(1, db.AddAccount(new Account(db.RetrieveAllAsync().Result.First().ClientId, "RUB", 0)).Result);
-		}
+        int status = service.AddAccount(new Account(clientId, "RUB", 0)).Result;
 
-		[Fact]
-		public void EditClientByIdTest()
-		{
-			ClientService db = new(new BankingServiceContext());
-			Client client = db.RetrieveClientAsync(db.RetrieveAllAsync().Result.First().ClientId).Result!;
-			client.FirstName = "TEST";
-			Assert.Equal(client, db.UpdateClientAsync(client.ClientId, client).Result);
-		}
+        Assert.Equal(1, status);
+	}
 
-		[Fact]
-		public void DeleteClientTest()
-		{
-			ClientService db = new(new BankingServiceContext());
-			Assert.True(db.DeleteClientAsync(db.RetrieveAllAsync().Result.Reverse().First().ClientId).Result);
-		}
+	[Fact]
+	public void EditClientByIdTest()
+	{
+		ClientService service = new(new BankingServiceContext());
+		Client client = service.RetrieveAllAsync().Result.First();
+
+	    client.FirstName = "TEST";
+
+		Assert.Equal(client, service.UpdateClientAsync(client.ClientId, client).Result);
+	}
+
+	[Fact]
+	public void DeleteClientTest()
+	{
+		ClientService service = new(new BankingServiceContext());
+            
+		var id = service.RetrieveAllAsync().Result.First().ClientId;
+
+        Assert.True(service.DeleteClientAsync(id).Result);
 	}
 }

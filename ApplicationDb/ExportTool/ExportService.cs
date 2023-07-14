@@ -7,12 +7,13 @@ namespace ExportTool
 {
 	public class ExportService<T> where T : IPerson
 	{
-		private string _pathToDirecory { get; set; }
-		private string _csvFileName { get; set; }
-		public ExportService(string pathToDirectory, string csvFileName)
+		private string pathToDirecory;
+		private string csvFileName;
+
+		public ExportService(string pathToDirecory, string csvFileName)
 		{
-			_pathToDirecory = pathToDirectory;
-			_csvFileName = csvFileName;
+			this.pathToDirecory = pathToDirecory;
+			this.csvFileName = csvFileName;
 		}
 
 		/// <summary>
@@ -22,12 +23,12 @@ namespace ExportTool
 		public void ExportPersons(IEnumerable<T> clients)
 		{
 			// Создаём каталог для файла
-			DirectoryInfo dirInfo = new DirectoryInfo(_pathToDirecory);
-			if (!dirInfo.Exists)
+			DirectoryInfo directory = new DirectoryInfo(pathToDirecory);
+			if (!directory.Exists)
 			{
-				dirInfo.Create();
+				directory.Create();
 			}
-			using (FileStream fileStream = new FileStream(Path.Combine(_pathToDirecory, _csvFileName),
+			using (FileStream fileStream = new FileStream(Path.Combine(pathToDirecory, csvFileName),
 				FileMode.Create))
 			{
 				using (StreamWriter streamWriter = new StreamWriter(fileStream))
@@ -52,7 +53,7 @@ namespace ExportTool
 		/// <returns>Коллекция объектов из CSV файла</returns>
 		public IEnumerable<T>? ImportPersons()
 		{
-			using (FileStream fileStream = new FileStream(Path.Combine(_pathToDirecory, _csvFileName),
+			using (FileStream fileStream = new FileStream(Path.Combine(pathToDirecory, csvFileName),
 			FileMode.OpenOrCreate))
 			{
 				using (StreamReader streamReader = new StreamReader(fileStream))
@@ -74,10 +75,10 @@ namespace ExportTool
 		/// <param name="path">Путь к файлу</param>
 		public static void SerializePerson(T person, string path)
 		{
-			FileInfo patInfo = new(path);
-			if (!patInfo.Exists)
+			FileInfo pathInfo = new(path);
+			if (!pathInfo.Exists)
 			{
-				patInfo.Create();
+				pathInfo.Create();
 			}
 			using (FileStream fileStream = new FileStream(path, FileMode.Create))
 			{

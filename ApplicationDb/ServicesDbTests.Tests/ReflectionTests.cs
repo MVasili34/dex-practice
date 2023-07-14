@@ -10,13 +10,16 @@ namespace ServicesDbTests.Tests;
 public class Triangle
 {
 	private double square;
-	private int a;
-	private int b;
-	private int c;
+	private int sideA;
+	private int sideB;
+	private int sideC;
 	public Triangle() { }
-	public Triangle(int a, int b, int c)
+	public Triangle(int sideA, int sideB, int sideC)
 	{
-		square = CalculateSquare();
+		this.sideA = sideA;
+		this.sideB = sideB;
+		this.sideC = sideC;
+		this.square = CalculateSquare();
 	}
 
 	private double Square
@@ -25,8 +28,7 @@ public class Triangle
 	}
 	private double CalculateSquare()
 	{
-		double p = (a + b + c) / 2.0;
-		return Math.Sqrt(p * (p - a) * (p - b) * (p - c));
+		return CalculateSquare(sideA, sideB, sideC);
 	}
 
 	public double CalculateSquare(int a2, int b2, int c2)
@@ -35,37 +37,41 @@ public class Triangle
 		return Math.Sqrt(p * (p - a2) * (p - b2) * (p - c2));
 	}
 
-	public int A
+	public int SideA
 	{
-		get => a;
+		get => sideA;
 		set
 		{
-			a = value;
+			sideA = value;
 			square = CalculateSquare();
 		}
 	}
-	public int B
+	public int SideB
 	{
-		get => b;
+		get => sideB;
 		set
 		{
-			b = value;
+			sideB = value;
 			square = CalculateSquare();
 		}
 	}
-	public int C
+	public int SideC
 	{
-		get => c;
+		get => sideC;
 		set
 		{
-			c = value;
+			sideC = value;
 			square = CalculateSquare();
 		}
 	}
 }
 public class ReflectionTests
 {
-
+	/// <summary>
+	/// Метод создания экземпляра класса по текстову имени
+	/// </summary>
+	/// <param name="target">Строка с названием класса</param>
+	/// <returns>Объект класса object, иначе null</returns>
 	private object? GetInstanceObject(string? target)
 	{
 		if (target is not null)
@@ -125,5 +131,4 @@ public class ReflectionTests
 			}
 		}
 	}
-
 }

@@ -17,7 +17,9 @@ public class SerializationTests
 	{
 		string path = Path.Combine(@"D:\", "client.json");
 		Client client = DataGenerator.GenereteClient();
+
 		ExportService<Client>.SerializePerson(client, path);
+
 		Assert.Equal(client, ExportService<Client>.DeSerializePerson(path)!.Result);
 	}
 
@@ -26,7 +28,9 @@ public class SerializationTests
 	{
 		string path = Path.Combine(@"D:\", "employee.json");
 		Employee employee = DataGenerator.GenerateEmployee();
+
 		ExportService<Employee>.SerializePerson(employee, path);
+
 		Assert.Equal(employee, ExportService<Employee>.DeSerializePerson(path)!.Result);
 	}
 }

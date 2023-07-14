@@ -8,18 +8,21 @@ namespace Models
 {
 	public class Employee : Person
 	{
-		private string contract = String.Empty;
-		private string position = String.Empty;
+
+		private string contract = string.Empty;
+		private string position = string.Empty;
 		private int salary;
 
 		public Employee() { }
+
 		public Employee(string FirstName, string LastName, DateOnly DateOfBirth, string Phone, string Passport,
 			string Position, int Salary) : base(FirstName, LastName, DateOfBirth, Phone, Passport)
 		{
 			this.Position = Position;
 			this.Salary = Salary;
-			Contract = $"Контракт заключён с {FirstName}, {LastName}. Дата и время: {DateTime.Now}";
+			this.Contract = $"Контракт заключён с {FirstName}, {LastName}. Дата и время: {DateTime.Now}";
 		}
+
 		public Employee(string FirstName, string LastName, DateOnly DateOfBirth, string Phone, string Passport,
 			string Position, int Salary, string Contract) : base(FirstName, LastName, DateOfBirth, Phone, Passport)
 		{
@@ -27,16 +30,19 @@ namespace Models
 			this.Salary = Salary;
 			this.Contract = Contract;
 		}
+
 		public string Contract
 		{
 			get => contract;
 			set => contract = value;
 		}
+
 		public string Position
 		{
 			get => position;
 			set => position = value;
 		}
+
 		public int Salary
 		{
 			get => salary;

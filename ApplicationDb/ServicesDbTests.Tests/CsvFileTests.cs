@@ -18,7 +18,9 @@ namespace ServicesDbTests.Tests
 			ClientService db = new(new BankingServiceContext());
 			ExportService<Client> exportService = new(Environment.CurrentDirectory, "expimpclient.csv");
 			var collection = db.RetrieveAllAsync().Result.ToList();
+
 			exportService.ExportPersons(collection);
+
 			Assert.Equal(collection, exportService.ImportPersons()!);
 		}
 
@@ -28,7 +30,9 @@ namespace ServicesDbTests.Tests
 			EmployeeService db = new(new BankingServiceContext());
 			ExportService<Employee> exportService = new(Environment.CurrentDirectory, "expimpemployee.csv");
 			var collection = db.RetrieveAllAsync().Result.ToList();
+
 			exportService.ExportPersons(collection);
+
 			Assert.Equal(collection, exportService.ImportPersons()!);
 		}
 	}

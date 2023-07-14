@@ -8,15 +8,15 @@ namespace Models
 {
 	public struct Currency
 	{
-		private string currencyCode = String.Empty;
-		private string name = String.Empty;
+		private string currencyCode = string.Empty;
+		private string currencyName = string.Empty;
 
 		public Currency() { }
 
-		public Currency(string code, string call)
+		public Currency(string CurrencyCode, string CurrencyName)
 		{
-			CurrencyCode = code;
-			Name = call;
+			this.CurrencyCode = CurrencyCode;
+			this.CurrencyName = CurrencyName;
 		}
 
 		public string CurrencyCode
@@ -24,10 +24,10 @@ namespace Models
 			get => currencyCode;
 			set => currencyCode = value;
 		}
-		public string Name
+		public string CurrencyName
 		{
-			get => name;
-			set => name = value;
+			get => currencyName;
+			set => currencyName = value;
 		}
 	}
 }

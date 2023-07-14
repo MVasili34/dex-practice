@@ -28,18 +28,19 @@ namespace ServiceTests.Tests
 		{
 			BankService bankService = new();
 			bankService.AddBonus(clients[0]);
-			Assert.Contains("BONUS", clients[0].AdressInfo);
+			Assert.Contains("BONUS", clients[0].AddressInfo);
 		}
 
 		[Fact]
-		public static void BlackListEmployeeTest()
+		public static void CheckBlackListEmployeeTest()
 		{
 			BankService bankService = new();
 			bankService.AddToBlackList(employees[0]);
 			Assert.True(bankService.IsPersonInBlackList(employees[0]));
 		}
+
 		[Fact]
-		public static void BlackListClientTest()
+		public static void CheckBlackListClientTest()
 		{
 			BankService bankService = new();
 			bankService.AddToBlackList(clients[0]);

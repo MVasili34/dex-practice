@@ -55,10 +55,9 @@ public class AsyncTaskTests
 
 	private void OutputTreadInfo()
 	{
-		Thread t = Thread.CurrentThread;
-		int workerThreads, ioThreads;
-		ThreadPool.GetAvailableThreads(out workerThreads, out ioThreads);
-		Output.WriteLine($"Поток: {t.ManagedThreadId}, Приоритет: {t.Priority}; " +
+		Thread tread = Thread.CurrentThread;
+		ThreadPool.GetAvailableThreads(out int workerThreads, out int ioThreads);
+		Output.WriteLine($"Поток: {tread.ManagedThreadId}, Приоритет: {tread.Priority}; " +
 			$"Worker: {workerThreads}, Входные/выходные потоки: {ioThreads}");
 	}
 

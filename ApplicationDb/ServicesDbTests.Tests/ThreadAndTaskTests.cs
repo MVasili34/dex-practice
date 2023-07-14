@@ -33,6 +33,7 @@ public class ThreadAndTaskTests
 				exportCompleted.Set();
 			}
 		});
+
 		ThreadPool.QueueUserWorkItem(_ =>
 		{
 			using (var imp = new BankingServiceContext())
@@ -42,6 +43,7 @@ public class ThreadAndTaskTests
 				importCompleted.Set();
 			}
 		});
+
 		WaitHandle.WaitAll(new[] { exportCompleted, importCompleted });
 		Assert.True(!exportService.ImportPersons()!.Except(db.Clients).Any());
 	}
@@ -52,7 +54,7 @@ public class ThreadAndTaskTests
 		Account account = new(new Guid(), "USD", 0);
 
 		var amount = account.Amount;
-		var sync = new Object();
+		object sync = new();
 		Parallel.For(0, 2, _ =>
 		{
 			for (int i = 0; i < 10; i++)
@@ -63,6 +65,7 @@ public class ThreadAndTaskTests
 				}
 			}
 		});
+
 		Assert.Equal(2000, account.Amount);
 	}
 
@@ -71,14 +74,14 @@ public class ThreadAndTaskTests
 	{
 		RateUpdater.accounts = DataGenerator.GenerateAccounts(10).ToList();
 		decimal?[] expected = RateUpdater.accounts.Select(account => account.Amount * 1.05m).ToArray();
-		RateUpdater rateUpdater = new RateUpdater();
+		RateUpdater rateUpdater = new();
 		for (int i = 0; i < expected.Length; i++)
 		{
 			Assert.Equal(expected[i], RateUpdater.accounts[i].Amount);
 		}
 	}
 
-	[Fact] //тест возможности обналичивания средств
+	[Fact] //тест возможности одновременного обналичивания средств
 	public async Task DispenseCashAsync_ShouldDispenseCash()
 	{
 		var accounts = DataGenerator.GenerateAccounts(5).ToList();
@@ -87,9 +90,7 @@ public class ThreadAndTaskTests
 
 		foreach (var account in accounts)
 		{
-			var task = dispenserService.DispenseCashAsync(account, 100.00m);
-			tasks.Add(task);
-			await task;
+			tasks.Add(dispenserService.DispenseCashAsync(account, 100.00m));
 		}
 
 		var results = await Task.WhenAll(tasks);

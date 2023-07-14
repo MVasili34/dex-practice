@@ -5,7 +5,7 @@ namespace BankingService.Data;
 
 public class CurrencyService
 {
-    public readonly string apikey = String.Empty;
+    public readonly string apikey = string.Empty;
     public CurrencyService(string apikey)
     {
         this.apikey = apikey;
@@ -15,17 +15,14 @@ public class CurrencyService
     {
         using (HttpClient httpClient = new())
         {
-            Uri request;
-            if (convertCurrency.Amount == 0)
+            string baseUrl = new($"https://www.amdoren.com/api/currency.php?api_key={apikey}&" +
+                    $"from={convertCurrency.From}&to={convertCurrency.To}"); ;
+            if (convertCurrency.Amount != 0)
             {
-                request = new($"https://www.amdoren.com/api/currency.php?api_key={apikey}&" +
-                    $"from={convertCurrency.From}&to={convertCurrency.To}");
+                baseUrl += $"&amount={convertCurrency.Amount}";
             }
-            else
-            {
-                request = new($"https://www.amdoren.com/api/currency.php?api_key={apikey}" +
-                    $"&from={convertCurrency.From}&to={convertCurrency.To}&amount={convertCurrency.Amount}");
-            }
+
+            Uri request = new(baseUrl);
             HttpResponseMessage responseMessage = await httpClient.GetAsync(request);
             responseMessage.EnsureSuccessStatusCode();
             string message = await responseMessage.Content.ReadAsStringAsync();

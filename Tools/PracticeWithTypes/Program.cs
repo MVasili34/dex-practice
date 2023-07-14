@@ -10,10 +10,12 @@ internal class Program
 	{
 		employees = new List<Employee>() {
 			new Employee("Агатов", "Пётр", DateOnly.Parse("21.02.2001"), "1993123311", "AB1331", "Директор", 199999),
-			new Employee("Окотов", "Иван", DateOnly.Parse("15.04.1995"), "5124991244", "AB2144", "Кассир", 999) };
+			new Employee("Окотов", "Иван", DateOnly.Parse("15.04.1995"), "5124991244", "AB2144", "Кассир", 999) 
+		};
 		currencies = new List<Currency>() {
 			new Currency("USD 840", "American Dollar"),
-			new Currency("BYN 933", "Belarusian Ruble") };
+			new Currency("BYN 933", "Belarusian Ruble") 
+		};
 		PrintEmployees(employees);
 		PrintCurrencies(currencies);
 
@@ -39,30 +41,30 @@ internal class Program
 	/// <summary>
 	/// Метод, обновляющий сущность валюты
 	/// </summary>
-	/// <param name="t">Исходная сущность</param>
+	/// <param name="currency">Исходная сущность</param>
 	/// <param name="newCode">Новое значение</param>
 	/// <param name="newName">Новое значение</param>
 	/// <returns>Обновлённая сущность</returns>
-	static Currency ChangeCurrency(Currency t, string newCode, string newName)
+	static Currency ChangeCurrency(Currency currency, string newCode, string newName)
 	{
-		t.CurrencyCode = newCode;
-		t.Name = newName;
-		return t;
+		currency.CurrencyCode = newCode;
+		currency.CurrencyName = newName;
+		return currency;
 	}
 
 	/// <summary>
 	/// Метод вывода сотрудников в консоль
 	/// </summary>
-	/// <param name="toPrint">Список сотрудников</param>
-	static void PrintEmployees(List<Employee>? toPrint)
+	/// <param name="employees">Список сотрудников</param>
+	static void PrintEmployees(List<Employee>? employees)
 	{
-		if (toPrint is not null)
+		if (employees is not null)
 		{
 			Console.WriteLine($"\nСотрудники:");
-			foreach (var item in toPrint) 
+			foreach (var employee in employees) 
 			{
-				Console.WriteLine($"Сотрудник: {item.FirstName}, {item.LastName}, {item.Phone}" +
-					$"\n\tКонтракт: {item.Contract}");
+				Console.WriteLine($"Сотрудник: {employee.FirstName}, {employee.LastName}, {employee.Phone}" +
+					$"\n\tКонтракт: {employee.Contract}");
 			}
 		}
 	}
@@ -70,15 +72,15 @@ internal class Program
 	/// <summary>
 	/// Метод вывода валют в консоль
 	/// </summary>
-	/// <param name="toPrint">Список валют</param>
-	static void PrintCurrencies(List<Currency>? toPrint)
+	/// <param name="currencies">Список валют</param>
+	static void PrintCurrencies(List<Currency>? currencies)
 	{
-		if (toPrint is not null)
+		if (currencies is not null)
 		{
 			Console.WriteLine($"\nВалюты:");
-			foreach (var item in toPrint)
+			foreach (var currency in currencies)
 			{
-				Console.WriteLine($"{item.CurrencyCode}, {item.Name}");
+				Console.WriteLine($"{currency.CurrencyCode}, {currency.CurrencyName}");
 			}
 		}
 	}

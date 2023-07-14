@@ -17,7 +17,7 @@ public class Client : IPerson
 	public Client(string FirstName, string LastName, DateOnly DateOfBirth, string Phone, 
 		string Passport, string ConnectedCompany, string Adress)
 	{
-		ClientId = new Guid();
+		this.ClientId = new Guid();
 		this.FirstName = FirstName;
 		this.LastName = LastName;
 		this.DateOfBirth = DateOfBirth;
@@ -26,6 +26,7 @@ public class Client : IPerson
 		this.ConnectedCompany = ConnectedCompany;
 		this.Adress = Adress;
 	}
+
 	[Key]
 	[Column("client_id")]
 	public Guid ClientId { get; set; }

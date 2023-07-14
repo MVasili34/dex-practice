@@ -24,18 +24,16 @@ public class CurrencyService
 	{
 		using (HttpClient httpClient = new())
 		{
-			Uri request;
-			if (convertCurrency.Amount == 0)
+			string baseUrl = new($"https://www.amdoren.com/api/currency.php?api_key={apikey}&" +
+                    $"from={convertCurrency.From}&to={convertCurrency.To}");
+
+			if (convertCurrency.Amount != 0)
 			{
-				request = new($"https://www.amdoren.com/api/currency.php?api_key={apikey}&" +
-					$"from={convertCurrency.From}&to={convertCurrency.To}");
+				baseUrl += $"&amount={convertCurrency.Amount}";
 			}
-			else
-			{
-				request = new($"https://www.amdoren.com/api/currency.php?api_key={apikey}" +
-					$"&from={convertCurrency.From}&to={convertCurrency.To}&amount={convertCurrency.Amount}");
-			}
-			HttpResponseMessage responseMessage = await httpClient.GetAsync(request);
+
+            Uri request = new(baseUrl);
+            HttpResponseMessage responseMessage = await httpClient.GetAsync(request);
 			responseMessage.EnsureSuccessStatusCode();
 			string message = await responseMessage.Content.ReadAsStringAsync();
 			return JsonConvert.DeserializeObject<AmdorenResponse>(message)!;
@@ -53,6 +51,6 @@ public class ConvertCurrency
 public class AmdorenResponse
 {
 	public int Error { get; set; }
-	public string Error_Message { get; set; } = null!;
+	public string ErrorMessage { get; set; } = null!;
 	public decimal Amount { get; set; }
 }

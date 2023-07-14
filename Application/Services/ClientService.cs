@@ -13,8 +13,14 @@ namespace Services
 	public class ClientService : IClientStorage
 	{
 		public Dictionary<Client, List<Account>> Data { get; }
-		public ClientService() => Data = new();
-		public ClientService(Dictionary<Client, List<Account>> clientStorage) => Data = clientStorage;
+		public ClientService()
+		{
+			Data = new();
+		}
+		public ClientService(Dictionary<Client, List<Account>> clients)
+		{
+			Data = clients;
+		}
 
 		/// <summary>
 		/// Метод фильтрации клиентов по соответствующим параметрам
@@ -26,8 +32,8 @@ namespace Services
 		/// <param name="sDate">Начальная дата</param>
 		/// <param name="eDate">Конечная дата</param>
 		/// <returns>Отфильтрованная коллекция клиентов</returns>
-		public IEnumerable<KeyValuePair<Client, List<Account>>> FilterMethod(string fName, string lName, string phone, string info,
-		  DateOnly sDate, DateOnly eDate) => Data.Where(p => 
+		public IEnumerable<KeyValuePair<Client, List<Account>>> FilterMethod(string fName, string lName, 
+			string phone, string info, DateOnly sDate, DateOnly eDate) => Data.Where(p => 
 			p.Key.FirstName.Contains(fName, StringComparison.OrdinalIgnoreCase) &&
 			p.Key.LastName.Contains(lName, StringComparison.OrdinalIgnoreCase) &&
 			p.Key.Phone.Contains(phone, StringComparison.OrdinalIgnoreCase) &&
@@ -39,14 +45,14 @@ namespace Services
 		/// </summary>
 		/// <returns>Словарь соответствующих клиентов</returns>
 		public IEnumerable<KeyValuePair<Client, List<Account>>> GetOldestClients() => Data.Where(p => 
-		p.Key.DateOfBirth == Data.Min(t => t.Key.DateOfBirth));
+			p.Key.DateOfBirth == Data.Min(t => t.Key.DateOfBirth));
 
         /// <summary>
         /// Метод получения самых молодых клиентов
         /// </summary>
         /// <returns>Словарь соответствующих клиентов</returns>
         public IEnumerable<KeyValuePair<Client, List<Account>>> GetYoungestClients()=> Data.Where(p => 
-		p.Key.DateOfBirth == Data.Max(t => t.Key.DateOfBirth));
+			p.Key.DateOfBirth == Data.Max(t => t.Key.DateOfBirth));
 
         /// <summary>
         /// Метод получения среднего возраста клиентов
@@ -71,7 +77,7 @@ namespace Services
 				{
 					throw new Below18Exception("Клиент не может быть младше 18 лет");
 				}
-				else if (String.IsNullOrEmpty(client.Passport))
+				else if (string.IsNullOrEmpty(client.Passport))
 				{
 					throw new PassportNullException("У клиента нет паспортных данных");
 				}
@@ -92,7 +98,7 @@ namespace Services
 			{
 				throw new ClientDoesntExistException("Клиент не зарегистрирован!");
 			}
-			else if (String.IsNullOrEmpty(account.Currency.Name) || String.IsNullOrEmpty(account.Currency.CurrencyCode) ||
+			else if (string.IsNullOrEmpty(account.Currency.CurrencyName) || string.IsNullOrEmpty(account.Currency.CurrencyCode) ||
 				account.Amount<0)
 			{
 				throw new IncorrectAccountException("Некорректный лицевой счёт!");
@@ -114,7 +120,7 @@ namespace Services
 			{
 				throw new ClientDoesntExistException("Клиент не имеет дефолтного лицевого счёта!");
 			}
-			else if (String.IsNullOrEmpty(account.Currency.Name) || String.IsNullOrEmpty(account.Currency.CurrencyCode))
+			else if (string.IsNullOrEmpty(account.Currency.CurrencyName) || string.IsNullOrEmpty(account.Currency.CurrencyCode))
 			{
 				throw new IncorrectAccountException("Некорректный лицевой счёт!");
 			}

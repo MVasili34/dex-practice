@@ -8,11 +8,12 @@ namespace Models
 {
 	public class Person
 	{
-		private string fName = String.Empty;
-		private string lName = String.Empty;
+
+		private string fName = string.Empty;
+		private string lName = string.Empty;
 		private DateOnly birthDate;
-		private string phoneNumber = String.Empty;
-		private string passportNumber = String.Empty;
+		private string phoneNumber = string.Empty;
+		private string passportNumber = string.Empty;
 
 		public Person() { }
 
@@ -30,21 +31,25 @@ namespace Models
 			get => fName;
 			set => fName = value;
 		}
+
 		public string LastName
 		{
 			get => lName;
 			set => lName = value;
 		}
+
 		public DateOnly DateOfBirth
 		{
 			get => birthDate;
 			set => birthDate = value;
 		}
+
 		public string Phone
 		{
 			get => phoneNumber;
 			set => phoneNumber = value;
 		}
+
 		public string Passport
 		{
 			get => passportNumber;

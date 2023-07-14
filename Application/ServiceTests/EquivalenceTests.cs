@@ -17,24 +17,21 @@ namespace ServiceTests.Tests
 
 			Client someClient = new(testclient.FirstName, testclient.LastName,
 				testclient.DateOfBirth, testclient.Phone, testclient.Passport,
-				testclient.Company, testclient.AdressInfo);
-
-			Assert.Equal(accounts[accounts.Keys.First()], accounts[someClient]);
+				testclient.Company, testclient.AddressInfo);
+			
+			Assert.Equal(accounts[testclient], accounts[someClient]);
 		}
 		
 		[Fact]
 		public static void GetHashCodeNecessityPositivTestEmployees()
 		{
-			List<Employee>? Employees = TestDataGenerator.GenerateEmployees(100).ToList();
-			if (Employees is not null)
-			{
-				Employee someEmployee = new(Employees[65].FirstName, Employees[65].LastName,
-					Employees[65].DateOfBirth, Employees[65].Phone, Employees[65].Passport,
-					Employees[65].Position, Employees[65].Salary, Employees[65].Contract);
+			List<Employee> Employees = TestDataGenerator.GenerateEmployees(100).ToList();
+			Employee someEmployee = new(Employees[65].FirstName, Employees[65].LastName,
+				Employees[65].DateOfBirth, Employees[65].Phone, Employees[65].Passport,
+				Employees[65].Position, Employees[65].Salary, Employees[65].Contract);
 
-				//метод IndexOf также использует метод Equals для сравнения объектов
-				Assert.Equal(65, Employees.IndexOf(someEmployee));
-			}
+			//метод IndexOf также использует метод Equals для сравнения объектов
+			Assert.Equal(65, Employees.IndexOf(someEmployee));
 		}
 	}
 }

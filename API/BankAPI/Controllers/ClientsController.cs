@@ -26,12 +26,12 @@ namespace BankAPI.Controllers
 		[ProducesResponseType(400)]
 		public async Task<IActionResult> GetClient(Guid id)
 		{
-			Client? c = await clientService.RetrieveClientAsync(id);
-			if (c is null)
+			Client? client = await clientService.RetrieveClientAsync(id);
+			if (client is null)
 			{
 				return NotFound();
 			}
-				return Ok(c);
+				return Ok(client);
 		}
 
 		//POST: api/clients
@@ -39,13 +39,13 @@ namespace BankAPI.Controllers
 		[HttpPost]
 		[ProducesResponseType(201, Type = typeof(Client))]
 		[ProducesResponseType(400)]
-		public async Task<IActionResult> Create([FromBody] Client c)
+		public async Task<IActionResult> Create([FromBody] Client client)
 		{
-			if (c is null) 
+			if (client is null) 
 			{
 				return BadRequest();
 			}
-			Client? addedClient = await clientService.AddClientAsync(c);
+			Client? addedClient = await clientService.AddClientAsync(client);
 			if (addedClient is null)
 			{
 				return BadRequest("Сервис не смог добавить клиента");
@@ -64,9 +64,9 @@ namespace BankAPI.Controllers
 		[ProducesResponseType(204)]
 		[ProducesResponseType(404)]
 		[ProducesResponseType(400)]
-		public async Task<IActionResult> Update(Guid id, [FromBody] Client c)
+		public async Task<IActionResult> Update(Guid id, [FromBody] Client client)
 		{
-			if (c is null || c.ClientId != id) 
+			if (client is null || client.ClientId != id) 
 			{
 				return BadRequest();
 			}
@@ -75,7 +75,7 @@ namespace BankAPI.Controllers
 			{
 				return NotFound();
 			}
-			await clientService.UpdateClientAsync(id, c);
+			await clientService.UpdateClientAsync(id, client);
 			return new NoContentResult();
 		}
 

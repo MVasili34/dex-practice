@@ -32,7 +32,7 @@ namespace Services
 				if (person is Client)
 				{
 					Client? client = person as Client;
-					client!.AdressInfo += " BONUS";
+					client!.AddressInfo += " BONUS";
 				}
 				else
 				{

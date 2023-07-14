@@ -24,7 +24,7 @@ namespace Services.Storage
 					{
 						throw new Below18Exception("Сотружник не может быть младше 18 лет");
 					}
-					else if (String.IsNullOrEmpty(employee.Passport))
+					else if (string.IsNullOrEmpty(employee.Passport))
 					{
 						throw new NullContractException("У сотрудника нет контракта");
 					}

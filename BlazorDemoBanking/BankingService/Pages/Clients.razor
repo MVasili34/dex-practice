@@ -65,10 +65,10 @@ else
 
 
 @code {
-    private int filtvalue { get; set; } = 2;
-    private DateOnly startDate { get; set; } = new(1900, 01, 01);
-    private DateOnly endDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
-    private string? SearchId { get; set; }
+    private int filtvalue = 2;
+    private DateOnly startDate = new(1900, 01, 01);
+    private DateOnly endDate = DateOnly.FromDateTime(DateTime.Now);
+    private string? SearchId;
     private IEnumerable<Client>? clients;
 
     protected override async Task OnParametersSetAsync()
@@ -86,7 +86,7 @@ else
         {
             HttpResponseMessage response = await http.GetAsync($"https://localhost:5001/api/clients/{SearchId}");
 
-            if (response.IsSuccessStatusCode && !String.IsNullOrEmpty(SearchId?.Trim()))
+            if (response.IsSuccessStatusCode && !string.IsNullOrEmpty(SearchId?.Trim()))
             {
                 Client? client = await response.Content.ReadFromJsonAsync<Client>();
 
@@ -99,7 +99,7 @@ else
                     clients = Enumerable.Empty<Client>();
                 }
             }
-            else if (response.StatusCode == System.Net.HttpStatusCode.NotFound || String.IsNullOrEmpty(SearchId?.Trim()))
+            else if (response.StatusCode == System.Net.HttpStatusCode.NotFound || string.IsNullOrEmpty(SearchId?.Trim()))
             {
                 clients = await http.GetFromJsonAsync<IEnumerable<Client>>("https://localhost:5001/api/clients");
             }
@@ -114,7 +114,7 @@ else
             clients = clients.Where(p => (p.Accounts.Count() >= filtvalue && p.Accounts.Count() <= 9));
             if (clients.Count() == 0)
             {
-                SearchId = String.Empty;
+                SearchId = string.Empty;
                 await GetClientClick();
                 return;
             }
