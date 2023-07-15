@@ -27,7 +27,7 @@ public class ReflectionTests
 		return null;
 	}
 
-	[Fact] //тест инициализации объекта
+	[Fact]
 	public void InstantiationByNameTest()
 	{
 		object? instance = GetInstanceObject("ServicesDbTests.Tests.Triangle");
@@ -40,8 +40,8 @@ public class ReflectionTests
 			Assert.Fail("Экземпляр класса null!)");
 		}
 	}
-	[Fact] //тест вызова перегруженного метода объекта
-	public void CallingMethodByNameTest()
+	[Fact]
+	public void CallingOverloadedMethodTest()
 	{
 		object? instance = GetInstanceObject("ServicesDbTests.Tests.Triangle");
 		if (instance is not null)
@@ -57,7 +57,7 @@ public class ReflectionTests
 		}
 	}
 
-	[Fact] //тест обращения к закрытому свойству класса
+	[Fact]
 	public void GetPrivatePropertiesTest()
 	{
 		string className = "ServicesDbTests.Tests.Triangle";

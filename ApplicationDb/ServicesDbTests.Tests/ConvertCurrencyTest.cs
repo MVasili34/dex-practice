@@ -18,7 +18,7 @@ public class ConvertCurrencyTest
 		this.Output = Output;
 	}
 
-	[Fact] //тестирование сервиса, не передавая сумму (выводится курс для 1 доллара)
+	[Fact]
 	public async Task GetExschangeRateTest()
 	{
 		ConvertCurrency convert = new() { From = "EUR", To = "USD" };
@@ -27,7 +27,7 @@ public class ConvertCurrencyTest
 		Output.WriteLine($"Error: {response.Error}-{response.ErrorMessage}, Amount: {response.Amount}");
 	}
 
-	[Fact] //тестирование сервиса, передавая сумму
+	[Fact]
 	public async Task ConvertAmountTest()
 	{
 		ConvertCurrency convert = new() { From = "USD", To = "RUB", Amount = 10 };
@@ -36,7 +36,7 @@ public class ConvertCurrencyTest
 		Output.WriteLine($"Error: {response.Error}-{response.ErrorMessage}, Amount: {response.Amount}");
 	}
 
-	[Fact] //тестирование серевиса, передавая неверный API ключ
+	[Fact]
 	public async Task ApiKeyFailureTest()
 	{
 		ConvertCurrency convert = new() { From = "USD", To = "RUB", Amount = 10 };
@@ -45,7 +45,7 @@ public class ConvertCurrencyTest
 		Assert.Equal(110, response.Error);
 	}
 
-	[Fact] //тестирование курса, передавая неверное значение суммы
+	[Fact]
 	public async Task WrongAmountTest()
 	{
 		ConvertCurrency convert = new() { From = "USD", To = "RUB", Amount = (decimal)-10.5 };

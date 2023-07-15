@@ -23,9 +23,9 @@ public class ClientServiceDbTests
 	{
 		var clientId = service.RetrieveAllAsync().Result.First().ClientId;
 
-        int status = service.AddAccount(new Account(clientId, "RUB", 0)).Result;
+        var account = service.AddAccount(new Account(clientId, "RUB", 0)).Result;
 
-        Assert.Equal(1, status);
+        Assert.NotNull(account);
 	}
 
 	[Fact]

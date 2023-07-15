@@ -37,17 +37,22 @@ public class ClientService : IClientService
 	/// Метод добавления лицевого счёта в БД
 	/// </summary>
 	/// <param name="account">Лицевой счёт</param>
-	/// <returns>Состояние добавленного аккаунта</returns>
-    public async Task<int> AddAccount(Account account)
+	/// <returns>Лицевой счёт, иначе null</returns>
+    public async Task<Account?> AddAccount(Account account)
     {
-        EntityEntry<Account> added = await db.Accounts.AddAsync(account);
-        return await Task.FromResult(db.SaveChanges());
+        await db.Accounts.AddAsync(account);
+        int affected = await db.SaveChangesAsync();
+        if (affected == 1)
+        {
+            return await db.Accounts.FindAsync(account.AccountId);
+        }
+			return null;
     }
 
 	/// <summary>
 	/// Метод получения всех клиентов из БД
 	/// </summary>
-	/// <returns>Содержимое базы данных</returns>
+	/// <returns>Клиенты из БД вместе с лицевыми счетами</returns>
     public async Task<IEnumerable<Client>> RetrieveAllAsync() => await db.Clients
 		.Include(p => p.Accounts).ToListAsync();
 
