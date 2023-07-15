@@ -29,5 +29,16 @@ public class BankingServiceContext : DbContext
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		modelBuilder.HasPostgresExtension("uuid-ossp");
-	}
+
+        modelBuilder.Entity<Account>(entity =>
+        {
+            entity.Property(e => e.Amount).HasDefaultValueSql("0");
+
+            entity.HasOne(d => d.CurrencyIsoNavigation).WithMany(p => p.Accounts)
+                .HasConstraintName("currency_code");
+
+            entity.HasOne(d => d.Owner).WithMany(p => p.Accounts)
+                .HasConstraintName("owner_id");
+        });
+    }
 }
