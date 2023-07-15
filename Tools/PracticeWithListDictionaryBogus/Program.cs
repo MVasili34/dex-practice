@@ -64,20 +64,20 @@ internal class Program
 		Console.WriteLine($"Всего таких сотрудников: {needed?.Count()}. Прошло тиков  {timer.ElapsedTicks} \n"); ;
 	}
 
-	static void SearchInDictionarySpeed(Dictionary<string, Client>? clients, string? phone)
+	static void SearchInDictionarySpeed(Dictionary<string, Client> clients, string phone)
 	{
         timer = Stopwatch.StartNew();
 		clients?.Reverse().FirstOrDefault();
 		long elapsedTime3 = timer.ElapsedTicks;
-		if (clients is not null && phone is not null)
-		{
-            timer = Stopwatch.StartNew();
-            Console.WriteLine(clients.ContainsKey(phone));
-			long elapsedTime4 = timer.ElapsedTicks;
-			if (elapsedTime3 > elapsedTime4)
-				Console.WriteLine($"Поиск ByKeyValue быстрее; \nFirstOrDefault: {elapsedTime3}\nByKeyValue: {elapsedTime4}");
-			else
-				Console.WriteLine($"Поиск FirstOrDefault быстрее; \nFirstOrDefault: {elapsedTime3}\nByKeyValue: {elapsedTime4}");
-		}
+
+        timer = Stopwatch.StartNew();
+        Console.WriteLine(clients?.ContainsKey(phone));
+		long elapsedTime4 = timer.ElapsedTicks;
+		if (elapsedTime3 > elapsedTime4)
+			Console.WriteLine("Поиск ByKeyValue быстрее; ");
+		else
+			Console.WriteLine("Поиск FirstOrDefault быстрее; ");
+		Console.WriteLine($"FirstOrDefault: {elapsedTime3} тиков; ByKeyValue: {elapsedTime4} тиков;");
+		
 	}
 }

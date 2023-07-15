@@ -90,12 +90,16 @@ namespace ExportTool
 			}
 		}
 
-        /// <summary>
-        /// Метод десериализации объекта из JSON файла
-        /// </summary>
-        /// <param name="path">Путь к файлу</param>
-        /// <returns>Объект, если файл существует</returns>
-        public static Task<T?>? DeSerializePerson(string path) => !(new FileInfo(path)).Exists ? null:
-			Task.FromResult(JsonConvert.DeserializeObject<T?>(File.ReadAllText(path)));
+		/// <summary>
+		/// Метод десериализации объекта из JSON файла
+		/// </summary>
+		/// <param name="path">Путь к файлу</param>
+		/// <returns>Объект, если файл существует</returns>
+		public static Task<T?>? DeSerializePerson(string path)
+		{
+			if (!(new FileInfo(path)).Exists)
+				return null;
+			return Task.FromResult(JsonConvert.DeserializeObject<T?>(File.ReadAllText(path)));
+		}
 	}
 }

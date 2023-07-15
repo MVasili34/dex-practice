@@ -31,15 +31,15 @@ public class EmployeeService : IEmployeeService
 		int affected = await db.SaveChangesAsync();
 		if (affected == 1)
 		{
-			return await db.Employees.FindAsync(employee.EmployeeId);
-		}
+			return await RetrieveEmployeeAsync(employee.EmployeeId);
+        }
 		    return null;
 	}
 
     /// <summary>
     /// Метод получения всех сотрудников из БД
     /// </summary>
-    /// <returns>Содержимое базы данных</returns>
+    /// <returns>Коллекция сотрудников</returns>
     public async Task<IEnumerable<Employee>> RetrieveAllAsync() => await db.Employees.ToListAsync();
 
     /// <summary>
@@ -67,14 +67,14 @@ public class EmployeeService : IEmployeeService
     /// <returns>Сотрудник, если успешно обновлён</returns>
     public async Task<Employee?> UpdateEmployeeAsync(Guid id, Employee employee)
 	{
-        Employee? existingEmployee = await db.Employees.FindAsync(id);
+        Employee? existingEmployee = await RetrieveEmployeeAsync(id);
         if (existingEmployee is not null)
         {
             db.Entry(existingEmployee).CurrentValues.SetValues(employee);
             int affected = await db.SaveChangesAsync();
             if (affected == 1)
             {
-                return await db.Employees.FindAsync(id);
+                return await RetrieveEmployeeAsync(id);
             }
         }
             return null;
@@ -87,8 +87,8 @@ public class EmployeeService : IEmployeeService
     /// <returns>Статус операции</returns>
     public async Task<bool?> DeleteEmployeeAsync(Guid id)
 	{
-		Employee? employee = db.Employees.Find(id);
-		if (employee is null) 
+		Employee? employee = await RetrieveEmployeeAsync(id);
+        if (employee is null) 
             return null;
 		db.Employees.Remove(employee);
 		int affected = await db.SaveChangesAsync();

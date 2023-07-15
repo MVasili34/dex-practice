@@ -14,7 +14,7 @@ namespace ServicesDbTests.Tests;
 public class ThreadAndTaskTests
 {
 	[Fact] //параллельный экспорт и импорт клиентов из БД
-	public void ParallelExportImportTest()
+	public void ParallelExportImportClientsTest()
 	{
 		var exportCompleted = new ManualResetEvent(false);
 		var importCompleted = new ManualResetEvent(false);
@@ -48,7 +48,7 @@ public class ThreadAndTaskTests
 		Assert.True(!exportService.ImportPersons()!.Except(db.Clients).Any());
 	}
 
-	[Fact] //параллельное начисление денег на один и тот же тестовый счет
+	[Fact]
 	public void ParallelIncreaseTest()
 	{
 		Account account = new(new Guid(), "USD", 0);
@@ -69,8 +69,8 @@ public class ThreadAndTaskTests
 		Assert.Equal(2000, account.Amount);
 	}
 
-	[Fact] //начисляющий процентную ставку каждому клиенту
-	public void RateUpdaterTest()
+	[Fact]
+	public void RateUpdaterClientsTest()
 	{
 		RateUpdater.accounts = DataGenerator.GenerateAccounts(10).ToList();
 		decimal?[] expected = RateUpdater.accounts.Select(account => account.Amount * 1.05m).ToArray();
@@ -81,8 +81,8 @@ public class ThreadAndTaskTests
 		}
 	}
 
-	[Fact] //тест возможности одновременного обналичивания средств
-	public async Task DispenseCashAsync_ShouldDispenseCash()
+	[Fact]
+	public async Task DispenseCashSimultaneouslyAsyncTest()
 	{
 		var accounts = DataGenerator.GenerateAccounts(5).ToList();
 		var dispenserService = new CashDispenserService(5);

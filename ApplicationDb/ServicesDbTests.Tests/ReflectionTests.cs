@@ -7,64 +7,6 @@ using System.Threading.Tasks;
 
 namespace ServicesDbTests.Tests;
 
-public class Triangle
-{
-	private double square;
-	private int sideA;
-	private int sideB;
-	private int sideC;
-	public Triangle() { }
-	public Triangle(int sideA, int sideB, int sideC)
-	{
-		this.sideA = sideA;
-		this.sideB = sideB;
-		this.sideC = sideC;
-		this.square = CalculateSquare();
-	}
-
-	private double Square
-	{
-		get => square;
-	}
-	private double CalculateSquare()
-	{
-		return CalculateSquare(sideA, sideB, sideC);
-	}
-
-	public double CalculateSquare(int a2, int b2, int c2)
-	{
-		double p = (a2 + b2 + c2) / 2.0;
-		return Math.Sqrt(p * (p - a2) * (p - b2) * (p - c2));
-	}
-
-	public int SideA
-	{
-		get => sideA;
-		set
-		{
-			sideA = value;
-			square = CalculateSquare();
-		}
-	}
-	public int SideB
-	{
-		get => sideB;
-		set
-		{
-			sideB = value;
-			square = CalculateSquare();
-		}
-	}
-	public int SideC
-	{
-		get => sideC;
-		set
-		{
-			sideC = value;
-			square = CalculateSquare();
-		}
-	}
-}
 public class ReflectionTests
 {
 	/// <summary>
@@ -131,4 +73,63 @@ public class ReflectionTests
 			}
 		}
 	}
+}
+
+public class Triangle
+{
+    private double square;
+    private int sideA;
+    private int sideB;
+    private int sideC;
+    public Triangle() { }
+    public Triangle(int sideA, int sideB, int sideC)
+    {
+        this.sideA = sideA;
+        this.sideB = sideB;
+        this.sideC = sideC;
+        this.square = CalculateSquare();
+    }
+
+    private double Square
+    {
+        get => square;
+    }
+    private double CalculateSquare()
+    {
+        return CalculateSquare(sideA, sideB, sideC);
+    }
+
+    public double CalculateSquare(int a2, int b2, int c2)
+    {
+        double p = (a2 + b2 + c2) / 2.0;
+        return Math.Sqrt(p * (p - a2) * (p - b2) * (p - c2));
+    }
+
+    public int SideA
+    {
+        get => sideA;
+        set
+        {
+            sideA = value;
+            square = CalculateSquare();
+        }
+    }
+    public int SideB
+    {
+        get => sideB;
+        set
+        {
+            sideB = value;
+            square = CalculateSquare();
+        }
+    }
+    public int SideC
+    {
+        get => sideC;
+        set
+        {
+            sideC = value;
+            square = CalculateSquare();
+        }
+    }
 }

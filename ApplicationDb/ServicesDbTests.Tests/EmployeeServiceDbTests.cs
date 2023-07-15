@@ -10,10 +10,11 @@ namespace ServicesDbTests.Tests;
 
 public class EmployeeServiceDbTests
 {
-	[Fact]
+    EmployeeService service = new(new BankingServiceContext());
+
+    [Fact]
 	public async void AddingEmployeeTest()
-	{
-		EmployeeService service = new(new BankingServiceContext());
+	{	
 		var employee = DataGenerator.GenerateEmployee();
 
 		await service.AddEmployeeAsync(employee);
@@ -24,8 +25,6 @@ public class EmployeeServiceDbTests
 	[Fact]
 	public void EditEmployeeByIdTest()
 	{
-		EmployeeService service = new(new BankingServiceContext());
-
 		Employee client = service.RetrieveAllAsync().Result.First();
 		client.FirstName = "TEST";
 
@@ -35,7 +34,6 @@ public class EmployeeServiceDbTests
 	[Fact]
 	public async void DeleteEmployeeTest()
 	{
-		EmployeeService service = new(new BankingServiceContext());
         var employee = DataGenerator.GenerateEmployee();
 
         await service.AddEmployeeAsync(employee);

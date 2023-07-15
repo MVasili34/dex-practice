@@ -9,7 +9,7 @@ internal class Program
 	{
 		//реализовать интерфейс INotifyPropertyChanged на
 		//произвольном классе, продемонстрировать его работу
-		PrpertChangeTest();
+		PropertyChangeTest();
 
 		//реализовать очередь, которая генерирует событие, когда кол - во
 		//объектов в ней превышает n и событие, когда становится пустой
@@ -22,7 +22,7 @@ internal class Program
 		ReadKey();
 	}
 
-	static void PrpertChangeTest()
+	static void PropertyChangeTest()
 	{
 		PropChangeTest test = new();
 		test.PropertyChanged += PrintOut!;

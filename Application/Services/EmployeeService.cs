@@ -9,11 +9,11 @@ namespace Services
 		public List<Employee> Data { get; }
 		public EmployeeService()
 		{
-			Data = new();
+			this.Data = new();
 		}
-		public EmployeeService(List<Employee> employees)
+		public EmployeeService(List<Employee> Data)
 		{
-			Data = employees;
+			this.Data = Data;
 		}
 
         /// <summary>

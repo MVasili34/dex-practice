@@ -28,7 +28,7 @@ public class ClientService : IClientService
 		{
 			await db.AddAsync(new Account(client.ClientId, "RUB", 0));
 			await db.SaveChangesAsync();
-			return db.Clients.Find(client.ClientId);
+			return await RetrieveClientAsync(client.ClientId);
 		}
 			return null;
 	}
@@ -38,10 +38,10 @@ public class ClientService : IClientService
 	/// </summary>
 	/// <param name="account">Лицевой счёт</param>
 	/// <returns>Состояние добавленного аккаунта</returns>
-    public Task<int> AddAccount(Account account)
+    public async Task<int> AddAccount(Account account)
     {
-        EntityEntry<Account> added = db.Accounts.Add(account);
-        return Task.FromResult(db.SaveChanges());
+        EntityEntry<Account> added = await db.Accounts.AddAsync(account);
+        return await Task.FromResult(db.SaveChanges());
     }
 
 	/// <summary>
@@ -66,7 +66,8 @@ public class ClientService : IClientService
 	/// </summary>
 	/// <param name="id">Идентификатор</param>
 	/// <returns>Клиент из базы данных</returns>
-	public async Task<Client?> RetrieveClientAsync(Guid id) => await db.Clients.FindAsync(id);
+	public async Task<Client?> RetrieveClientAsync(Guid id) => await db.Clients
+		.Include(p => p.Accounts).FirstOrDefaultAsync(t => t.ClientId == id);
 
 	/// <summary>
 	/// Метод обновления данных клиента
@@ -96,12 +97,14 @@ public class ClientService : IClientService
 	/// <returns>Статус операции</returns>
     public async Task<bool?> DeleteClientAsync(Guid id)
 	{
-		Client? client = db.Clients.Find(id);
+		Client? client = await db.Clients.FindAsync(id);
 		if (client is null) 
 			return null;
 		db.Clients.Remove(client);
 		int affected = await db.SaveChangesAsync();
-		if (affected == 1)
+
+		//удаление клиента вместе со счетами
+		if (affected >= 1)
 		{
 			return true;
 		}
@@ -115,7 +118,7 @@ public class ClientService : IClientService
 	/// <returns>Статус операции</returns>
     public async Task<bool?> DeleteAccountAsync(Guid id)
     {
-        Account? c = db.Accounts.Find(id);
+        Account? c = await db.Accounts.FindAsync(id);
         if (c is null) 
 			return null;
         db.Accounts.Remove(c);

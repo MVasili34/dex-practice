@@ -17,17 +17,17 @@ public class EventQueue<T>
 {
     public event Message? OnQueueExcessMessage;
 
-    public Queue<T>? queue;
+    public Queue<T>? queue { get; }
     private T? value;
 
     public EventQueue()
     {
-        queue = new Queue<T>();
+        this.queue = new Queue<T>();
     }
 
-    public EventQueue(Queue<T> values) 
+    public EventQueue(Queue<T> queue) 
     {
-        queue = values;
+        this.queue = queue;
     }
 
     /// <summary>

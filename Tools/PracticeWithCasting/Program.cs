@@ -21,15 +21,15 @@ internal class Program
 		Console.WriteLine($"\n***Новые зарплаты:");
 		PrintEmployees(owners);
 
-		Client client = new("Федотов", "Александр", new(1993, 02, 23), "1223331", "AB213", "CompanyNone", "AdressNone");
+		Client client = new("Федотов", "Александр", new(1993, 02, 23), 
+			"1223331", "AB213", "CompanyNone", "AdressNone");
 		Console.WriteLine($"\nКлиент: {client.FirstName}, {client.LastName}, {client.DateOfBirth}," +
 			$" {client.Phone}, {client.Company}, {client.AddressInfo}");
 
 		//тестирование кастинга из клиента в сотрудника (в классе Client определён explicit operator метод)
 		Employee employee = (Employee)client;
 
-		Console.WriteLine($"\n***Кастинг:");
-		Console.WriteLine($"Из клиента в сотрудника: {employee.FirstName}, {employee.LastName}, " +
+		Console.WriteLine($"Кастинг из клиента в сотрудника: {employee.FirstName}, {employee.LastName}, " +
 			$"{employee.DateOfBirth}, {employee.Phone}, {employee.Position}, {employee.Salary}, {employee.Contract}");
 
 		Console.ReadKey();

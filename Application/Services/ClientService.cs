@@ -15,11 +15,11 @@ namespace Services
 		public Dictionary<Client, List<Account>> Data { get; }
 		public ClientService()
 		{
-			Data = new();
+			this.Data = new();
 		}
-		public ClientService(Dictionary<Client, List<Account>> clients)
+		public ClientService(Dictionary<Client, List<Account>> Data)
 		{
-			Data = clients;
+			this.Data = Data;
 		}
 
 		/// <summary>

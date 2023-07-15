@@ -16,32 +16,17 @@ namespace Services.Storage
 
 		public void AddEmployee(Employee? employee)
 		{
-			try
+			if (employee is not null)
 			{
-				if (employee is not null)
+				if (DateTime.Now.Year - employee.DateOfBirth.Year < 18)
 				{
-					if (DateTime.Now.Year - employee.DateOfBirth.Year < 18)
-					{
-						throw new Below18Exception("Сотружник не может быть младше 18 лет");
-					}
-					else if (string.IsNullOrEmpty(employee.Passport))
-					{
-						throw new NullContractException("У сотрудника нет контракта");
-					}
-						employees?.Add(employee);
+					throw new Below18Exception("Сотружник не может быть младше 18 лет");
 				}
-			}
-			catch (NullContractException ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-			catch (Below18Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
+				else if (string.IsNullOrEmpty(employee.Passport))
+				{
+					throw new NullContractException("У сотрудника нет контракта");
+				}
+				employees?.Add(employee);
 			}
 		}
 	}

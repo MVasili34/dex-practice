@@ -51,7 +51,7 @@ public class Figure : IComparable<Figure>
     public int CompareTo(Figure other)
     {
         if (other is null)
-            throw new ArgumentNullException("Other in not Figure object");
+            throw new ArgumentNullException("Other is not Figure object");
         return this.Square.CompareTo(other.Square);
     }
 }

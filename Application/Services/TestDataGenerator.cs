@@ -24,12 +24,12 @@ namespace Services
         /// <returns>Словарь сопоставляюший номер телефона клиенту</returns>
         public static IDictionary<string, Client> GenerateClintesDictionary(IEnumerable<Client> values)
         {
-            Dictionary<string, Client> newdictionary = new();
+            Dictionary<string, Client> clientsDictionary = new();
             foreach (var value in values) 
             {
-                newdictionary[value.Phone] = value;
+                clientsDictionary[value.Phone] = value;
             }
-            return newdictionary;
+            return clientsDictionary;
         }
 
 		/// <summary>
@@ -42,7 +42,8 @@ namespace Services
             var generate = new Faker<Employee>("ru")
                 .RuleFor(b => b.FirstName, t => t.Name.FirstName())
                 .RuleFor(b => b.LastName, t => t.Name.LastName())
-                .RuleFor(b => b.DateOfBirth, t => t.Date.BetweenDateOnly(DateOnly.FromDateTime(DateTime.Now.AddYears(-80).Date),
+                .RuleFor(b => b.DateOfBirth, t => t.Date.BetweenDateOnly(
+				DateOnly.FromDateTime(DateTime.Now.AddYears(-80).Date),
                 DateOnly.FromDateTime(DateTime.Now.AddYears(-18).Date)))
                 .RuleFor(b => b.Phone, t => t.Phone.PhoneNumberFormat())
 				.RuleFor(b => b.Passport, t => "AB" + t.Random.Byte().ToString())
@@ -57,16 +58,16 @@ namespace Services
 		/// <returns>Словарь сопоставляюший клиентов их списку счетов</returns>
 		public static IDictionary<Client, List<Account>> GenerateAccounts()
 		{
-			var dictionary = new Dictionary<Client, List<Account>>();
-			var generateaccount = new Faker<Account>("ru")
+			var clientsDictionary = new Dictionary<Client, List<Account>>();
+			var generateAccount = new Faker<Account>("ru")
 				.RuleFor(b => b.Currency, t => new Currency(t.Finance.Currency().Code, t.Finance.Currency().Description))
 				.RuleFor(b => b.Amount, t => t.Random.Int());
 			for (int i = 0; i < 10; i++)
 			{
-				dictionary[ClientRule().Generate()] = new List<Account>(Enumerable.Range(1, Random.Shared.Next(1, 3))
-					.Select(index => generateaccount.Generate()));
+				clientsDictionary[ClientRule().Generate()] = new List<Account>(Enumerable.Range(1, Random.Shared.Next(1, 3))
+					.Select(index => generateAccount.Generate()));
 			}
-			return dictionary;
+			return clientsDictionary;
 		}
 
 
@@ -77,7 +78,8 @@ namespace Services
 		private static Faker<Client> ClientRule() => new Faker<Client>("ru")
 			.RuleFor(b => b.FirstName, t => t.Name.FirstName())
 				.RuleFor(b => b.LastName, t => t.Name.LastName())
-				.RuleFor(b => b.DateOfBirth, t => t.Date.BetweenDateOnly(DateOnly.FromDateTime(DateTime.Now.AddYears(-80).Date),
+				.RuleFor(b => b.DateOfBirth, t => t.Date.BetweenDateOnly(
+				DateOnly.FromDateTime(DateTime.Now.AddYears(-80).Date),
 				DateOnly.FromDateTime(DateTime.Now.AddYears(-18).Date)))
 				.RuleFor(b => b.Phone, t => t.Phone.PhoneNumberFormat())
 				.RuleFor(b => b.Passport, t => "AB" + t.Random.Byte().ToString())

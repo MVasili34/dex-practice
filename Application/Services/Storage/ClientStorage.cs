@@ -17,32 +17,17 @@ namespace Services.Storage
 
 		public void AddClient(Client? client)
 		{
-			try
+			if (client is not null)
 			{
-				if (client is not null)
+				if (DateTime.Now.Year - client.DateOfBirth.Year < 18)
 				{
-					if (DateTime.Now.Year - client.DateOfBirth.Year < 18)
-					{
-						throw new Below18Exception("Клиент не может быть младше 18 лет");
-					}
-					else if (string.IsNullOrEmpty(client.Passport))
-					{
-						throw new PassportNullException("У клиента нет паспортных данных");
-					}
-						clients[client] = new List<Account> { new Account(new Currency("RUB", "Руб."), 0) };
+					throw new Below18Exception("Клиент не может быть младше 18 лет");
 				}
-			}
-			catch (PassportNullException ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-			catch (Below18Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
+				else if (string.IsNullOrEmpty(client.Passport))
+				{
+					throw new PassportNullException("У клиента нет паспортных данных");
+				}
+				clients[client] = new List<Account> { new Account(new Currency("RUB", "Руб."), 0) };
 			}
 		}
 	}
