@@ -12,7 +12,7 @@ namespace Services.Storage
 	{
 		public readonly Dictionary<Client, List<Account>> clients;
 
-		public ClientStorage() => clients = TestDataGenerator.GenerateAccounts()
+		public ClientStorage() => clients = TestDataGenerator.GenerateClientsWithAccounts()
 			.ToDictionary(pair => pair.Key, pair => pair.Value);
 
 		public void AddClient(Client? client)

@@ -25,32 +25,24 @@ namespace Services
 		/// <param name="person">Входная сущность</param>
 		public void AddBonus<T>(T person) where T : Person
 		{
-			try
-			{
-				if (person is null)
-					throw new ArgumentNullException(nameof(person));
-				if (person is Client)
-				{
-					Client? client = person as Client;
-					client!.AddressInfo += " BONUS";
-				}
-				else
-				{
-					Employee? employee = person as Employee;
-					if (employee is not null)
-					{
-						employee.Salary += 1000;
-					}
-				}
-			}
-			catch (ArgumentNullException ex)
-			{
-				Console.WriteLine($"{ex.Message}");
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
+            if (person is null)
+                throw new ArgumentNullException(nameof(person));
+            if (person is Client)
+            {
+                Client? client = person as Client;
+                if (client is not null)
+                {
+                    client.AddressInfo += " BONUS";
+                }
+            }
+            else
+            {
+                Employee? employee = person as Employee;
+                if (employee is not null)
+                {
+                    employee.Salary += 1000;
+                }
+            }
 		}
 
         /// <summary>
@@ -60,32 +52,24 @@ namespace Services
         /// <param name="person">Входная сущность</param>
         public void AddToBlackList<T>(T person) where T : Person
 		{
-			try
-			{
-				if (person is null)
-					throw new ArgumentNullException(nameof(person));
-				if (person is Client)
-				{
-					Client? client = person as Client;
-					blackListClient.Add(client!);
-				}
-				else
-				{
-					Employee? employee = person as Employee;
-					if (employee is not null)
-					{
-						blackListEmployee.Add(employee);
-					}
-				}
-			}
-			catch (ArgumentNullException ex)
-			{
-				Console.WriteLine($"{ex.Message}");
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
+            if (person is null)
+                throw new ArgumentNullException(nameof(person));
+            if (person is Client)
+            {
+                Client? client = person as Client;
+                if (client is not null)
+                {
+                    blackListClient.Add(client);
+                }
+            }
+            else
+            {
+                Employee? employee = person as Employee;
+                if (employee is not null)
+                {
+                    blackListEmployee.Add(employee);
+                }
+            }
 		}
 
         /// <summary>
@@ -96,40 +80,32 @@ namespace Services
         /// <returns>Статус пребывания</returns>
         public bool? IsPersonInBlackList<T>(T person) where T : Person
 		{
-			try
-			{
-				if (person is null)
-					throw new ArgumentNullException(nameof(person));
-				if (person is Client)
-				{
-					Client? client = person as Client;
-					if (blackListClient.Contains(client!))
-					{
-						return true;
-					}
-					return false;
-				}
-				else
-				{
-					Employee? employee = person as Employee;
-					if (employee is not null)
-					{
-						if (blackListEmployee.Contains(employee))
-						{
-							return true;
-						}
-						return false;
-					}
-				}
-			}
-			catch (ArgumentNullException ex)
-			{
-				Console.WriteLine($"{ex.Message}");
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
+            if (person is null)
+                throw new ArgumentNullException(nameof(person));
+            if (person is Client)
+            {
+                Client? client = person as Client;
+                if (client is not null)
+                {
+                    if (blackListClient.Contains(client))
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            else
+            {
+                Employee? employee = person as Employee;
+                if (employee is not null)
+                {
+                    if (blackListEmployee.Contains(employee))
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
 			return null;
 		}
 	}

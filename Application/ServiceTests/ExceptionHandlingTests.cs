@@ -34,7 +34,7 @@ public class ExceptionHandlingTests
 	[Fact]
 	public static void ClientDefaultAccountExistsTest()
 	{
-		Client client = GenerateClints(1).First();
+		Client client = GenerateClients(1).First();
 
 		clientService.Add(client);
 
@@ -44,7 +44,7 @@ public class ExceptionHandlingTests
 	[Fact]
 	public static void ClientAddingAccountTest()
 	{
-		Client client = GenerateClints(1).First();
+		Client client = GenerateClients(1).First();
 
 		clientService.Add(client);
 		clientService.AddAccount(client, new(new Currency("BS212", "Usd."), 10));
@@ -55,7 +55,7 @@ public class ExceptionHandlingTests
 	[Fact]
 	public static void ClientAddingAccountExceptionTest()
 	{
-		Client client = GenerateClints(1).First();
+		Client client = GenerateClients(1).First();
 
 		clientService.Add(client);
 
@@ -66,7 +66,7 @@ public class ExceptionHandlingTests
 	[Fact]
 	public static void ClientRemoveExceptionTest()
 	{
-		Client client = GenerateClints(1).First();
+		Client client = GenerateClients(1).First();
 
 		Assert.Throws<FailedToRemoveException>(() => clientService.Delete(client));
 	}
@@ -101,6 +101,7 @@ public class ExceptionHandlingTests
 		Employee employee = GenerateEmployees(1).First();
 		employee.Contract = "Something";
 		employeeService.AddEmployee(employee);
+
 		employee = employeeService.Data.First();
 		employee.Contract = "";
 

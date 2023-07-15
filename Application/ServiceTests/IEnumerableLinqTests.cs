@@ -17,6 +17,7 @@ namespace ServiceTests.Tests
             ClientService service = new(clients);
             var response = service.FilterMethod("И", "А", "3", "3", new(1990, 01, 01), new(2010, 01, 01))
                 .ToDictionary(pair => pair.Key, pair => pair.Value);
+
             Assert.True(response.ContainsKey(new Client("Имя", "Фамилия", DateOnly.Parse("21.01.2001"), "434413244", "AB234", "NONE", "Адрес"))
                 && response.Count() == 1);
         }
@@ -25,6 +26,7 @@ namespace ServiceTests.Tests
         {
             EmployeeService service = new(employees);
             var response = service.FilterMethod("И", "А", "3", "3", new(1990, 01, 01), new(2010, 01, 01)).ToList();
+
             Assert.True(response.Contains(employees[0]) && response.Count() == 1);
         }
 
@@ -33,6 +35,7 @@ namespace ServiceTests.Tests
         {
             ClientService service = new(clients);
             var response = service.GetOldestClients().ToDictionary(pair => pair.Key, pair => pair.Value);
+
             Assert.True(response.ContainsKey(new Client("Света", "Петровна", DateOnly.Parse("19.01.1967"), "32493294", "AB423", "NONE", "Адрес"))
                 && response.Count() == 1);
         }
@@ -42,6 +45,7 @@ namespace ServiceTests.Tests
         {
             EmployeeService service = new(employees);
             var response = service.GetOldestEmployees().ToList();
+
             Assert.True(response.Contains(employees[1]) && response.Count() == 1);
         }
 
@@ -50,6 +54,7 @@ namespace ServiceTests.Tests
         {
             ClientService service = new(clients);
             var response = service.GetYoungestClients().ToDictionary(pair => pair.Key, pair => pair.Value);
+
             Assert.True(response.ContainsKey(new Client("Имя", "Фамилия", DateOnly.Parse("21.01.2001"), "434413244", "AB234", "NONE", "Адрес"))
                 && response.Count() == 1);
         }
@@ -59,6 +64,7 @@ namespace ServiceTests.Tests
         {
             EmployeeService service = new(employees);
             var response = service.GetYoungestEmployees().ToList();
+
             Assert.True(response.Contains(employees[0]) && response.Count() == 1);
         }
 
@@ -66,6 +72,7 @@ namespace ServiceTests.Tests
         public static void ClientAvarageAgeCheck()
         {
             ClientService service = new(clients);
+
             Assert.Equal(34, service.GetAvarageAge());
         }
 
@@ -73,6 +80,7 @@ namespace ServiceTests.Tests
         public static void EmployeeAvarageAgeCheck()
         {
             EmployeeService service = new(employees);
+
             Assert.Equal(34, service.GetAvarageAge());
         }
 
@@ -83,6 +91,7 @@ namespace ServiceTests.Tests
             Client newClient = new("FName", "LName", new(2001, 02, 21),
                 "123456", "AB1234", "NONE", "Adress");
             clientStorage.AddClient(newClient);
+
             Assert.True(clientStorage.clients.ContainsKey(newClient));
         }
 
@@ -93,6 +102,7 @@ namespace ServiceTests.Tests
             Employee newEmployee = new("FName", "LName", new(2001, 02, 21),
                 "123456", "AB1234", "Уборщик", 10000);
             employeeStorage.AddEmployee(newEmployee);
+
             Assert.True(employeeStorage.employees?.Contains(newEmployee));
         }
         private static Dictionary<Client, List<Account>> clients = new()

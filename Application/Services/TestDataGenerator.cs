@@ -15,14 +15,14 @@ namespace Services
         /// </summary>
         /// <param name="amount">Количество клиентов</param>
         /// <returns>Коллекция из N клиентов</returns>
-        public static IEnumerable<Client> GenerateClints(int amount) => ClientRule().Generate(amount);
+        public static IEnumerable<Client> GenerateClients(int amount) => ClientRule().Generate(amount);
 
         /// <summary>
         /// Метод генерации словаря типа Dictionary<string, Client>
         /// </summary>
         /// <param name="values">Коллекция клиентов</param>
         /// <returns>Словарь сопоставляюший номер телефона клиенту</returns>
-        public static IDictionary<string, Client> GenerateClintesDictionary(IEnumerable<Client> values)
+        public static IDictionary<string, Client> GenerateClientsDictionary(IEnumerable<Client> values)
         {
             Dictionary<string, Client> clientsDictionary = new();
             foreach (var value in values) 
@@ -56,7 +56,7 @@ namespace Services
 		/// Метод генерации словаря на 10 элементов типа Dictionary<Client, List<Account>>
 		/// </summary>
 		/// <returns>Словарь сопоставляюший клиентов их списку счетов</returns>
-		public static IDictionary<Client, List<Account>> GenerateAccounts()
+		public static IDictionary<Client, List<Account>> GenerateClientsWithAccounts()
 		{
 			var clientsDictionary = new Dictionary<Client, List<Account>>();
 			var generateAccount = new Faker<Account>("ru")

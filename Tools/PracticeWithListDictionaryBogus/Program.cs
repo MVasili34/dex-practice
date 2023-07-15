@@ -12,8 +12,8 @@ internal class Program
 	static Stopwatch? timer;
 	static void Main(string[] args)
 	{
-		clients = GenerateClints(1000).ToList();
-		dictionary = GenerateClintesDictionary(clients!).ToDictionary(pair => pair.Key, pair=>pair.Value);
+		clients = GenerateClients(1000).ToList();
+		dictionary = GenerateClientsDictionary(clients!).ToDictionary(pair => pair.Key, pair=>pair.Value);
 		employees = GenerateEmployees(1000).ToList();
 
 		Console.WriteLine("Поиск клиента по телефону с применением StopWatch:");

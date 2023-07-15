@@ -10,7 +10,7 @@ namespace ServiceTests.Tests
 		[Fact]
 		public static void GetHashCodeNecessityPositivTest()
 		{
-			Dictionary<Client, List<Account>>?  accounts = TestDataGenerator.GenerateAccounts()
+			Dictionary<Client, List<Account>>?  accounts = TestDataGenerator.GenerateClientsWithAccounts()
 				.ToDictionary(pair => pair.Key, pair => pair.Value);
 
 			Client testclient = accounts.Keys.First();
