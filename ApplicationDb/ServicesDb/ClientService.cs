@@ -89,7 +89,7 @@ public class ClientService : IClientService
 			int affected = await db.SaveChangesAsync();
 			if (affected == 1)
 			{
-				return db.Clients.Find(id);
+				return await RetrieveClientAsync(id);
 			}
 		}
 			return null;
