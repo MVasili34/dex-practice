@@ -95,7 +95,7 @@ else
             }
             else if (response.StatusCode == System.Net.HttpStatusCode.NotFound || string.IsNullOrEmpty(SearchId?.Trim()))
             {
-                employees = await http.GetFromJsonAsync<IEnumerable<Employee>>("https://localhost:5001/api/employees");
+                await OnParametersSetAsync();
             }
         }
         StateHasChanged();

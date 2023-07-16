@@ -15,21 +15,24 @@ public class DataGenerator
     /// </summary>
     /// <param name="amount">Количество клиентов</param>
     /// <returns>Коллекция из N клиентов</returns>
-    public static IEnumerable<Client> GenerateClints(int amount) => Enumerable.Range(0, amount).Select(p => GenereteClient());
+    public static IEnumerable<Client> GenerateClients(int amount) => Enumerable.Range(0, amount)
+		.Select(p => GenereteClient());
 
     /// <summary>
     /// Метод генерации N лицевых счетов
     /// </summary>
     /// <param name="amount">Количество счетов</param>
     /// <returns>Коллекция из N счетов</returns>
-    public static IEnumerable<Account> GenerateAccounts(int amount) => Enumerable.Range(0, amount).Select(p => GenerateAccount());
+    public static IEnumerable<Account> GenerateAccounts(int amount) => Enumerable.Range(0, amount)
+		.Select(p => GenerateAccount());
 
     /// <summary>
     /// Метод генерации N сотрудников
     /// </summary>
     /// <param name="amount">Количество сотрудников</param>
     /// <returns>Коллекция из N сотрудников</returns>
-    public static IEnumerable<Employee> GenerateEmployees(int amount) => Enumerable.Range(0, amount).Select(p => GenerateEmployee());
+    public static IEnumerable<Employee> GenerateEmployees(int amount) => Enumerable.Range(0, amount)
+		.Select(p => GenerateEmployee());
 
 
 	/// <summary>
@@ -47,24 +50,26 @@ public class DataGenerator
     /// </summary>
     /// <returns>Случайный сотрудник</returns>
     public static Employee GenerateEmployee() => new Faker<Employee>("ru")
-			.RuleFor(b => b.FirstName, t => t.Name.FirstName())
-			.RuleFor(b => b.LastName, t => t.Name.LastName())
-			.RuleFor(b => b.DateOfBirth, t => t.Date.BetweenDateOnly(DateOnly.FromDateTime(DateTime.Now.AddYears(-80).Date),
-			DateOnly.FromDateTime(DateTime.Now.AddYears(-18).Date)))
-			.RuleFor(b => b.Phone, t => t.Phone.PhoneNumberFormat())
-			.RuleFor(b => b.Passport, t => "AB" + t.Random.Byte().ToString())
-			.RuleFor(b => b.Position, t => t.Random.Word())
-			.RuleFor(b => b.Salary, t => Math.Max((int)t.Random.Short(), 1000))
-			.RuleFor(b => b.Contract, t => "Заключён").Generate();
+		.RuleFor(b => b.FirstName, t => t.Name.FirstName())
+		.RuleFor(b => b.LastName, t => t.Name.LastName())
+		.RuleFor(b => b.DateOfBirth, t => t.Date.BetweenDateOnly(
+		DateOnly.FromDateTime(DateTime.Now.AddYears(-80).Date),
+		DateOnly.FromDateTime(DateTime.Now.AddYears(-18).Date)))
+		.RuleFor(b => b.Phone, t => t.Phone.PhoneNumberFormat())
+		.RuleFor(b => b.Passport, t => "AB" + t.Random.Byte().ToString())
+		.RuleFor(b => b.Position, t => t.Random.Word())
+		.RuleFor(b => b.Salary, t => Math.Max((int)t.Random.Short(), 1000))
+		.RuleFor(b => b.Contract, t => "Заключён").Generate();
 
 	/// <summary>
 	/// Метод генерации клиента со случайными данными
 	/// </summary>
 	/// <returns>Случайный клиент</returns>
 	public static Client GenereteClient() => new Faker<Client>("ru")
-	.RuleFor(b => b.FirstName, t => t.Name.FirstName())
+		.RuleFor(b => b.FirstName, t => t.Name.FirstName())
 		.RuleFor(b => b.LastName, t => t.Name.LastName())
-		.RuleFor(b => b.DateOfBirth, t => t.Date.BetweenDateOnly(DateOnly.FromDateTime(DateTime.Now.AddYears(-80).Date),
+		.RuleFor(b => b.DateOfBirth, t => t.Date.BetweenDateOnly(
+		DateOnly.FromDateTime(DateTime.Now.AddYears(-80).Date),
 		DateOnly.FromDateTime(DateTime.Now.AddYears(-18).Date)))
 		.RuleFor(b => b.Phone, t => t.Phone.PhoneNumberFormat())
 		.RuleFor(b => b.Passport, t => "AB" + t.Random.Byte().ToString())

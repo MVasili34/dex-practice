@@ -9,8 +9,8 @@ internal class Program
 	static void Main(string[] args)
 	{
 		employees = new List<Employee>() {
-			new Employee("Агатов", "Пётр", DateOnly.Parse("21.02.2001"), "1993123311", "AB1331", "Директор", 199999),
-			new Employee("Окотов", "Иван", DateOnly.Parse("15.04.1995"), "5124991244", "AB2144", "Кассир", 999) 
+			new Employee("Агатов", "Пётр", new DateOnly(2001, 2, 21), "1993123311", "AB1331", "Директор", 199999),
+			new Employee("Окотов", "Иван", new DateOnly(1995, 4, 15), "5124991244", "AB2144", "Кассир", 999) 
 		};
 		currencies = new List<Currency>() {
 			new Currency("USD 840", "American Dollar"),
@@ -35,8 +35,8 @@ internal class Program
 	/// Метод обновления контракта сотрудника
 	/// </summary>
 	/// <param name="employee">Сотрудник передаётся по ссылке</param>
-	static void UpdateContract(Employee employee) => employee.Contract = $"Контракт обновлён у {employee.FirstName}, " +
-		$"{employee.LastName}. Дата и время: {DateTime.Now}";
+	static void UpdateContract(Employee employee) => employee.Contract = $"Контракт обновлён " +
+		$"у {employee.FirstName}, {employee.LastName}. Дата и время: {DateTime.Now}";
 
 	/// <summary>
 	/// Метод, обновляющий сущность валюты
@@ -55,16 +55,16 @@ internal class Program
 	/// <summary>
 	/// Метод вывода сотрудников в консоль
 	/// </summary>
-	/// <param name="employees">Список сотрудников</param>
-	static void PrintEmployees(List<Employee>? employees)
+	/// <param name="employees">Коллекция сотрудников</param>
+	static void PrintEmployees(IEnumerable<Employee>? employees)
 	{
 		if (employees is not null)
 		{
 			Console.WriteLine($"\nСотрудники:");
 			foreach (var employee in employees) 
 			{
-				Console.WriteLine($"Сотрудник: {employee.FirstName}, {employee.LastName}, {employee.Phone}" +
-					$"\n\tКонтракт: {employee.Contract}");
+				Console.WriteLine($"Сотрудник: {employee.FirstName}, {employee.LastName}, " +
+					$"{employee.Phone} \n\tКонтракт: {employee.Contract}");
 			}
 		}
 	}
@@ -72,8 +72,8 @@ internal class Program
 	/// <summary>
 	/// Метод вывода валют в консоль
 	/// </summary>
-	/// <param name="currencies">Список валют</param>
-	static void PrintCurrencies(List<Currency>? currencies)
+	/// <param name="currencies">Коллекция валют</param>
+	static void PrintCurrencies(IEnumerable<Currency>? currencies)
 	{
 		if (currencies is not null)
 		{

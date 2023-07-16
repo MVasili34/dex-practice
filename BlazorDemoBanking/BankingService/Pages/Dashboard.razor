@@ -19,7 +19,7 @@ else
         <div  class="card-header">Банковские счета</div>
         <div class="card-body">
             <h4 class="card-title" style="color: #fff">На текущий момент в банке открыто:</h4>
-            <p class="card-text">@accounts счетов</p>
+            <p class="card-text">@accountsAmount счетов</p>
         </div>
     </div>
     <div class="card text-white bg-secondary mb-3 mx-2" style="max-width: 18rem; font-size: 18px;">
@@ -105,7 +105,7 @@ else
     private CurrencyCount[]? pieData;
     private ClientsAge[]? lineData;
 
-    private int accounts;
+    private int accountsAmount;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -115,10 +115,7 @@ else
             employees = await http.GetFromJsonAsync<IEnumerable<Employee>>("https://localhost:5001/api/employees");
             if (clients is not null)
             {
-                foreach (var client in clients)
-                {
-                    accounts += client.Accounts.Count();
-                }
+                accountsAmount = clients.Select(p => p.Accounts.Count()).Sum();
                 await GenerateChartData();
             }
         }

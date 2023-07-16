@@ -23,7 +23,7 @@ public class ClientServiceDbTests
 	{
 		var clientId = service.RetrieveAllAsync().Result.First().ClientId;
 
-        var account = service.AddAccount(new Account(clientId, "RUB", 0)).Result;
+        var account = service.AddAccountAsync(new Account(clientId, "RUB", 0)).Result;
 
         Assert.NotNull(account);
 	}

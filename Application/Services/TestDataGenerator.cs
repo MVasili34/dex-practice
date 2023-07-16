@@ -77,13 +77,13 @@ namespace Services
 		/// <returns>Иницилизированный объект класса Faker</returns>
 		private static Faker<Client> ClientRule() => new Faker<Client>("ru")
 			.RuleFor(b => b.FirstName, t => t.Name.FirstName())
-				.RuleFor(b => b.LastName, t => t.Name.LastName())
-				.RuleFor(b => b.DateOfBirth, t => t.Date.BetweenDateOnly(
-				DateOnly.FromDateTime(DateTime.Now.AddYears(-80).Date),
-				DateOnly.FromDateTime(DateTime.Now.AddYears(-18).Date)))
-				.RuleFor(b => b.Phone, t => t.Phone.PhoneNumberFormat())
-				.RuleFor(b => b.Passport, t => "AB" + t.Random.Byte().ToString())
-				.RuleFor(b => b.Company, t => t.Company.CompanyName())
-				.RuleFor(b => b.AddressInfo, t => t.Address.FullAddress());
+			.RuleFor(b => b.LastName, t => t.Name.LastName())
+			.RuleFor(b => b.DateOfBirth, t => t.Date.BetweenDateOnly(
+			DateOnly.FromDateTime(DateTime.Now.AddYears(-80).Date),
+			DateOnly.FromDateTime(DateTime.Now.AddYears(-18).Date)))
+			.RuleFor(b => b.Phone, t => t.Phone.PhoneNumberFormat())
+			.RuleFor(b => b.Passport, t => "AB" + t.Random.Byte().ToString())
+			.RuleFor(b => b.Company, t => t.Company.CompanyName())
+			.RuleFor(b => b.AddressInfo, t => t.Address.FullAddress());
 	}
 }

@@ -48,7 +48,7 @@ public class EmployeeService : IEmployeeService
     /// <param name="startDate"></param>
     /// <param name="endDate"></param>
     /// <returns>Отфильтрованная коллекция</returns>
-    public async Task<IEnumerable<Employee>> GetFiltered(DateOnly startDate, DateOnly endDate) => await db.Employees
+    public async Task<IEnumerable<Employee>> GetFilteredAsync(DateOnly startDate, DateOnly endDate) => await db.Employees
 		.Where(p =>p.DateOfBirth > startDate && p.DateOfBirth < endDate)
 		.OrderBy(p => p.DateOfBirth).ToListAsync();
 

@@ -20,8 +20,7 @@ internal class Program
         SearchClientByPhoneInList(clients);
 
 		Console.WriteLine("Поиск клиента по телефону с применением StopWatch в словаре:");
-		if (clients is not null)
-			SearchClientByPhoneInDictionary(dictionary, clients[400].Phone);
+		SearchClientByPhoneInDictionary(dictionary, clients[400].Phone);
 
 		Console.WriteLine($"Выборка клиентов, возраст которых ниже определенного значения (меньше 25 лет):");
 		GetClientsBelowAge(clients);
@@ -30,8 +29,7 @@ internal class Program
 		SearchEmployeeMinSalary(employees);
 
 		Console.WriteLine("Cравнение скорости поиска по словарю двумя методами");
-		if (clients is not null)
-			SearchInDictionarySpeed(dictionary, clients[clients.Count - 1].Phone);
+		SearchInDictionarySpeed(dictionary, clients[clients.Count - 1].Phone);
 
 		Console.ReadKey();
 	}
@@ -78,6 +76,5 @@ internal class Program
 		else
 			Console.WriteLine("Поиск FirstOrDefault быстрее; ");
 		Console.WriteLine($"FirstOrDefault: {elapsedTime3} тиков; ByKeyValue: {elapsedTime4} тиков;");
-		
 	}
 }

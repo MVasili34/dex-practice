@@ -38,7 +38,7 @@ public class ClientService : IClientService
 	/// </summary>
 	/// <param name="account">Лицевой счёт</param>
 	/// <returns>Лицевой счёт, иначе null</returns>
-    public async Task<Account?> AddAccount(Account account)
+    public async Task<Account?> AddAccountAsync(Account account)
     {
         await db.Accounts.AddAsync(account);
         int affected = await db.SaveChangesAsync();
@@ -62,7 +62,7 @@ public class ClientService : IClientService
     /// <param name="startDate"></param>
     /// <param name="endDate"></param>
     /// <returns>Отфильтрованная коллекция</returns>
-    public async Task<IEnumerable<Client>> GetFiltered(DateOnly startDate, DateOnly endDate) => await db.Clients
+    public async Task<IEnumerable<Client>> GetFilteredAsync(DateOnly startDate, DateOnly endDate) => await db.Clients
 		.Where(p => p.DateOfBirth > startDate && p.DateOfBirth < endDate)
 		.OrderBy(p => p.DateOfBirth).ToListAsync();
 	

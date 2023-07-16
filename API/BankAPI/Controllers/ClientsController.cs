@@ -39,7 +39,7 @@ namespace BankAPI.Controllers
 		[HttpPost]
 		[ProducesResponseType(201, Type = typeof(Client))]
 		[ProducesResponseType(400)]
-		public async Task<IActionResult> Create([FromBody] Client client)
+		public async Task<IActionResult> CreateClient([FromBody] Client client)
 		{
 			if (client is null) 
 			{
@@ -64,7 +64,7 @@ namespace BankAPI.Controllers
 		[ProducesResponseType(204)]
 		[ProducesResponseType(404)]
 		[ProducesResponseType(400)]
-		public async Task<IActionResult> Update(Guid id, [FromBody] Client client)
+		public async Task<IActionResult> UpdateClient(Guid id, [FromBody] Client client)
 		{
 			if (client is null || client.ClientId != id) 
 			{
@@ -84,7 +84,7 @@ namespace BankAPI.Controllers
 		[ProducesResponseType(204)]
 		[ProducesResponseType(400)]
 		[ProducesResponseType(404)]
-		public async Task<IActionResult> Delete(Guid id)
+		public async Task<IActionResult> DeleteClient(Guid id)
 		{
 			Client? existed = await clientService.RetrieveClientAsync(id);
 			if (existed is null) 

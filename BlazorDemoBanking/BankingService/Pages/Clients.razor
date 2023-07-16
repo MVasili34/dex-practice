@@ -101,7 +101,7 @@ else
             }
             else if (response.StatusCode == System.Net.HttpStatusCode.NotFound || string.IsNullOrEmpty(SearchId?.Trim()))
             {
-                clients = await http.GetFromJsonAsync<IEnumerable<Client>>("https://localhost:5001/api/clients");
+                await OnParametersSetAsync();
             }
         }
         StateHasChanged();

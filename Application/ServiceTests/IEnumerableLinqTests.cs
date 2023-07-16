@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Services.TestDataGenerator;
 
 namespace ServiceTests.Tests
 {
@@ -18,8 +19,7 @@ namespace ServiceTests.Tests
             var response = service.FilterMethod("И", "А", "3", "3", new(1990, 01, 01), new(2010, 01, 01))
                 .ToDictionary(pair => pair.Key, pair => pair.Value);
 
-            Assert.True(response.ContainsKey(new Client("Имя", "Фамилия", DateOnly.Parse("21.01.2001"), "434413244", "AB234", "NONE", "Адрес"))
-                && response.Count() == 1);
+            Assert.True(response.ContainsKey(clients.Keys.First()) && response.Count() == 1);
         }
         [Fact]
         public static void EmployeeFilterCheck()
@@ -36,8 +36,8 @@ namespace ServiceTests.Tests
             ClientService service = new(clients);
             var response = service.GetOldestClients().ToDictionary(pair => pair.Key, pair => pair.Value);
 
-            Assert.True(response.ContainsKey(new Client("Света", "Петровна", DateOnly.Parse("19.01.1967"), "32493294", "AB423", "NONE", "Адрес"))
-                && response.Count() == 1);
+            Assert.True(response.ContainsKey(new Client("Света", "Петровна", new DateOnly(1967, 3, 19), 
+                "32493294", "AB423", "NONE", "Адрес")) && response.Count() == 1);
         }
 
         [Fact]
@@ -55,8 +55,7 @@ namespace ServiceTests.Tests
             ClientService service = new(clients);
             var response = service.GetYoungestClients().ToDictionary(pair => pair.Key, pair => pair.Value);
 
-            Assert.True(response.ContainsKey(new Client("Имя", "Фамилия", DateOnly.Parse("21.01.2001"), "434413244", "AB234", "NONE", "Адрес"))
-                && response.Count() == 1);
+            Assert.True(response.ContainsKey(clients.Keys.First()) && response.Count() == 1);
         }
 
         [Fact]
@@ -88,40 +87,40 @@ namespace ServiceTests.Tests
         public static void AddingClientToStorage()
         {
             ClientStorage clientStorage = new();
-            Client newClient = new("FName", "LName", new(2001, 02, 21),
-                "123456", "AB1234", "NONE", "Adress");
-            clientStorage.AddClient(newClient);
+            Client client = GenerateClients(1).First();
 
-            Assert.True(clientStorage.clients.ContainsKey(newClient));
+            clientStorage.AddClient(client);
+
+            Assert.True(clientStorage.clients.ContainsKey(client));
         }
 
         [Fact]
         public static void AddingEmployeeToStorage()
         {
             EmployeeStorage employeeStorage = new();
-            Employee newEmployee = new("FName", "LName", new(2001, 02, 21),
-                "123456", "AB1234", "Уборщик", 10000);
-            employeeStorage.AddEmployee(newEmployee);
+            Employee employee = GenerateEmployees(1).First();
 
-            Assert.True(employeeStorage.employees?.Contains(newEmployee));
+            employeeStorage.AddEmployee(employee);
+
+            Assert.True(employeeStorage.employees?.Contains(employee));
         }
         private static Dictionary<Client, List<Account>> clients = new()
         {
-            { new Client("Имя", "Фамилия", DateOnly.Parse("21.01.2001"), "434413244", "AB234", "NONE", "Адрес"), 
+            { new Client("Имя", "Фамилия", new DateOnly(2001, 1, 21), "434413244", "AB234", "NONE", "Адрес"), 
                 new List<Account>()
-            { new Account(new Currency("RUS", "Рубль"), 20000)} },
-            { new Client("Света", "Петровна", DateOnly.Parse("19.01.1967"), "32493294", "AB423", "NONE", "Адрес"), 
+                    { new Account(new Currency("RUB", "Рубль"), 20000)} },
+            { new Client("Света", "Петровна", new DateOnly(1967, 3, 19), "32493294", "AB423", "NONE", "Адрес"), 
                 new List<Account>()
-            { new Account(new Currency("RUS", "Рубль"), 10000)} },
-            { new Client("Иннокентий", "Петров", DateOnly.Parse("12.01.1996"), "634643", "AB254", "4234", "Адрес"), 
+                    { new Account(new Currency("RUB", "Рубль"), 10000)} },
+            { new Client("Иннокентий", "Петров", new DateOnly(1996, 1, 12), "634643", "AB254", "4234", "Адрес"), 
                 new List<Account>()
-            { new Account(new Currency("RUS", "Рубль"), 10000)} },
+                    { new Account(new Currency("RUB", "Рубль"), 10000)} },
         };
         private static List<Employee> employees = new()
         {
-            new Employee("Имя", "Фамилия", DateOnly.Parse("21.01.2001"), "434413244", "AB234", "NONE", 20000),
-            new Employee("Света", "Петровна", DateOnly.Parse("19.01.1967"), "32493294", "AB423", "NONE", 21331),
-            new Employee("Иннокентий", "Петров", DateOnly.Parse("12.01.1996"), "634643", "AB254", "4234", 34224)
+            new Employee("Имя", "Фамилия", new DateOnly(2001, 1, 21), "434413244", "AB234", "NONE", 20000),
+            new Employee("Света", "Петровна", new DateOnly(1967, 3, 19), "32493294", "AB423", "NONE", 21331),
+            new Employee("Иннокентий", "Петров", new DateOnly(1996, 1, 12), "634643", "AB254", "4234", 34224)
         };
     }
 }

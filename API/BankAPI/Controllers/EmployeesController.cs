@@ -38,7 +38,7 @@ namespace BankAPI.Controllers
 		[HttpPost]
 		[ProducesResponseType(201, Type = typeof(Employee))]
 		[ProducesResponseType(400)]
-		public async Task<IActionResult> Create([FromBody] Employee employee)
+		public async Task<IActionResult> CreateEmployee([FromBody] Employee employee)
 		{
 			if (employee is null)
 			{
@@ -63,7 +63,7 @@ namespace BankAPI.Controllers
 		[ProducesResponseType(204)]
 		[ProducesResponseType(404)]
 		[ProducesResponseType(400)]
-		public async Task<IActionResult> Update(Guid id, [FromBody] Employee employee)
+		public async Task<IActionResult> UpdateEmployee(Guid id, [FromBody] Employee employee)
 		{
 			if (employee is null || employee.EmployeeId != id)
 			{
@@ -83,7 +83,7 @@ namespace BankAPI.Controllers
 		[ProducesResponseType(204)]
 		[ProducesResponseType(400)]
 		[ProducesResponseType(404)]
-		public async Task<IActionResult> Delete(Guid id)
+		public async Task<IActionResult> DeleteEmployee(Guid id)
 		{
 			Employee? existed = await employeeService.RetrieveEmployeeAsync(id);
 			if (existed is null)
