@@ -16,16 +16,16 @@
         <p class="card-text">Выбор валют</p>
         <div class="flex-column">
             <InputSelect @bind-Value="selectedFrom">
-                @foreach (var c in currencies)
+                @foreach (var currency in currencies)
                 {
-                    <option value="@c">@c</option>
+                    <option value="@currency">@currency</option>
                 }
             </InputSelect>
                 &rarr;
             <InputSelect @bind-Value="selectedTo">
-                @foreach (var c in currencies)
+                @foreach (var currency in currencies)
                 { 
-                    <option value="@c">@c</option>
+                    <option value="@currency">@currency</option>
                 }
             </InputSelect>
         </div>
@@ -46,16 +46,16 @@
             <p class="card-text">Выбор валют</p>
             <div class="flex-column">
                 <InputSelect @bind-Value="selectedFrom">
-                    @foreach (var c in currencies)
+                    @foreach (var currency in currencies)
                     {
-                        <option value="@c">@c</option>
+                        <option value="@currency">@currency</option>
                     }
                 </InputSelect>
                 &rarr;
                 <InputSelect @bind-Value="selectedTo">
-                    @foreach (var c in currencies)
+                    @foreach (var currency in currencies)
                     {
-                        <option value="@c">@c</option>
+                        <option value="@currency">@currency</option>
                     }
                 </InputSelect>
             </div>

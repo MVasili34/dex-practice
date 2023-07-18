@@ -20,14 +20,14 @@ namespace Services
         /// <summary>
         /// Метод генерации словаря типа Dictionary<string, Client>
         /// </summary>
-        /// <param name="values">Коллекция клиентов</param>
+        /// <param name="clients">Коллекция клиентов</param>
         /// <returns>Словарь сопоставляюший номер телефона клиенту</returns>
-        public static IDictionary<string, Client> GenerateClientsDictionary(IEnumerable<Client> values)
+        public static IDictionary<string, Client> GenerateClientsDictionary(IEnumerable<Client> clients)
         {
             Dictionary<string, Client> clientsDictionary = new();
-            foreach (var value in values) 
+            foreach (var client in clients) 
             {
-                clientsDictionary[value.Phone] = value;
+                clientsDictionary[client.Phone] = client;
             }
             return clientsDictionary;
         }

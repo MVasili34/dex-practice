@@ -29,7 +29,7 @@ internal class Program
 		SearchEmployeeMinSalary(employees);
 
 		Console.WriteLine("Cравнение скорости поиска по словарю двумя методами");
-		SearchInDictionarySpeed(dictionary, clients[clients.Count - 1].Phone);
+		SearchInDictionarySpeed(dictionary, clients.Last().Phone);
 
 		Console.ReadKey();
 	}

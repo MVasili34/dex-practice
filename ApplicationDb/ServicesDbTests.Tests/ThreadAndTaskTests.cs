@@ -25,21 +25,21 @@ public class ThreadAndTaskTests
 
 		ThreadPool.QueueUserWorkItem(_ =>
 		{
-			using (var exp = new BankingServiceContext())
+			using (var export = new BankingServiceContext())
 			{
-				exportService.ExportPersons(exp.Clients);
-				exp.Clients.RemoveRange(exp.Clients);
-				exp.SaveChanges();
+				exportService.ExportPersons(export.Clients);
+				export.Clients.RemoveRange(export.Clients);
+				export.SaveChanges();
 				exportCompleted.Set();
 			}
 		});
 
 		ThreadPool.QueueUserWorkItem(_ =>
 		{
-			using (var imp = new BankingServiceContext())
+			using (var import = new BankingServiceContext())
 			{
-				imp.AddRange(importService.ImportPersons()!);
-				imp.SaveChanges();
+				import.AddRange(importService.ImportPersons()!);
+				import.SaveChanges();
 				importCompleted.Set();
 			}
 		});

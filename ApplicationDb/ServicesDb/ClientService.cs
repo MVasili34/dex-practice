@@ -123,10 +123,10 @@ public class ClientService : IClientService
 	/// <returns>Статус операции</returns>
     public async Task<bool?> DeleteAccountAsync(Guid id)
     {
-        Account? c = await db.Accounts.FindAsync(id);
-        if (c is null) 
+        Account? account = await db.Accounts.FindAsync(id);
+        if (account is null) 
 			return null;
-        db.Accounts.Remove(c);
+        db.Accounts.Remove(account);
         int affected = await db.SaveChangesAsync();
         if (affected == 1)
         {

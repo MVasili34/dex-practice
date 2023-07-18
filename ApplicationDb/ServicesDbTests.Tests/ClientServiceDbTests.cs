@@ -6,7 +6,7 @@ namespace ServicesDbTests.Tests;
 
 public class ClientServiceDbTests
 {
-    ClientService service = new(new BankingServiceContext());
+    private ClientService service = new(new BankingServiceContext());
 
     [Fact]
 	public async void AddingClientTest()

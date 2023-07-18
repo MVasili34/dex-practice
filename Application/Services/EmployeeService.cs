@@ -82,10 +82,10 @@ namespace Services
         /// <summary>
         /// Метод обновления данных сотрудника
         /// </summary>
-        /// <param name="empNumber">Идентификатор сотрудника</param>
+        /// <param name="employeeId">Идентификатор сотрудника</param>
         /// <param name="employee">Сотрудник</param>
         /// <exception cref="IncorrectEmployeeException"></exception>
-        public void UpdateEmployee(int empNumber, Employee employee)
+        public void UpdateEmployee(int employeeId, Employee employee)
 		{
 			if (Data is not null)
 			{
@@ -94,7 +94,7 @@ namespace Services
 				{
 					throw new IncorrectEmployeeException("Некорректные данные сотрудника!");
 				}
-				Data[empNumber] = employee;
+				Data[employeeId] = employee;
 			}
 		}
 

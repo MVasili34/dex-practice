@@ -110,11 +110,11 @@ namespace Services
 		/// Метод обновления лицевого счёта
 		/// </summary>
 		/// <param name="client">Клиент</param>
-		/// <param name="accNumber">Номер счёта</param>
+		/// <param name="accountNumber">Номер счёта</param>
 		/// <param name="account">Обновлённый счёт</param>
 		/// <exception cref="ClientDoesntExistException"></exception>
 		/// <exception cref="IncorrectAccountException"></exception>
-		public void UpdateAccount(Client client, int accNumber, Account account)
+		public void UpdateAccount(Client client, int accountNumber, Account account)
 		{
 			if (!Data.ContainsKey(client))
 			{
@@ -124,7 +124,7 @@ namespace Services
 			{
 				throw new IncorrectAccountException("Некорректный лицевой счёт!");
 			}
-			Data[client][accNumber] = account;
+			Data[client][accountNumber] = account;
 		}
 
 		/// <summary>

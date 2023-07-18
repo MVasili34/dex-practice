@@ -10,7 +10,7 @@ namespace ServicesDb;
 
 public class RateUpdater
 {
-	static CancellationTokenSource cancelTokenSource = new();
+	private static CancellationTokenSource cancelTokenSource = new();
 	public static List<Account> accounts = null!;
 	private Task? update;
 	private decimal percent = 0.05M;

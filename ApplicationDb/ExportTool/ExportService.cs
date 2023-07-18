@@ -7,8 +7,8 @@ namespace ExportTool
 {
 	public class ExportService<T> where T : IPerson
 	{
-		private string pathToDirecory;
-		private string csvFileName;
+		public readonly string pathToDirecory;
+		public readonly string csvFileName;
 
 		public ExportService(string pathToDirecory, string csvFileName)
 		{

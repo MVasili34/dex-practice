@@ -10,7 +10,7 @@ namespace ServicesDbTests.Tests;
 
 public class EmployeeServiceDbTests
 {
-    EmployeeService service = new(new BankingServiceContext());
+    private EmployeeService service = new(new BankingServiceContext());
 
     [Fact]
 	public async void AddingEmployeeTest()
