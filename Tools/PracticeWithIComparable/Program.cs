@@ -4,11 +4,11 @@ namespace PracticeWithIComparable;
 
 internal class Program
 {
-	static IEnumerable<Figure> squares => Enumerable.Range(1, 10)
+	private static IEnumerable<Figure> _squares => Enumerable.Range(1, 10)
         .Select(i => new Figure(Random.Shared.Next(5, 50)));
 	static void Main(string[] args)
 	{
-        List<Figure> listOfSquares = squares.ToList();
+        List<Figure> listOfSquares = _squares.ToList();
         WriteLine("Список фигур до применения сортировки");
         foreach (Figure figure in listOfSquares)
         {
@@ -28,23 +28,23 @@ internal class Program
 
 public class Figure : IComparable<Figure>
 {
-    private int length;
-    private int square;
+    private int _length;
+    private int _square;
     public Figure() { }
     public Figure(int Length)
     {
         this.Length = Length;
     }
 
-    public int Square => square;
+    public int Square => _square;
 
     public int Length
     {
-        get => length;
+        get => _length;
         set
         {
-            length = value;
-            square = length * length;
+            _length = value;
+            _square = _length * _length;
         }
     }
 

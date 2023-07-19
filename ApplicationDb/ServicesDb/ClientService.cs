@@ -10,6 +10,9 @@ public class ClientService : IClientService
 {
 
 	private BankingServiceContext db;
+
+	private int _pageSize = 10;
+
 	public ClientService(BankingServiceContext db)
 	{
 		this.db = db;
@@ -53,8 +56,11 @@ public class ClientService : IClientService
 	/// Метод получения всех клиентов из БД
 	/// </summary>
 	/// <returns>Клиенты из БД вместе с лицевыми счетами</returns>
-    public async Task<IEnumerable<Client>> RetrieveAllAsync() => await db.Clients
-		.Include(p => p.Accounts).ToListAsync();
+    public async Task<IEnumerable<Client>> RetrieveAllAsync(int? page) => await db.Clients
+		.Include(p => p.Accounts)
+		.Skip(((page ?? 1) - 1) * _pageSize)
+		.Take(_pageSize)
+		.ToListAsync();
 
     /// <summary>
     /// Метод фильтрации клиентов по дате рождения

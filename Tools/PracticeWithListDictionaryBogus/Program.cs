@@ -6,71 +6,73 @@ namespace PracticeWithListDictionaryBogus;
 
 internal class Program
 {
-	static List<Client>? clients;
-	static Dictionary<string, Client>? dictionary;
-	static List<Employee>? employees;
-	static Stopwatch? timer;
+	private static List<Client>? _clients;
+	private static Dictionary<string, Client>? _dictionary;
+	private static List<Employee>? _employees;
+	private static Stopwatch? _timer;
 	static void Main(string[] args)
 	{
-		clients = GenerateClients(1000).ToList();
-		dictionary = GenerateClientsDictionary(clients!).ToDictionary(pair => pair.Key, pair=>pair.Value);
-		employees = GenerateEmployees(1000).ToList();
+		_clients = GenerateClients(1000).ToList();
+		_dictionary = GenerateClientsDictionary(_clients!).ToDictionary(pair => pair.Key, pair=>pair.Value);
+		_employees = GenerateEmployees(1000).ToList();
 
 		Console.WriteLine("Поиск клиента по телефону с применением StopWatch:");
-        SearchClientByPhoneInList(clients);
+        SearchClientByPhoneInList(_clients);
 
 		Console.WriteLine("Поиск клиента по телефону с применением StopWatch в словаре:");
-		SearchClientByPhoneInDictionary(dictionary, clients[400].Phone);
+		SearchClientByPhoneInDictionary(_dictionary, _clients[400].Phone);
 
 		Console.WriteLine($"Выборка клиентов, возраст которых ниже определенного значения (меньше 25 лет):");
-		GetClientsBelowAge(clients);
+		GetClientsBelowAge(_clients);
 
 		Console.WriteLine($"Поиск сотрудника с минимальной заработной платой (минимальная ЗП - 1000):");
-		SearchEmployeeMinSalary(employees);
+		SearchEmployeeMinSalary(_employees);
 
 		Console.WriteLine("Cравнение скорости поиска по словарю двумя методами");
-		SearchInDictionarySpeed(dictionary, clients.Last().Phone);
+		SearchInDictionarySpeed(_dictionary, _clients.Last().Phone);
 
 		Console.ReadKey();
 	}
 
 	static void SearchClientByPhoneInList(List<Client>? clients)
 	{
-		timer = Stopwatch.StartNew();
-		Console.WriteLine(clients?.Any(phone => phone.Phone == clients[400].Phone));
-		Console.WriteLine($"Прошло тиков {timer.ElapsedTicks} \n");
+		_timer = Stopwatch.StartNew();
+		Console.WriteLine(clients?.Any(c => c.Phone == clients[400].Phone));
+		Console.WriteLine($"Прошло тиков {_timer.ElapsedTicks} \n");
 	}
 
 	static void SearchClientByPhoneInDictionary(Dictionary<string, Client>? clients, string? phone)
 	{
-        timer = Stopwatch.StartNew();
-        Console.WriteLine(clients?.Any(t => t.Key == phone));
-		Console.WriteLine($"Прошло тиков {timer.ElapsedTicks} \n");
+        _timer = Stopwatch.StartNew();
+        Console.WriteLine(clients?.Any(c => c.Key == phone));
+		Console.WriteLine($"Прошло тиков {_timer.ElapsedTicks} \n");
 	}
 
 	static void GetClientsBelowAge(List<Client>? clients)
 	{
-        timer = Stopwatch.StartNew();
-		var needed = clients?.Where(d => (DateTime.Now.Year - d.DateOfBirth.Year < 25)).ToList();
-		Console.WriteLine($"Найдено {needed?.Count()}. Прошло тиков {timer.ElapsedTicks}\n"); ;
+        _timer = Stopwatch.StartNew();
+		var needed = clients?.Where(c => (DateTime.Now.Year - c.DateOfBirth.Year < 25)).ToList();
+		Console.WriteLine($"Найдено {needed?.Count()}. Прошло тиков {_timer.ElapsedTicks}\n");
 	}
 
 	static void SearchEmployeeMinSalary(List<Employee>? employees)
 	{
-        timer = Stopwatch.StartNew();
-		var needed = employees?.Where(d => d.Salary == employees.Min(e => e.Salary)).ToList();
-		Console.WriteLine($"Всего таких сотрудников: {needed?.Count()}. Прошло тиков  {timer.ElapsedTicks} \n"); ;
+        _timer = Stopwatch.StartNew();
+		var needed = employees?.Where(p => p.Salary == employees.Min(employee => employee.Salary))
+			.ToList();
+		Console.WriteLine($"Всего таких сотрудников: {needed?.Count()}. Прошло тиков  {_timer.ElapsedTicks} \n");
 	}
 
 	static void SearchInDictionarySpeed(Dictionary<string, Client> clients, string phone)
 	{
-        timer = Stopwatch.StartNew();
+        _timer = Stopwatch.StartNew();
 		clients?.Reverse().FirstOrDefault();
-		long elapsedTime3 = timer.ElapsedTicks;
+		long elapsedTime3 = _timer.ElapsedTicks;
 
-        timer = Stopwatch.StartNew();
+        _timer = Stopwatch.StartNew();
         Console.WriteLine(clients?.ContainsKey(phone));
-		long elapsedTime4 = timer.ElapsedTicks;
+		long elapsedTime4 = _timer.ElapsedTicks;
+
 		if (elapsedTime3 > elapsedTime4)
 			Console.WriteLine("Поиск ByKeyValue быстрее; ");
 		else

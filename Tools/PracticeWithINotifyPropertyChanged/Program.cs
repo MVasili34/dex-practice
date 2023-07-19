@@ -18,31 +18,31 @@ internal class Program
 
 	static void PropertyChangeTest()
 	{
-		PropChangeTest test = new();
-		test.PropertyChanged += PrintOut!;
+		PropChangeTest changeTest = new();
+		changeTest.PropertyChanged += PrintOut!;
 		void PrintOut(object sender, PropertyChangedEventArgs e) => WriteLine("Свойтсво изменено: " + e.PropertyName);
-		test.DogName = "NewDogName";
+		changeTest.DogName = "NewDogName";
 	}
 	public static void PrintText(object sender, string Mes) => WriteLine($"Выброшено событие: {Mes}");
 	static void QueueTesting()
 	{
 		Queue<int> queue = new();
 		queue.Enqueue(1);
-		EventQueue<int> test = new(queue);
-		test.OnQueueExcessMessage += PrintText;
-		test.AddInqueue(2);
-		test.AddInqueue(3);
+		EventQueue<int> excessTest = new(queue);
+		excessTest.OnQueueExcessMessage += PrintText;
+		excessTest.AddInqueue(2);
+		excessTest.AddInqueue(3);
 
-		WriteLine(test.GetOutQueue());
-		WriteLine(test.GetOutQueue());
-		WriteLine(test.GetOutQueue());
+		WriteLine(excessTest.GetOutQueue());
+		WriteLine(excessTest.GetOutQueue());
+		WriteLine(excessTest.GetOutQueue());
 	}
 
 	static void IntStreamAnalyze(double percent)
 	{
-		NumbersStreamAnalyze test = new(percent);
-		test.OnNumbersExcess += PrintText!;
-		test.AddElement(1);
-		test.AddElement(10);
+		NumbersStreamAnalyze analyzeTest = new(percent);
+		analyzeTest.OnNumbersExcess += PrintText!;
+		analyzeTest.AddElement(1);
+		analyzeTest.AddElement(10);
 	}
 }

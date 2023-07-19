@@ -17,7 +17,7 @@ namespace ServicesDbTests.Tests
 		{
 			ClientService db = new(new BankingServiceContext());
 			ExportService<Client> exportService = new(Environment.CurrentDirectory, "expimpclient.csv");
-			var collection = db.RetrieveAllAsync().Result.ToList();
+			var collection = db.RetrieveAllAsync(1).Result.ToList();
 
 			exportService.ExportPersons(collection);
 

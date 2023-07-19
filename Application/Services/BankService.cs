@@ -1,112 +1,111 @@
 ﻿using Models;
 
-namespace Services
-{
-	public class BankService
-	{
-		public static decimal Income { get; set; } = 250_000;
-		public static decimal Expense { get; set; } = 200_000;
-		private static List<Client> blackListClient = new List<Client>(0);
-		private static List<Employee> blackListEmployee = new List<Employee>(0);
-		public BankService() { }
+namespace Services;
 
-        /// <summary>
-        /// Метод расчета зарплаты владельцев банка
-        /// </summary>
-        /// <param name="amountofOwners">Количество владельцев</param>
-        /// <returns>Зарплата владельца</returns>
-        public static int OwnerPayment(int amountofOwners) => amountofOwners != 0 ?
+public class BankService
+{
+	public static decimal Income { get; set; } = 250_000;
+	public static decimal Expense { get; set; } = 200_000;
+	private static List<Client> _blackListClient = new List<Client>(0);
+	private static List<Employee> _blackListEmployee = new List<Employee>(0);
+	public BankService() { }
+
+    /// <summary>
+    /// Метод расчета зарплаты владельцев банка
+    /// </summary>
+    /// <param name="amountofOwners">Количество владельцев</param>
+    /// <returns>Зарплата владельца</returns>
+    public static int OwnerPayment(int amountofOwners) => amountofOwners != 0 ?
 			(int)(Income - Expense) / amountofOwners : 0;
 
-		/// <summary>
-		/// Метод добавления бонусу клиенту или сотруднику
-		/// </summary>
-		/// <typeparam name="T">Наследник класса Person</typeparam>
-		/// <param name="person">Входная сущность</param>
-		public void AddBonus<T>(T person) where T : Person
-		{
-            if (person is null)
-                throw new ArgumentNullException(nameof(person));
-            if (person is Client)
+	/// <summary>
+	/// Метод добавления бонусу клиенту или сотруднику
+	/// </summary>
+	/// <typeparam name="T">Наследник класса Person</typeparam>
+	/// <param name="person">Входная сущность</param>
+	public void AddBonus<T>(T person) where T : Person
+	{
+        if (person is null)
+            throw new ArgumentNullException(nameof(person));
+        if (person is Client)
+        {
+            Client? client = person as Client;
+            if (client is not null)
             {
-                Client? client = person as Client;
-                if (client is not null)
-                {
-                    client.AddressInfo += " BONUS";
-                }
+                client.AddressInfo += " BONUS";
             }
-            else
+        }
+        else
+        {
+            Employee? employee = person as Employee;
+            if (employee is not null)
             {
-                Employee? employee = person as Employee;
-                if (employee is not null)
-                {
-                    employee.Salary += 1000;
-                }
+                employee.Salary += 1000;
             }
-		}
+        }
+	}
 
-        /// <summary>
-        /// Метод добавления сущности в чёрный список
-        /// </summary>
-        /// <typeparam name="T">Наследник класса Person</typeparam>
-        /// <param name="person">Входная сущность</param>
-        public void AddToBlackList<T>(T person) where T : Person
-		{
-            if (person is null)
-                throw new ArgumentNullException(nameof(person));
-            if (person is Client)
+    /// <summary>
+    /// Метод добавления сущности в чёрный список
+    /// </summary>
+    /// <typeparam name="T">Наследник класса Person</typeparam>
+    /// <param name="person">Входная сущность</param>
+    public void AddToBlackList<T>(T person) where T : Person
+	{
+        if (person is null)
+            throw new ArgumentNullException(nameof(person));
+        if (person is Client)
+        {
+            Client? client = person as Client;
+            if (client is not null)
             {
-                Client? client = person as Client;
-                if (client is not null)
-                {
-                    blackListClient.Add(client);
-                }
+                _blackListClient.Add(client);
             }
-            else
+        }
+        else
+        {
+            Employee? employee = person as Employee;
+            if (employee is not null)
             {
-                Employee? employee = person as Employee;
-                if (employee is not null)
-                {
-                    blackListEmployee.Add(employee);
-                }
+                _blackListEmployee.Add(employee);
             }
-		}
+        }
+	}
 
-        /// <summary>
-        /// Метод проверки нахождения сущности в чёрном списке
-        /// </summary>
-        /// <typeparam name="T">Наследник класса Person</typeparam>
-        /// <param name="person">Входная сущность</param>
-        /// <returns>Статус пребывания</returns>
-        public bool? IsPersonInBlackList<T>(T person) where T : Person
-		{
-            if (person is null)
-                throw new ArgumentNullException(nameof(person));
-            if (person is Client)
+    /// <summary>
+    /// Метод проверки нахождения сущности в чёрном списке
+    /// </summary>
+    /// <typeparam name="T">Наследник класса Person</typeparam>
+    /// <param name="person">Входная сущность</param>
+    /// <returns>Статус пребывания</returns>
+    public bool? IsPersonInBlackList<T>(T person) where T : Person
+	{
+        if (person is null)
+            throw new ArgumentNullException(nameof(person));
+        if (person is Client)
+        {
+            Client? client = person as Client;
+            if (client is not null)
             {
-                Client? client = person as Client;
-                if (client is not null)
+                if (_blackListClient.Contains(client))
                 {
-                    if (blackListClient.Contains(client))
-                    {
-                        return true;
-                    }
-                    return false;
+                    return true;
                 }
+                return false;
             }
-            else
+        }
+        else
+        {
+            Employee? employee = person as Employee;
+            if (employee is not null)
             {
-                Employee? employee = person as Employee;
-                if (employee is not null)
+                if (_blackListEmployee.Contains(employee))
                 {
-                    if (blackListEmployee.Contains(employee))
-                    {
-                        return true;
-                    }
-                    return false;
+                    return true;
                 }
+                return false;
             }
+        }
 			return null;
-		}
 	}
 }

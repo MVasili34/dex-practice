@@ -4,15 +4,13 @@ namespace PracticeWithTypes;
 
 internal class Program
 {
-	static List<Employee>? employees;
-	static List<Currency>? currencies;
 	static void Main(string[] args)
 	{
-		employees = new List<Employee>() {
+        List<Employee> employees = new() {
 			new Employee("Агатов", "Пётр", new DateOnly(2001, 2, 21), "1993123311", "AB1331", "Директор", 199999),
 			new Employee("Окотов", "Иван", new DateOnly(1995, 4, 15), "5124991244", "AB2144", "Кассир", 999) 
 		};
-		currencies = new List<Currency>() {
+        List<Currency> currencies = new() {
 			new Currency("USD 840", "American Dollar"),
 			new Currency("BYN 933", "Belarusian Ruble") 
 		};
@@ -56,32 +54,26 @@ internal class Program
 	/// Метод вывода сотрудников в консоль
 	/// </summary>
 	/// <param name="employees">Коллекция сотрудников</param>
-	static void PrintEmployees(IEnumerable<Employee>? employees)
+	static void PrintEmployees(IEnumerable<Employee> employees)
 	{
-		if (employees is not null)
-		{
-			Console.WriteLine($"\nСотрудники:");
-			foreach (var employee in employees) 
-			{
-				Console.WriteLine($"Сотрудник: {employee.FirstName}, {employee.LastName}, " +
-					$"{employee.Phone} \n\tКонтракт: {employee.Contract}");
-			}
-		}
+        Console.WriteLine($"\nСотрудники:");
+        foreach (var employee in employees)
+        {
+            Console.WriteLine($"Сотрудник: {employee.FirstName}, {employee.LastName}, " +
+                $"{employee.Phone} \n\tКонтракт: {employee.Contract}");
+        }
 	}
 
 	/// <summary>
 	/// Метод вывода валют в консоль
 	/// </summary>
 	/// <param name="currencies">Коллекция валют</param>
-	static void PrintCurrencies(IEnumerable<Currency>? currencies)
+	static void PrintCurrencies(IEnumerable<Currency> currencies)
 	{
-		if (currencies is not null)
-		{
-			Console.WriteLine($"\nВалюты:");
-			foreach (var currency in currencies)
-			{
-				Console.WriteLine($"{currency.CurrencyCode}, {currency.CurrencyName}");
-			}
-		}
+        Console.WriteLine($"\nВалюты:");
+        foreach (var currency in currencies)
+        {
+            Console.WriteLine($"{currency.CurrencyCode}, {currency.CurrencyName}");
+        }
 	}
 }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using EntityModels;
 using ServicesDb;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace BankAPI.Controllers
 {
@@ -9,16 +8,18 @@ namespace BankAPI.Controllers
 	[ApiController]
 	public class ClientsController : ControllerBase
 	{
-		private readonly IClientService clientService;
+		private readonly IClientService _clientService;
 		
-		public ClientsController(IClientService clientService) 
+		public ClientsController(IClientService _clientService) 
 		{
-			this.clientService = clientService;
+			this._clientService = _clientService;
 		}
 
 		//GET: api/clients
+		//QUERY: Page (INT)
 		[HttpGet]
-		public async Task<IEnumerable<Client>> GetClients() => await clientService.RetrieveAllAsync();
+		public async Task<IEnumerable<Client>> GetClients([FromQuery] int? page) => await _clientService
+			.RetrieveAllAsync(page);
 
 		//GET api/clients/[id]
 		[HttpGet("{id:guid}", Name = nameof(GetClient))]
@@ -26,7 +27,7 @@ namespace BankAPI.Controllers
 		[ProducesResponseType(400)]
 		public async Task<IActionResult> GetClient(Guid id)
 		{
-			Client? client = await clientService.RetrieveClientAsync(id);
+			Client? client = await _clientService.RetrieveClientAsync(id);
 			if (client is null)
 			{
 				return NotFound();
@@ -45,7 +46,7 @@ namespace BankAPI.Controllers
 			{
 				return BadRequest();
 			}
-			Client? addedClient = await clientService.AddClientAsync(client);
+			Client? addedClient = await _clientService.AddClientAsync(client);
 			if (addedClient is null)
 			{
 				return BadRequest("Сервис не смог добавить клиента");
@@ -70,12 +71,12 @@ namespace BankAPI.Controllers
 			{
 				return BadRequest();
 			}
-			Client? existed = await clientService.RetrieveClientAsync(id);
+			Client? existed = await _clientService.RetrieveClientAsync(id);
 			if (existed is null)
 			{
 				return NotFound();
 			}
-			await clientService.UpdateClientAsync(id, client);
+			await _clientService.UpdateClientAsync(id, client);
 			return new NoContentResult();
 		}
 
@@ -86,12 +87,12 @@ namespace BankAPI.Controllers
 		[ProducesResponseType(404)]
 		public async Task<IActionResult> DeleteClient(Guid id)
 		{
-			Client? existed = await clientService.RetrieveClientAsync(id);
+			Client? existed = await _clientService.RetrieveClientAsync(id);
 			if (existed is null) 
 			{ 
 				return NotFound();
 			}
-			bool? deleted = await clientService.DeleteClientAsync(id);
+			bool? deleted = await _clientService.DeleteClientAsync(id);
 			if (deleted.HasValue && deleted.Value) 
 			{
 				return new NoContentResult();
@@ -109,7 +110,7 @@ namespace BankAPI.Controllers
         [ProducesResponseType(404)]
         public async Task<IActionResult> DeleteAccount(Guid id)
         {
-            bool? deleted = await clientService.DeleteAccountAsync(id);
+            bool? deleted = await _clientService.DeleteAccountAsync(id);
             if (deleted.HasValue && deleted.Value)
             {
                 return new NoContentResult();

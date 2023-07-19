@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace PracticeWithINotifyPropertyChanged;
 
 public delegate void Text(object sender, string someText);
@@ -14,13 +9,13 @@ public delegate void Text(object sender, string someText);
 /// </summary>
 public class NumbersStreamAnalyze
 {
+    private readonly double _percent = 0.1;
+    private List<double> _numbers = new List<double>();
     public event Message? OnNumbersExcess;
-    private readonly double percent = 0.1;
-    private List<double> numbers = new List<double>();
     public NumbersStreamAnalyze() { }
-    public NumbersStreamAnalyze(double percent)
+    public NumbersStreamAnalyze(double _percent)
     {
-        this.percent = percent;
+        this._percent = _percent;
     }
 
     /// <summary>
@@ -29,21 +24,21 @@ public class NumbersStreamAnalyze
     /// <param name="value">Входное число</param>
     public void AddElement(int value)
     {
-        if (numbers.Count == 0)
+        if (_numbers.Count == 0)
         {
-            numbers.Add(value);
+            _numbers.Add(value);
         }
         else
         {
-            if (numbers[numbers.Count - 1] > value && 1.0 - (value/numbers[numbers.Count - 1]) > percent) 
+            if (_numbers[_numbers.Count - 1] > value && 1.0 - (value/_numbers[_numbers.Count - 1]) > _percent) 
             {
                 OnNumbersExcess?.Invoke(this, "Превышение");
             } 
-            else if (numbers[numbers.Count - 1] < value && 1.0 - (numbers[numbers.Count - 1]/value) > percent)
+            else if (_numbers[_numbers.Count - 1] < value && 1.0 - (_numbers[_numbers.Count - 1]/value) > _percent)
                 {
                     OnNumbersExcess?.Invoke(this, "Превышение");
                 }
-            numbers.Add(value);
+            _numbers.Add(value);
         }
     }
 }

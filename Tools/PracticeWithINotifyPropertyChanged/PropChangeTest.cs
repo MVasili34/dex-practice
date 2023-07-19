@@ -9,8 +9,8 @@ namespace PracticeWithINotifyPropertyChanged;
 /// </summary>
 public class PropChangeTest : INotifyPropertyChanged
 {
-    private string dogName = string.Empty;
-    private string dogAge = string.Empty;
+    private string _dogName = string.Empty;
+    private string _dogAge = string.Empty;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -21,12 +21,12 @@ public class PropChangeTest : INotifyPropertyChanged
 
     public string DogName
     {
-        get { return dogName; }
+        get { return _dogName; }
         set 
         {
-            if (dogName != value)
-             dogName = value;
-             OnPropertyChanged(nameof(dogName));
+            if (_dogName != value)
+             _dogName = value;
+             OnPropertyChanged(nameof(_dogName));
         }
     }
 }

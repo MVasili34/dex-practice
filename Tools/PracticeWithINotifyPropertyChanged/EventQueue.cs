@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace PracticeWithINotifyPropertyChanged;
 
 public delegate void Message(object sender, string someText);
@@ -15,20 +10,20 @@ public delegate void Message(object sender, string someText);
 /// <typeparam name="T"></typeparam>
 public class EventQueue<T>
 {
+    private T? _value;
     public event Message? OnQueueExcessMessage;
-
-    public Queue<T>? queue { get; }
-    private T? value;
 
     public EventQueue()
     {
-        this.queue = new Queue<T>();
+        this.QueueExcess = new Queue<T>();
     }
 
-    public EventQueue(Queue<T> queue) 
+    public EventQueue(Queue<T> QueueExcess) 
     {
-        this.queue = queue;
+        this.QueueExcess = QueueExcess;
     }
+
+    public Queue<T>? QueueExcess { get; }
 
     /// <summary>
     /// Добавить элемент в очередь
@@ -36,12 +31,12 @@ public class EventQueue<T>
     /// <param name="item">Добавляемый элемент</param>
     public void AddInqueue(T item) 
     {
-        if (queue?.Count >= 2)
+        if (QueueExcess?.Count >= 2)
         {
             OnQueueExcessMessage?.Invoke(this, "Очередь превысела два элемента");
         }
         else
-            queue?.Enqueue(item);
+            QueueExcess?.Enqueue(item);
     }
 
     /// <summary>
@@ -50,14 +45,14 @@ public class EventQueue<T>
     /// <returns>Элемент очереди</returns>
     public T GetOutQueue()
     {
-        if (queue is not null)
+        if (QueueExcess is not null)
         {
-            if (!queue.TryDequeue(out value))
+            if (!QueueExcess.TryDequeue(out _value))
             {
                 OnQueueExcessMessage?.Invoke(this, "Очередь пуста");
                 return default(T)!;
             }
-            return value;
+            return _value;
         }
         return default(T)!;
     }

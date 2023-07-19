@@ -91,7 +91,7 @@ namespace ServiceTests.Tests
 
             clientStorage.AddClient(client);
 
-            Assert.True(clientStorage.clients.ContainsKey(client));
+            Assert.True(clientStorage.Clients.ContainsKey(client));
         }
 
         [Fact]
@@ -102,7 +102,7 @@ namespace ServiceTests.Tests
 
             employeeStorage.AddEmployee(employee);
 
-            Assert.True(employeeStorage.employees?.Contains(employee));
+            Assert.True(employeeStorage.Employees?.Contains(employee));
         }
         private static Dictionary<Client, List<Account>> clients = new()
         {

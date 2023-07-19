@@ -1,17 +1,11 @@
 ﻿using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Services.Storage
+namespace Services.Storage;
+
+public interface IEmployeeStorage
 {
-	public interface IEmployeeStorage
-	{
-		List<Employee> Data { get; }
-		void AddEmployee(Employee employee);
-		void UpdateEmployee(int empNumber, Employee employee);
-		void DeleteEmployee(Employee employee);
-	}
+	List<Employee> Data { get; }
+	void AddEmployee(Employee employee);
+	void UpdateEmployee(int employeeId, Employee employee);
+	void DeleteEmployee(Employee employee);
 }

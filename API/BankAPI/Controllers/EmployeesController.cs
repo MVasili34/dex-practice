@@ -8,16 +8,16 @@ namespace BankAPI.Controllers
 	[ApiController]
 	public class EmployeesController : ControllerBase
 	{
-		private readonly IEmployeeService employeeService;
+		private readonly IEmployeeService _employeeService;
 
-		public EmployeesController(IEmployeeService employeeService)
+		public EmployeesController(IEmployeeService _employeeService)
 		{
-			this.employeeService = employeeService;
+			this._employeeService = _employeeService;
 		}
 
 		//GET: api/employees
 		[HttpGet]
-		public async Task<IEnumerable<Employee>> GetEmployee() => await employeeService.RetrieveAllAsync();
+		public async Task<IEnumerable<Employee>> GetEmployee() => await _employeeService.RetrieveAllAsync();
 
 		//GET api/employees/[id]
 		[HttpGet("{id:guid}", Name = nameof(GetEmployee))]
@@ -25,7 +25,7 @@ namespace BankAPI.Controllers
 		[ProducesResponseType(400)]
 		public async Task<IActionResult> GetEmployee(Guid id)
 		{
-			Employee? employee = await employeeService.RetrieveEmployeeAsync(id);
+			Employee? employee = await _employeeService.RetrieveEmployeeAsync(id);
 			if (employee is null)
 			{
 				return NotFound();
@@ -44,7 +44,7 @@ namespace BankAPI.Controllers
 			{
 				return BadRequest();
 			}
-			Employee? addedEmployee = await employeeService.AddEmployeeAsync(employee);
+			Employee? addedEmployee = await _employeeService.AddEmployeeAsync(employee);
 			if (addedEmployee is null)
 			{
 				return BadRequest("Сервис не смог добавить сотрудника");
@@ -69,12 +69,12 @@ namespace BankAPI.Controllers
 			{
 				return BadRequest();
 			}
-			Employee? existed = await employeeService.RetrieveEmployeeAsync(id);
+			Employee? existed = await _employeeService.RetrieveEmployeeAsync(id);
 			if (existed is null)
 			{
 				return NotFound();
 			}
-			await employeeService.UpdateEmployeeAsync(id, employee);
+			await _employeeService.UpdateEmployeeAsync(id, employee);
 			return new NoContentResult();
 		}
 
@@ -85,12 +85,12 @@ namespace BankAPI.Controllers
 		[ProducesResponseType(404)]
 		public async Task<IActionResult> DeleteEmployee(Guid id)
 		{
-			Employee? existed = await employeeService.RetrieveEmployeeAsync(id);
+			Employee? existed = await _employeeService.RetrieveEmployeeAsync(id);
 			if (existed is null)
 			{
 				return NotFound();
 			}
-			bool? deleted = await employeeService.DeleteEmployeeAsync(id);
+			bool? deleted = await _employeeService.DeleteEmployeeAsync(id);
 			if (deleted.HasValue && deleted.Value)
 			{
 				return new NoContentResult();

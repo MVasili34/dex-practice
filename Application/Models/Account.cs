@@ -1,34 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+namespace Models;
 
-namespace Models
+public class Account
 {
-	public class Account
+	private Currency _currency;
+	private decimal _amount;
+
+	public Account() { }
+
+	public Account(Currency Currency, decimal Amount)
 	{
-		private Currency currency;
-		private decimal amount;
+		this.Currency = Currency;
+		this.Amount = Amount;
+	}
 
-		public Account() { }
+	public Currency Currency
+	{
+		get => _currency;
+		set => _currency = value;
+	}
 
-		public Account(Currency Currency, decimal Amount)
-		{
-			this.Currency = Currency;
-			this.Amount = Amount;
-		}
-
-		public Currency Currency
-		{
-			get => currency;
-			set => currency = value;
-		}
-
-		public decimal Amount
-		{
-			get => amount;
-			set => amount = value;
-		}
+	public decimal Amount
+	{
+		get => _amount;
+		set => _amount = value;
 	}
 }

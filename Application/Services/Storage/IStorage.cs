@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+namespace Services.Storage;
 
-namespace Services.Storage
+public interface IStorage<T>
 {
-	public interface IStorage<T>
-	{
-		void Add(T item);
-		void Delete(T item);
-	}
+	void Add(T item);
+	void Delete(T item);
 }
