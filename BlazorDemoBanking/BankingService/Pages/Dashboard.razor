@@ -1,7 +1,7 @@
 ﻿@page "/dashboard"
 @using Microsoft.EntityFrameworkCore;
 <PageTitle>Панель управления</PageTitle>
-@if (clients is null || employees is null)
+@if (_clients is null || _employees is null)
 {
     <p><em>Loading...</em></p>
 }
@@ -12,28 +12,28 @@ else
         <div  class="card-header">Клиенты</div>
         <div class="card-body">
             <h4 class="card-title" style="color: #fff">На текущий момент банком обслуживается:</h4>
-            <p class="card-text">@clients?.Count() клиентов</p>
+            <p class="card-text">@_clients?.Count() клиентов</p>
         </div>
     </div>
     <div class="card text-white bg-info mb-3 mx-2" style="max-width: 18rem; font-size: 18px;">
         <div  class="card-header">Банковские счета</div>
         <div class="card-body">
             <h4 class="card-title" style="color: #fff">На текущий момент в банке открыто:</h4>
-            <p class="card-text">@accountsAmount счетов</p>
+            <p class="card-text">@_accountsAmount счетов</p>
         </div>
     </div>
     <div class="card text-white bg-secondary mb-3 mx-2" style="max-width: 18rem; font-size: 18px;">
         <div class="card-header">Сотрудники</div>
         <div class="card-body">
             <h4 class="card-title" style="color: #fff">На текущий момент в банке работает:</h4>
-            <p class="card-text">@employees?.Count() сотрудников</p>
+            <p class="card-text">@_employees?.Count() сотрудников</p>
         </div>
     </div>
     <div class="card text-white bg-danger mb-3 mx-2" style="max-width: 18rem; font-size: 18px;">
         <div class="card-header">Валюты</div>
         <div class="card-body">
              <h4 class="card-title" style="color: #fff">На текущий момент в обороте банка используется:</h4>
-             <p class="card-text">@chartData?.Length валют</p>
+             <p class="card-text">@_chartData?.Length валют</p>
         </div>
     </div>
 </div>
@@ -43,7 +43,7 @@ else
             <h2>Общая сумма средств по каждой валюте</h2>
                 <RadzenChart >
                     <link rel="stylesheet" href="_content/Radzen.Blazor/css/default.css" />
-                        <RadzenBarSeries Data="@chartData" CategoryProperty="Currency" Title="Сумма"
+                        <RadzenBarSeries Data="@_chartData" CategoryProperty="Currency" Title="Сумма"
                           LineType="LineType.Dashed" ValueProperty="TotalAmount">
                           <RadzenSeriesDataLabels Visible="@true" />
                         </RadzenBarSeries>
@@ -58,7 +58,7 @@ else
         <div class="col-sm-6">
             <h2>Наиболее используемые валюты</h2>
                 <RadzenChart >
-                    <RadzenPieSeries Data="@pieData" Title="Кол-во счетов: "
+                    <RadzenPieSeries Data="@_pieData" Title="Кол-во счетов: "
                          CategoryProperty="Currency" ValueProperty="Count">
                     <RadzenSeriesDataLabels Visible="true" />
                 </RadzenPieSeries>
@@ -68,7 +68,7 @@ else
         <div >
            <h2>Возрастное распределение клиентов (%)</h2>
               <RadzenChart>
-                    <RadzenLineSeries Smooth="true" Data="@lineData" CategoryProperty="Age" Title="Процент клиентов"
+                    <RadzenLineSeries Smooth="true" Data="@_lineData" CategoryProperty="Age" Title="Процент клиентов"
                     ValueProperty="TotalAmount" RenderingOrder="1">
                         <RadzenMarkers MarkerType="MarkerType.Circle" />
                     </RadzenLineSeries>
@@ -97,25 +97,25 @@ else
         public int? Age { get; set; }
         public double? TotalAmount { get; set; }
     }
-    private IEnumerable<Client>? clients;
+    private IEnumerable<Client>? _clients;
 
-    private IEnumerable<Employee>? employees;
+    private IEnumerable<Employee>? _employees;
 
-    private DataItem[]? chartData;
-    private CurrencyCount[]? pieData;
-    private ClientsAge[]? lineData;
+    private DataItem[]? _chartData;
+    private CurrencyCount[]? _pieData;
+    private ClientsAge[]? _lineData;
 
-    private int accountsAmount;
+    private int _accountsAmount;
 
     protected override async Task OnParametersSetAsync()
     {
         using (HttpClient http = new())
         {
-            clients = await http.GetFromJsonAsync<IEnumerable<Client>>("https://localhost:5001/api/clients");
-            employees = await http.GetFromJsonAsync<IEnumerable<Employee>>("https://localhost:5001/api/employees");
-            if (clients is not null)
+            _clients = await http.GetFromJsonAsync<IEnumerable<Client>>("https://localhost:5001/api/clients");
+            _employees = await http.GetFromJsonAsync<IEnumerable<Employee>>("https://localhost:5001/api/employees");
+            if (_clients is not null)
             {
-                accountsAmount = clients.Select(p => p.Accounts.Count()).Sum();
+                _accountsAmount = _clients.Select(p => p.Accounts.Count()).Sum();
                 await GenerateChartData();
             }
         }
@@ -126,7 +126,7 @@ else
     /// </summary>
     private async Task GenerateChartData()
     {
-        var chart = await Task.Run(() => clients?
+        var chart = await Task.Run(() => _clients?
             .SelectMany(client => client.Accounts)
             .GroupBy(account => account.CurrencyIso)
             .Select(group => new
@@ -136,19 +136,19 @@ else
                 TotalCount = group.Count()
             }).Distinct().OrderByDescending(p => p.TotalAmount).ToArray()
         );
-        chartData = new DataItem[chart!.Length];
-        pieData = new CurrencyCount[chart!.Length];
+        _chartData = new DataItem[chart!.Length];
+        _pieData = new CurrencyCount[chart!.Length];
 
         if (chart is not null)
         {
             Parallel.For(0, chart.Length, i =>
             {
-                chartData[i] = new DataItem() { Currency = chart[i].Currency, TotalAmount = chart[i].TotalAmount };
-                pieData[i] = new CurrencyCount() { Currency = chart[i].Currency, Count = chart[i].TotalCount };
+                _chartData[i] = new DataItem() { Currency = chart[i].Currency, TotalAmount = chart[i].TotalAmount };
+                _pieData[i] = new CurrencyCount() { Currency = chart[i].Currency, Count = chart[i].TotalCount };
             });
         }
 
-        var ages = await Task.Run(() =>  clients?
+        var ages = await Task.Run(() =>  _clients?
             .Select(p => new
             {
                 Age = DateTime.Now.Year - p.DateOfBirth.Year,
@@ -156,16 +156,16 @@ else
             .Select(p => new
             {
                 Age = p.Key,
-                TotalAmount = (double)p.Count() / clients.Count() * 100
+                TotalAmount = (double)p.Count() / _clients.Count() * 100
             }).ToArray()
         );
-        lineData = new ClientsAge[ages!.Length];
+        _lineData = new ClientsAge[ages!.Length];
 
         if (chart is not null)
         {
             Parallel.For(0, ages.Length, i =>
             {
-                lineData[i] = new ClientsAge() { Age = ages[i].Age, TotalAmount = ages[i].TotalAmount };
+                _lineData[i] = new ClientsAge() { Age = ages[i].Age, TotalAmount = ages[i].TotalAmount };
             });
         }
     }

@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-using Xunit.Abstractions;
+﻿using Xunit.Abstractions;
 using ServicesDb;
 
 namespace ServicesDbTests.Tests;
 
 public class ConvertCurrencyTest
 {
-	private readonly ITestOutputHelper Output;
+	private readonly ITestOutputHelper _output;
 
-	public ConvertCurrencyTest(ITestOutputHelper Output)
+	public ConvertCurrencyTest(ITestOutputHelper _output)
 	{
-		this.Output = Output;
+		this._output = _output;
 	}
 
 	[Fact]
@@ -23,8 +17,10 @@ public class ConvertCurrencyTest
 	{
 		ConvertCurrency convert = new() { From = "EUR", To = "USD" };
 		CurrencyService service = new("AmdorenKeyHere");
+
 		AmdorenResponse response = await service.Convert(convert);
-		Output.WriteLine($"Error: {response.Error}-{response.ErrorMessage}, Amount: {response.Amount}");
+
+		_output.WriteLine($"Error: {response.Error}-{response.ErrorMessage}, Amount: {response.Amount}");
 	}
 
 	[Fact]
@@ -32,8 +28,10 @@ public class ConvertCurrencyTest
 	{
 		ConvertCurrency convert = new() { From = "USD", To = "RUB", Amount = 10 };
 		CurrencyService service = new("AmdorenKeyHere");
+
 		AmdorenResponse response = await service.Convert(convert);
-		Output.WriteLine($"Error: {response.Error}-{response.ErrorMessage}, Amount: {response.Amount}");
+
+		_output.WriteLine($"Error: {response.Error}-{response.ErrorMessage}, Amount: {response.Amount}");
 	}
 
 	[Fact]
@@ -41,7 +39,9 @@ public class ConvertCurrencyTest
 	{
 		ConvertCurrency convert = new() { From = "USD", To = "RUB", Amount = 10 };
 		CurrencyService service = new("12345");
+
 		AmdorenResponse response = await service.Convert(convert);
+
 		Assert.Equal(110, response.Error);
 	}
 
@@ -50,7 +50,9 @@ public class ConvertCurrencyTest
 	{
 		ConvertCurrency convert = new() { From = "USD", To = "RUB", Amount = (decimal)-10.5 };
 		CurrencyService service = new("AmdorenKeyHere");
+
 		AmdorenResponse response = await service.Convert(convert);
+
 		Assert.Equal(300, response.Error);
 	}
 }

@@ -3,30 +3,30 @@
 
 <h1>Изменение данных о сотруднике</h1>
 <EmployeeDetail ButtonText="Изменить"
-                Employee="@employee"
+                Employee="@_employee"
                 OnValidSubmit="@Update"/>
 @code {
     [Parameter]
     public string EmployeeId { get; set; } = null!;
-    private Employee? employee = new();
+    private Employee? _employee = new();
 
     protected async override Task OnParametersSetAsync()
     {
         using (HttpClient http = new())
         {
-            employee = await http.GetFromJsonAsync<Employee>(
+            _employee = await http.GetFromJsonAsync<Employee>(
                 $"https://localhost:5001/api/employees/{EmployeeId}");
         }
     }
 
     private async Task Update()
     {
-        if (employee is not null)
+        if (_employee is not null)
         {
             using (HttpClient http = new())
             {
                 HttpResponseMessage response = await http.PutAsJsonAsync<Employee>(
-                    $"https://localhost:5001/api/employees/{EmployeeId}", employee);
+                    $"https://localhost:5001/api/employees/{EmployeeId}", _employee);
                 if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                 {
                     navigation.NavigateTo("employees");

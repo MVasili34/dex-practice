@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace EntityModels;
 
@@ -67,7 +61,7 @@ public class Client : IPerson
 			return false;
 		if (!(obj is Client))
 			return false;
-		var other = obj as Client;
+		Client? other = obj as Client;
 		return other?.ConnectedCompany == ConnectedCompany &&
 			other?.ClientId == ClientId &&
 			other?.Adress == Adress &&

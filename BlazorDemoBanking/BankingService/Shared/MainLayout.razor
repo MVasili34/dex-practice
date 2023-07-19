@@ -9,7 +9,7 @@
 
     <main>
         <div class="top-row px-4" style="font-size: 1.5em">
-            @theTime
+            @_theTime
         </div>
 
         <article class="content px-4">
@@ -18,15 +18,15 @@
     </main>
 </div>
 @code {
-    private string theTime { get; set; } = null!;
-    private Timer aTimer = null!;
-    private string timeZone = $"(UTC{(TimeZoneInfo.Local.BaseUtcOffset.Hours >= 0 ? "+" : "-")}{TimeZoneInfo.Local.BaseUtcOffset})";
+    private string _theTime { get; set; } = null!;
+    private Timer _timer = null!;
+    private string _timeZone = $"(UTC{(TimeZoneInfo.Local.BaseUtcOffset.Hours >= 0 ? "+" : "-")}{TimeZoneInfo.Local.BaseUtcOffset})";
 
-    protected override void OnInitialized() => aTimer = new Timer(Tick!, null, 0, 1000);
+    protected override void OnInitialized() => _timer = new Timer(Tick!, null, 0, 1000);
 
     private void Tick(object _)
     {
-        theTime = DateTime.Now.ToString("F") + " " + timeZone;
+        _theTime = DateTime.Now.ToString("F") + " " + _timeZone;
         InvokeAsync(StateHasChanged);
     }
 }

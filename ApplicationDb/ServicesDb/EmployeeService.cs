@@ -1,23 +1,14 @@
 ﻿using EntityModels;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
 
 namespace ServicesDb;
 
 public class EmployeeService : IEmployeeService
 {
-
-	private BankingServiceContext db;
-	public EmployeeService(BankingServiceContext db)
+	private BankingServiceContext _bankContext;
+	public EmployeeService(BankingServiceContext _bankContext)
 	{
-		this.db = db;
+		this._bankContext = _bankContext;
 	}
 
     /// <summary>
@@ -27,8 +18,8 @@ public class EmployeeService : IEmployeeService
     /// <returns>Сотрудник, если процесс добавления прошёл успешно</returns>
     public async Task<Employee?> AddEmployeeAsync(Employee employee)
 	{
-		await db.Employees.AddAsync(employee);
-		int affected = await db.SaveChangesAsync();
+		await _bankContext.Employees.AddAsync(employee);
+		int affected = await _bankContext.SaveChangesAsync();
 		if (affected == 1)
 		{
 			return await RetrieveEmployeeAsync(employee.EmployeeId);
@@ -40,24 +31,14 @@ public class EmployeeService : IEmployeeService
     /// Метод получения всех сотрудников из БД
     /// </summary>
     /// <returns>Коллекция сотрудников</returns>
-    public async Task<IEnumerable<Employee>> RetrieveAllAsync() => await db.Employees.ToListAsync();
-
-    /// <summary>
-    /// Метод фильтрации сотрудников по дате рождения
-    /// </summary>
-    /// <param name="startDate"></param>
-    /// <param name="endDate"></param>
-    /// <returns>Отфильтрованная коллекция</returns>
-    public async Task<IEnumerable<Employee>> GetFilteredAsync(DateOnly startDate, DateOnly endDate) => await db.Employees
-		.Where(p =>p.DateOfBirth > startDate && p.DateOfBirth < endDate)
-		.OrderBy(p => p.DateOfBirth).ToListAsync();
+    public async Task<IEnumerable<Employee>> RetrieveAllAsync() => await _bankContext.Employees.ToListAsync();
 
     /// <summary>
     /// Метод получения сотрудника по идентификатору
     /// </summary>
     /// <param name="id">Идентификатор</param>
     /// <returns>Сотрудник из базы данных</returns>
-    public async Task<Employee?> RetrieveEmployeeAsync(Guid id) => await db.Employees.FindAsync(id);
+    public async Task<Employee?> RetrieveEmployeeAsync(Guid id) => await _bankContext.Employees.FindAsync(id);
 
     /// <summary>
     /// Метод обновления данных сотрудника
@@ -70,8 +51,8 @@ public class EmployeeService : IEmployeeService
         Employee? existingEmployee = await RetrieveEmployeeAsync(id);
         if (existingEmployee is not null)
         {
-            db.Entry(existingEmployee).CurrentValues.SetValues(employee);
-            int affected = await db.SaveChangesAsync();
+            _bankContext.Entry(existingEmployee).CurrentValues.SetValues(employee);
+            int affected = await _bankContext.SaveChangesAsync();
             if (affected == 1)
             {
                 return await RetrieveEmployeeAsync(id);
@@ -90,8 +71,8 @@ public class EmployeeService : IEmployeeService
 		Employee? employee = await RetrieveEmployeeAsync(id);
         if (employee is null) 
             return null;
-		db.Employees.Remove(employee);
-		int affected = await db.SaveChangesAsync();
+		_bankContext.Employees.Remove(employee);
+		int affected = await _bankContext.SaveChangesAsync();
 		if (affected == 1)
 		{
             return true;

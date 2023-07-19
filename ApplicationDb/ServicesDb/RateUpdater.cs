@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EntityModels;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+﻿using EntityModels;
 
 namespace ServicesDb;
 
 public class RateUpdater
 {
-	private static CancellationTokenSource cancelTokenSource = new();
-	public static List<Account> accounts = null!;
-	private Task? update;
-	private decimal percent = 0.05M;
+	private static CancellationTokenSource _cancelTokenSource = new();
+	private Task? _update;
+	private decimal _percent = 0.05M;
+    public static List<Account> accounts = null!;
 
     public RateUpdater()
     {
@@ -22,7 +16,7 @@ public class RateUpdater
         //даём работать сервису 3 секунды в качестве теста
         Thread.Sleep(3000);
 
-        cancelTokenSource.Cancel();
+        _cancelTokenSource.Cancel();
     }
 
     public RateUpdater(int delayInSeconds)
@@ -32,7 +26,7 @@ public class RateUpdater
         //даём работать сервису указанное количество секунд
         Thread.Sleep(delayInSeconds * 1000);
 
-        cancelTokenSource.Cancel();
+        _cancelTokenSource.Cancel();
     }
 
     /// <summary>
@@ -40,19 +34,19 @@ public class RateUpdater
     /// </summary>
     private void InitializeUpdateTask()
 	{
-		cancelTokenSource = new CancellationTokenSource();
-		update = new Task(() =>
+		_cancelTokenSource = new CancellationTokenSource();
+		_update = new Task(() =>
 		{
-			CancellationToken token = cancelTokenSource.Token;
+			CancellationToken token = _cancelTokenSource.Token;
 			while (!token.IsCancellationRequested)
 			{
 				//в качестве теста обновление каждые 2 секунды (для обновления раз
 				//в месяц применяется метод TimeSpan.FromDays(30)
 				Thread.Sleep(TimeSpan.FromSeconds(2));
-				Parallel.ForEach(accounts, (account) => { account.Amount += account.Amount * percent; });
+				Parallel.ForEach(accounts, (account) => { account.Amount += account.Amount * _percent; });
 			}
 		});
 
-		update.Start();
+		_update.Start();
 	}
 }

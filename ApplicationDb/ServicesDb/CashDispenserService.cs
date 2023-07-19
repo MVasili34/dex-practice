@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EntityModels;
+﻿using EntityModels;
 
 namespace ServicesDb;
 
 public class CashDispenserService
 {
-	private SemaphoreSlim semaphore;
+	private SemaphoreSlim _semaphore;
 
 	public CashDispenserService(int maxConcurrentClients)
 	{
-		semaphore = new SemaphoreSlim(maxConcurrentClients);
+		this._semaphore = new SemaphoreSlim(maxConcurrentClients);
 	}
 
 	/// <summary>
@@ -24,7 +19,7 @@ public class CashDispenserService
 	/// <returns>Если сумма допустимая, то возвращается остаток на счёте</returns>
 	public async Task<decimal?> DispenseCashAsync(Account account, decimal sum)
 	{
-		await semaphore.WaitAsync();
+		await _semaphore.WaitAsync();
 
 		try
 		{
@@ -36,7 +31,7 @@ public class CashDispenserService
 		}
 		finally
 		{
-			semaphore.Release();
+			_semaphore.Release();
 		}
 	}
 }

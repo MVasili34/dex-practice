@@ -1,39 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ExportTool;
+﻿using ExportTool;
 using EntityModels;
 using ServicesDb;
-using Bogus;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace ServicesDbTests.Tests
+namespace ServicesDbTests.Tests;
+
+public class CsvFileTests
 {
-	public class CsvFileTests
+    private readonly IClientService _clientService;
+    private readonly IEmployeeService _employeeService;
+
+	public CsvFileTests()
 	{
-		[Fact]
-		public void ExportImportClientsTest()
-		{
-			ClientService db = new(new BankingServiceContext());
-			ExportService<Client> exportService = new(Environment.CurrentDirectory, "expimpclient.csv");
-			var collection = db.RetrieveAllAsync(1).Result.ToList();
+        this._clientService = DependencyContainer.Configure()
+            .GetService<IClientService>()!;
+        this._employeeService = DependencyContainer.Configure()
+            .GetService<IEmployeeService>()!;
+    }
 
-			exportService.ExportPersons(collection);
+    [Fact]
+	public async Task ExportImportClientsTest()
+	{
+		ExportService<Client> exportService = new(Environment.CurrentDirectory, "expimpclient.csv");
+		IEnumerable<Client> collection = await _clientService.RetrieveAllAsync(1);
 
-			Assert.Equal(collection, exportService.ImportPersons()!);
-		}
+		exportService.ExportPersons(collection);
 
-		[Fact]
-		public void ExportImportEmployeeTest()
-		{
-			EmployeeService db = new(new BankingServiceContext());
-			ExportService<Employee> exportService = new(Environment.CurrentDirectory, "expimpemployee.csv");
-			var collection = db.RetrieveAllAsync().Result.ToList();
+		Assert.Equal(collection, exportService.ImportPersons()!);
+	}
 
-			exportService.ExportPersons(collection);
+	[Fact]
+	public async Task ExportImportEmployeeTest()
+	{
+		ExportService<Employee> exportService = new(Environment.CurrentDirectory, "expimpemployee.csv");
+        IEnumerable<Employee> collection = await _employeeService.RetrieveAllAsync();
 
-			Assert.Equal(collection, exportService.ImportPersons()!);
-		}
+        exportService.ExportPersons(collection);
+
+		Assert.Equal(collection, exportService.ImportPersons()!);
 	}
 }

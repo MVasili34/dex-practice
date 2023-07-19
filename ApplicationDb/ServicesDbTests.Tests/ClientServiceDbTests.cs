@@ -4,7 +4,6 @@ using ServicesDb;
 
 namespace ServicesDbTests.Tests;
 
-
 public class ClientServiceDbTests
 {
     private readonly IClientService _service;
@@ -16,7 +15,7 @@ public class ClientServiceDbTests
 	}
 
     [Fact]
-	public async void AddingClientTest()
+	public async Task AddingClientTest()
 	{
 		Client client = DataGenerator.GenereteClient();
 
@@ -27,9 +26,10 @@ public class ClientServiceDbTests
 	}
 
 	[Fact]
-	public async void AddAccountClientTest()
+	public async Task AddAccountClientTest()
 	{
-		Guid clientId = _service.RetrieveAllAsync(1).Result.First().ClientId;
+		IEnumerable<Client> clients = await _service.RetrieveAllAsync(1);
+		Guid clientId = clients.First().ClientId;
 
         Account? account = await _service.AddAccountAsync(new Account(clientId, "RUB", 0));
 
@@ -37,9 +37,10 @@ public class ClientServiceDbTests
 	}
 
 	[Fact]
-	public async void EditClientByIdTest()
+	public async Task EditClientByIdTest()
 	{
-		Client client = _service.RetrieveAllAsync(1).Result.First();
+        IEnumerable<Client> clients = await _service.RetrieveAllAsync(1);
+        Client client = clients.First();
 
 	    client.FirstName = "TEST";
 		Client? expected = await _service.UpdateClientAsync(client.ClientId, client);
@@ -48,7 +49,7 @@ public class ClientServiceDbTests
 	}
 
 	[Fact]
-	public async void DeleteClientTest()
+	public async Task DeleteClientTest()
 	{
         Client client = DataGenerator.GenereteClient();
 

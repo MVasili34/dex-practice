@@ -1,21 +1,18 @@
 ﻿using EntityModels;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Collections.Concurrent;
-using System.Net.WebSockets;
 
 namespace ServicesDb;
 
 public class ClientService : IClientService
 {
 
-	private BankingServiceContext db;
+	private BankingServiceContext _bankContext;
 
 	private int _pageSize = 10;
 
-	public ClientService(BankingServiceContext db)
+	public ClientService(BankingServiceContext _bankContext)
 	{
-		this.db = db;
+		this._bankContext = _bankContext;
 	}
 
     /// <summary>
@@ -25,12 +22,12 @@ public class ClientService : IClientService
     /// <returns>Клиент, если процесс добавления прошёл успешно</returns>
     public async Task<Client?> AddClientAsync(Client client)
 	{
-		await db.Clients.AddAsync(client);
-		int affected = await db.SaveChangesAsync();
+		await _bankContext.Clients.AddAsync(client);
+		int affected = await _bankContext.SaveChangesAsync();
 		if (affected == 1)
 		{
-			await db.AddAsync(new Account(client.ClientId, "RUB", 0));
-			await db.SaveChangesAsync();
+			await _bankContext.AddAsync(new Account(client.ClientId, "RUB", 0));
+			await _bankContext.SaveChangesAsync();
 			return await RetrieveClientAsync(client.ClientId);
 		}
 			return null;
@@ -43,41 +40,32 @@ public class ClientService : IClientService
 	/// <returns>Лицевой счёт, иначе null</returns>
     public async Task<Account?> AddAccountAsync(Account account)
     {
-        await db.Accounts.AddAsync(account);
-        int affected = await db.SaveChangesAsync();
+        await _bankContext.Accounts.AddAsync(account);
+        int affected = await _bankContext.SaveChangesAsync();
         if (affected == 1)
         {
-            return await db.Accounts.FindAsync(account.AccountId);
+            return await _bankContext.Accounts.FindAsync(account.AccountId);
         }
 			return null;
     }
 
-	/// <summary>
-	/// Метод получения всех клиентов из БД
-	/// </summary>
-	/// <returns>Клиенты из БД вместе с лицевыми счетами</returns>
-    public async Task<IEnumerable<Client>> RetrieveAllAsync(int? page) => await db.Clients
+    /// <summary>
+    /// Метод получения клиентов из БД (с применением пагинации)
+    /// </summary>
+    /// <param name="page">Номер страницы</param>
+    /// <returns>Клиенты из БД вместе с лицевыми счетами</returns>
+    public async Task<IEnumerable<Client>> RetrieveAllAsync(int? page) => await _bankContext.Clients
 		.Include(p => p.Accounts)
 		.Skip(((page ?? 1) - 1) * _pageSize)
 		.Take(_pageSize)
 		.ToListAsync();
-
-    /// <summary>
-    /// Метод фильтрации клиентов по дате рождения
-    /// </summary>
-    /// <param name="startDate"></param>
-    /// <param name="endDate"></param>
-    /// <returns>Отфильтрованная коллекция</returns>
-    public async Task<IEnumerable<Client>> GetFilteredAsync(DateOnly startDate, DateOnly endDate) => await db.Clients
-		.Where(p => p.DateOfBirth > startDate && p.DateOfBirth < endDate)
-		.OrderBy(p => p.DateOfBirth).ToListAsync();
 	
 	/// <summary>
 	/// Метод получения клиента по идентификатору
 	/// </summary>
 	/// <param name="id">Идентификатор</param>
 	/// <returns>Клиент из базы данных</returns>
-	public async Task<Client?> RetrieveClientAsync(Guid id) => await db.Clients
+	public async Task<Client?> RetrieveClientAsync(Guid id) => await _bankContext.Clients
 		.Include(p => p.Accounts).FirstOrDefaultAsync(t => t.ClientId == id);
 
 	/// <summary>
@@ -88,11 +76,11 @@ public class ClientService : IClientService
 	/// <returns>Клиент, если успешно обновлён</returns>
 	public async Task<Client?> UpdateClientAsync(Guid id, Client client)
 	{
-        Client? existingClient = await db.Clients.FindAsync(id);
+        Client? existingClient = await _bankContext.Clients.FindAsync(id);
 		if (existingClient is not null)
 		{
-			db.Entry(existingClient).CurrentValues.SetValues(client);
-			int affected = await db.SaveChangesAsync();
+			_bankContext.Entry(existingClient).CurrentValues.SetValues(client);
+			int affected = await _bankContext.SaveChangesAsync();
 			if (affected == 1)
 			{
 				return await RetrieveClientAsync(id);
@@ -108,11 +96,11 @@ public class ClientService : IClientService
 	/// <returns>Статус операции</returns>
     public async Task<bool?> DeleteClientAsync(Guid id)
 	{
-		Client? client = await db.Clients.FindAsync(id);
+		Client? client = await _bankContext.Clients.FindAsync(id);
 		if (client is null) 
 			return null;
-		db.Clients.Remove(client);
-		int affected = await db.SaveChangesAsync();
+		_bankContext.Clients.Remove(client);
+		int affected = await _bankContext.SaveChangesAsync();
 
 		//удаление клиента вместе со счетами
 		if (affected >= 1)
@@ -129,11 +117,11 @@ public class ClientService : IClientService
 	/// <returns>Статус операции</returns>
     public async Task<bool?> DeleteAccountAsync(Guid id)
     {
-        Account? account = await db.Accounts.FindAsync(id);
+        Account? account = await _bankContext.Accounts.FindAsync(id);
         if (account is null) 
 			return null;
-        db.Accounts.Remove(account);
-        int affected = await db.SaveChangesAsync();
+        _bankContext.Accounts.Remove(account);
+        int affected = await _bankContext.SaveChangesAsync();
         if (affected == 1)
         {
             return true;

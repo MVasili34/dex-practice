@@ -50,7 +50,7 @@ public class Employee : Person
 			return false;
 		if (!(obj is Employee))
 			return false;
-		var other = obj as Employee;
+		Employee? other = obj as Employee;
 		return other?.Contract == Contract &&
 			other.Position == Position &&
 			other.Salary == Salary &&

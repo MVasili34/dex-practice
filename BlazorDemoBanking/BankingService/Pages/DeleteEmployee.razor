@@ -7,26 +7,26 @@
     к удалению всех связанных с ним данных. </div>
 <EmployeeDetail ButtonText="Удалить"
                 ButtonStyle="danger"
-                Employee="@employee"
+                Employee="@_employee"
                 OnValidSubmit="@Delete"/>
 
 @code {
     [Parameter]
     public string EmployeeId { get; set; } = null!;
-    private Employee? employee = new();
+    private Employee? _employee = new();
 
     protected async override Task OnParametersSetAsync()
     {
         using (HttpClient http = new())
         {
-            employee = await http.GetFromJsonAsync<Employee>(
+            _employee = await http.GetFromJsonAsync<Employee>(
                 $"https://localhost:5001/api/employees/{EmployeeId}");
         }
     }
 
     private async Task Delete()
     {
-        if (employee is not null)
+        if (_employee is not null)
         {
             using (HttpClient http = new())
             {

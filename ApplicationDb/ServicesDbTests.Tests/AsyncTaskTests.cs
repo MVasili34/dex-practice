@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit.Abstractions;
+﻿using Xunit.Abstractions;
 
 namespace ServicesDbTests.Tests;
 
 public class AsyncTaskTests
 {
-	private readonly ITestOutputHelper Output;
+	private readonly ITestOutputHelper _output;
 
-	public AsyncTaskTests(ITestOutputHelper Output)
+	public AsyncTaskTests(ITestOutputHelper _output)
 	{
-		this.Output = Output;
+		this._output = _output;
 	}
 
 	[Fact]
@@ -25,10 +19,10 @@ public class AsyncTaskTests
 		{
 			Task.Run(() =>
 			{
-				Output.WriteLine($"Запуск задачи");
+				_output.WriteLine($"Запуск задачи");
 				OutputTreadInfo();
 				Thread.Sleep(20000);
-				Output.WriteLine($"Завершение задачи");
+				_output.WriteLine($"Завершение задачи");
 			});
 			Thread.Sleep(1000);
 		}
@@ -43,10 +37,10 @@ public class AsyncTaskTests
 		{
 			_ = Task.Run(async () =>
 			{
-				Output.WriteLine($"Асинхроннная задача запущена");
+				_output.WriteLine($"Асинхроннная задача запущена");
 				OutputTreadInfo();
 				await Task.Delay(2000);
-				Output.WriteLine($"Асинхроннная задача завершена");
+				_output.WriteLine($"Асинхроннная задача завершена");
 			});
 
 			await Task.Delay(1000); // Задержка между запусками задач
@@ -57,7 +51,7 @@ public class AsyncTaskTests
 	{
 		Thread tread = Thread.CurrentThread;
 		ThreadPool.GetAvailableThreads(out int workerThreads, out int ioThreads);
-		Output.WriteLine($"Поток: {tread.ManagedThreadId}, Приоритет: {tread.Priority}; " +
+		_output.WriteLine($"Поток: {tread.ManagedThreadId}, Приоритет: {tread.Priority}; " +
 			$"Worker: {workerThreads}, Входные/выходные потоки: {ioThreads}");
 	}
 

@@ -20,7 +20,7 @@ public class TestDataGenerator
     public static IDictionary<string, Client> GenerateClientsDictionary(IEnumerable<Client> clients)
     {
 		Dictionary<string, Client> clientsDictionary = new();
-        foreach (var client in clients) 
+        foreach (Client client in clients) 
         {
 			clientsDictionary[client.Phone] = client;
 		}

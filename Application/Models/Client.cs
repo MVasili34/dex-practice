@@ -33,7 +33,7 @@ public class Client : Person
 			return false;
 		if (!(obj is Client))
 			return false;
-		var other = obj as Client;
+		Client? other = obj as Client;
 		return other?.Company == Company &&
 			other?.AddressInfo == AddressInfo &&
 			other.FirstName == FirstName &&

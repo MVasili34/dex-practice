@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EntityModels;
+﻿using EntityModels;
 using ServicesDb;
 using ExportTool;
-using System.IO;
 
 namespace ServicesDbTests.Tests;
 
@@ -19,8 +13,9 @@ public class SerializationTests
 		Client client = DataGenerator.GenereteClient();
 
 		ExportService<Client>.SerializePerson(client, path);
+		Client? expected = ExportService<Client>.DeSerializePerson(path);
 
-		Assert.Equal(client, ExportService<Client>.DeSerializePerson(path)!.Result);
+        Assert.Equal(client, expected);
 	}
 
 	[Fact]
@@ -30,7 +25,8 @@ public class SerializationTests
 		Employee employee = DataGenerator.GenerateEmployee();
 
 		ExportService<Employee>.SerializePerson(employee, path);
+		Employee? expected = ExportService<Employee>.DeSerializePerson(path);
 
-		Assert.Equal(employee, ExportService<Employee>.DeSerializePerson(path)!.Result);
+        Assert.Equal(employee, expected);
 	}
 }

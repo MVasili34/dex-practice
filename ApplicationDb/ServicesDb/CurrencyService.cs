@@ -1,18 +1,13 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServicesDb;
 
 public class CurrencyService
 {
-	private readonly string apikey = null!;
-	public CurrencyService(string apikey)
+	private readonly string _apiKey = null!;
+	public CurrencyService(string _apiKey)
 	{
-		this.apikey = apikey;
+		this._apiKey = _apiKey;
 	}
 
     /// <summary>
@@ -24,7 +19,7 @@ public class CurrencyService
 	{
 		using (HttpClient httpClient = new())
 		{
-			string baseUrl = new($"https://www.amdoren.com/api/currency.php?api_key={apikey}&" +
+			string baseUrl = new($"https://www.amdoren.com/api/currency.php?api_key={_apiKey}&" +
                     $"from={convertCurrency.From}&to={convertCurrency.To}");
 
 			if (convertCurrency.Amount != 0)

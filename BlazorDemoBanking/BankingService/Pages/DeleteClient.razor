@@ -10,12 +10,12 @@
     <div style="margin-right: 40px;">
 <ClientDetail ButtonText="Удалить"
                 ButtonStyle="danger"
-                Client="@client"
+                Client="@_client"
                 OnValidSubmit="@Delete" />
     </div>
     <div>
     <h2>Список счетов клиента</h2>
-    @if (client?.Accounts.Count() !=0)
+    @if (_client?.Accounts.Count() !=0)
     {
         <table class=" table table-striped table-bordered" style="width: 750px; font-size: 1.3em">
             <thead>
@@ -26,7 +26,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (Account acc in client!.Accounts)
+                @foreach (Account acc in _client!.Accounts)
                 {
                     <tr>
                         <td style="width:10%">@acc.AccountId</td>
@@ -54,20 +54,20 @@
 @code {
     [Parameter]
     public string ClientId { get; set; } = null!;
-    private Client? client = new();
+    private Client? _client = new();
 
     protected async override Task OnParametersSetAsync()
     {
         using (HttpClient http = new())
         {
-            client = await http.GetFromJsonAsync<Client>(
+            _client = await http.GetFromJsonAsync<Client>(
                 $"https://localhost:5001/api/clients/{ClientId}");
         }
     }
 
     private async Task Delete()
     {
-        if (client is not null)
+        if (_client is not null)
         {
             using (HttpClient http = new())
             {

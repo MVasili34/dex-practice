@@ -4,11 +4,11 @@
 <h1>Добавление сотрудника</h1>
 
 <EmployeeDetail ButtonText="Добавиить сотрудника"
-                Employee="employee" 
+                Employee="_employee" 
                 OnValidSubmit="@Create" />
 
 @code {
-    private Employee employee = new() {
+    private Employee _employee = new() {
         EmployeeId = Guid.NewGuid(), 
         DateOfBirth = new(2000, 1, 1) 
     };
@@ -18,7 +18,7 @@
         using (HttpClient http = new())
         {
             HttpResponseMessage httpResponse = await http.PostAsJsonAsync(
-                "https://localhost:5001/api/employees", employee);
+                "https://localhost:5001/api/employees", _employee);
             if (httpResponse.StatusCode == System.Net.HttpStatusCode.Created)
             {
                 navigation.NavigateTo("employees");

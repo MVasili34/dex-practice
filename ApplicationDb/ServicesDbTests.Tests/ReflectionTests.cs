@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 
 namespace ServicesDbTests.Tests;
 
@@ -68,7 +63,7 @@ public class ReflectionTests
 			object? instance = Activator.CreateInstance(type);
 			if (instance is not null)
 			{
-				var propertyInfo = type.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance);
+				PropertyInfo[] propertyInfo = type.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance);
 				Assert.Equal(0.0, propertyInfo.First().GetValue(instance)!);
 			}
 		}
@@ -77,26 +72,26 @@ public class ReflectionTests
 
 public class Triangle
 {
-    private double square;
-    private int sideA;
-    private int sideB;
-    private int sideC;
+    private double _square;
+    private int _sideA;
+    private int _sideB;
+    private int _sideC;
     public Triangle() { }
-    public Triangle(int sideA, int sideB, int sideC)
+    public Triangle(int _sideA, int _sideB, int _sideC)
     {
-        this.sideA = sideA;
-        this.sideB = sideB;
-        this.sideC = sideC;
-        this.square = CalculateSquare();
+        this._sideA = _sideA;
+        this._sideB = _sideB;
+        this._sideC = _sideC;
+        this._square = CalculateSquare();
     }
 
     private double Square
     {
-        get => square;
+        get => _square;
     }
     private double CalculateSquare()
     {
-        return CalculateSquare(sideA, sideB, sideC);
+        return CalculateSquare(_sideA, _sideB, _sideC);
     }
 
     public double CalculateSquare(int a2, int b2, int c2)
@@ -107,29 +102,29 @@ public class Triangle
 
     public int SideA
     {
-        get => sideA;
+        get => _sideA;
         set
         {
-            sideA = value;
-            square = CalculateSquare();
+            _sideA = value;
+            _square = CalculateSquare();
         }
     }
     public int SideB
     {
-        get => sideB;
+        get => _sideB;
         set
         {
-            sideB = value;
-            square = CalculateSquare();
+            _sideB = value;
+            _square = CalculateSquare();
         }
     }
     public int SideC
     {
-        get => sideC;
+        get => _sideC;
         set
         {
-            sideC = value;
-            square = CalculateSquare();
+            _sideC = value;
+            _square = CalculateSquare();
         }
     }
 }

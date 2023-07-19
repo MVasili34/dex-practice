@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 
 namespace EntityModels;
 
@@ -63,7 +62,7 @@ public class Employee : IPerson
 			return false;
 		if (!(obj is Employee))
 			return false;
-		var other = obj as Employee;
+		Employee? other = obj as Employee;
 		return other?.Position == Position &&
 			other?.EmployeeId == EmployeeId &&
 			other?.Contract == Contract &&

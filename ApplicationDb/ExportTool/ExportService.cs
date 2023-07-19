@@ -7,13 +7,13 @@ namespace ExportTool
 {
 	public class ExportService<T> where T : IPerson
 	{
-		public readonly string pathToDirecory;
-		public readonly string csvFileName;
+		public string PathToFile { get; }
+		public string CsvFileName { get; }
 
-		public ExportService(string pathToDirecory, string csvFileName)
+        public ExportService(string PathToFile, string CsvFileName)
 		{
-			this.pathToDirecory = pathToDirecory;
-			this.csvFileName = csvFileName;
+			this.PathToFile = PathToFile;
+			this.CsvFileName = CsvFileName;
 		}
 
 		/// <summary>
@@ -23,17 +23,17 @@ namespace ExportTool
 		public void ExportPersons(IEnumerable<T> clients)
 		{
 			// Создаём каталог для файла
-			DirectoryInfo directory = new DirectoryInfo(pathToDirecory);
+			DirectoryInfo directory = new DirectoryInfo(PathToFile);
 			if (!directory.Exists)
 			{
 				directory.Create();
 			}
-			using (FileStream fileStream = new FileStream(Path.Combine(pathToDirecory, csvFileName),
+			using (FileStream fileStream = new FileStream(Path.Combine(PathToFile, CsvFileName),
 				FileMode.Create))
 			{
 				using (StreamWriter streamWriter = new StreamWriter(fileStream))
 				{
-					using (var writer = new CsvWriter(streamWriter, CultureInfo.InvariantCulture))
+					using (CsvWriter writer = new CsvWriter(streamWriter, CultureInfo.InvariantCulture))
 					{
 						// Формируем заголовки будущей таблицы
 						writer.WriteHeader<T>();
@@ -53,12 +53,12 @@ namespace ExportTool
 		/// <returns>Коллекция объектов из CSV файла</returns>
 		public IEnumerable<T>? ImportPersons()
 		{
-			using (FileStream fileStream = new FileStream(Path.Combine(pathToDirecory, csvFileName),
+			using (FileStream fileStream = new FileStream(Path.Combine(PathToFile, CsvFileName),
 			FileMode.OpenOrCreate))
 			{
 				using (StreamReader streamReader = new StreamReader(fileStream))
 				{
-					using (var reader = new CsvReader(streamReader,
+					using (CsvReader reader = new CsvReader(streamReader,
 					CultureInfo.InvariantCulture))
 					{
 						// Считываем из файла данные объекта Person
@@ -95,11 +95,11 @@ namespace ExportTool
 		/// </summary>
 		/// <param name="path">Путь к файлу</param>
 		/// <returns>Объект, если файл существует</returns>
-		public static Task<T?>? DeSerializePerson(string path)
+		public static T? DeSerializePerson(string path)
 		{
 			if (!(new FileInfo(path)).Exists)
-				return null;
-			return Task.FromResult(JsonConvert.DeserializeObject<T?>(File.ReadAllText(path)));
+				return default(T);
+			return JsonConvert.DeserializeObject<T?>(File.ReadAllText(path));
 		}
 	}
 }

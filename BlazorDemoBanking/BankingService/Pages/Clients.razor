@@ -1,7 +1,7 @@
 ﻿@page "/clients"
 <PageTitle>Клиенты</PageTitle>
 <h1>Клиенты банка</h1>
-@if (clients is null)
+@if (_clients is null)
 {
     <p><em>Loading...</em></p>
 }
@@ -9,11 +9,11 @@ else
 {
 <div style="font-size: 1.3em">
     <h3>Найти клиента</h3>
-        <InputText @bind-Value="SearchId" placeholder="Идентификатор" style="width: 300px; margin-bottom: 20px; font-size: 1em"></InputText>
+        <InputText @bind-Value="_searchId" placeholder="Идентификатор" style="width: 300px; margin-bottom: 20px; font-size: 1em"></InputText>
         <button class="btn btn-info" @onclick="GetClientClick">Найти</button>
         <div style="float: right;">
             <h3>Фильтрация по количеству счетов</h3>
-            @filtvalue<RadzenSlider @bind-Value=@filtvalue TValue="int" Min="1" Max="9" />9
+            @_filtvalue<RadzenSlider @bind-Value=@_filtvalue TValue="int" Min="1" Max="9" />9
             <button class="btn btn-info" @onclick="FilterClientsClick">Найти</button>
         </div>
     <div class="form-group" style="margin-bottom: 20px">
@@ -36,7 +36,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (Client clien in clients)
+            @foreach (Client clien in _clients)
             {
                 <tr>
                     <td style="width:10%">@clien.ClientId</td>
@@ -65,41 +65,41 @@ else
 
 
 @code {
-    private int filtvalue = 2;
-    private DateOnly startDate = new(1900, 01, 01);
-    private DateOnly endDate = DateOnly.FromDateTime(DateTime.Now);
-    private string? SearchId;
-    private IEnumerable<Client>? clients;
+    private int _filtvalue = 2;
+    private DateOnly _startDate = new(1900, 01, 01);
+    private DateOnly _endDate = DateOnly.FromDateTime(DateTime.Now);
+    private string? _searchId;
+    private IEnumerable<Client>? _clients;
 
     protected override async Task OnParametersSetAsync()
     {
         using (HttpClient http = new())
         {
-            clients = await http.GetFromJsonAsync<IEnumerable<Client>>("https://localhost:5001/api/clients");
+            _clients = await http.GetFromJsonAsync<IEnumerable<Client>>("https://localhost:5001/api/clients");
         }
     }
     private async Task GetClientClick()
     {
-        startDate = new(1900, 01, 01);
-        endDate = DateOnly.FromDateTime(DateTime.Now);
+        _startDate = new(1900, 01, 01);
+        _endDate = DateOnly.FromDateTime(DateTime.Now);
         using (HttpClient http = new())
         {
-            HttpResponseMessage response = await http.GetAsync($"https://localhost:5001/api/clients/{SearchId}");
+            HttpResponseMessage response = await http.GetAsync($"https://localhost:5001/api/clients/{_searchId}");
 
-            if (response.IsSuccessStatusCode && !string.IsNullOrEmpty(SearchId?.Trim()))
+            if (response.IsSuccessStatusCode && !string.IsNullOrEmpty(_searchId?.Trim()))
             {
                 Client? client = await response.Content.ReadFromJsonAsync<Client>();
 
                 if (client is not null)
                 {
-                    clients = new[] { client };
+                    _clients = new[] { client };
                 }
                 else
                 {
-                    clients = Enumerable.Empty<Client>();
+                    _clients = Enumerable.Empty<Client>();
                 }
             }
-            else if (response.StatusCode == System.Net.HttpStatusCode.NotFound || string.IsNullOrEmpty(SearchId?.Trim()))
+            else if (response.StatusCode == System.Net.HttpStatusCode.NotFound || string.IsNullOrEmpty(_searchId?.Trim()))
             {
                 await OnParametersSetAsync();
             }
@@ -109,12 +109,12 @@ else
 
     private async Task FilterClientsClick()
     {
-        if (clients is not null)
+        if (_clients is not null)
         {
-            clients = clients.Where(p => (p.Accounts.Count() >= filtvalue && p.Accounts.Count() <= 9));
-            if (clients.Count() == 0)
+            _clients = _clients.Where(p => (p.Accounts.Count() >= _filtvalue && p.Accounts.Count() <= 9));
+            if (_clients.Count() == 0)
             {
-                SearchId = string.Empty;
+                _searchId = string.Empty;
                 await GetClientClick();
                 return;
             }

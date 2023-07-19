@@ -1,4 +1,5 @@
-﻿namespace ServicesDbTests.Tests;
+﻿
+namespace ServicesDbTests.Tests;
 
 public static class IntExtensions
 {

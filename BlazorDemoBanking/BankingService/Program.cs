@@ -1,9 +1,6 @@
 using BankingService.Data;
 using EntityModels;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using System.Net.Http.Headers;
-using Radzen;
 
 namespace BankingService
 {

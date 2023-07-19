@@ -1,11 +1,6 @@
 ﻿using EntityModels;
 using Microsoft.Extensions.DependencyInjection;
 using ServicesDb;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServicesDbTests.Tests;
 
@@ -32,9 +27,10 @@ public class EmployeeServiceDbTests
 	[Fact]
 	public async void EditEmployeeByIdTest()
 	{
-		Employee employee = _service.RetrieveAllAsync().Result.First();
+        IEnumerable<Employee> employees = await _service.RetrieveAllAsync();
+        Employee employee = employees.First();
 
-		employee.FirstName = "TEST";
+        employee.FirstName = "TEST";
 		Employee? expected = await _service.UpdateEmployeeAsync(employee.EmployeeId, employee);
 
         Assert.Equal(employee, expected);

@@ -2,7 +2,7 @@
 @page "/employees"
 <PageTitle>Сотрудники</PageTitle>
 <h1>Сотрудники банка</h1>
-@if (employees is null)
+@if (_employees is null)
 {
     <p><em>Loading...</em></p>
 }
@@ -10,12 +10,12 @@ else
 {
   <div style="font-size: 1.3em">
     <h3>Найти сотрудника</h3>
-        <InputText @bind-Value="SearchId" placeholder="Идентификатор" style="width: 300px; margin-bottom: 20px; font-size: 1em"></InputText>
+        <InputText @bind-Value="_SearchId" placeholder="Идентификатор" style="width: 300px; margin-bottom: 20px; font-size: 1em"></InputText>
     <button class="btn btn-info" @onclick="GetEmployeeClick">Найти</button>
         <div>
         <h3>Фильтрация по дате рождения</h3>
-            <InputDate @bind-Value="@startDate" min="1900-01-01" style="margin-bottom: 20px; font-size: 1.1em" />
-            <InputDate @bind-Value="@endDate" min="1900-01-01" style="margin-bottom: 20px; font-size: 1.1em" />
+            <InputDate @bind-Value="@_startDate" min="1900-01-01" style="margin-bottom: 20px; font-size: 1.1em" />
+            <InputDate @bind-Value="@_endDate" min="1900-01-01" style="margin-bottom: 20px; font-size: 1.1em" />
         <button class="btn btn-info" @onclick="FilterEmployeesClick">Найти</button>
         </div>
     <div class="form-group" style="margin-bottom: 20px">
@@ -36,7 +36,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach(Employee emp in employees)
+            @foreach(Employee emp in _employees)
             {
                 <tr>
                     <td style="width:10%">@emp.EmployeeId</td>
@@ -60,40 +60,40 @@ else
    </div>
 }
 @code {
-    private DateOnly startDate = new(1900, 01, 01);
-    private DateOnly endDate = DateOnly.FromDateTime(DateTime.Now);
-    private string? SearchId;
-    private IEnumerable<Employee>? employees;
+    private DateOnly _startDate = new(1900, 01, 01);
+    private DateOnly _endDate = DateOnly.FromDateTime(DateTime.Now);
+    private string? _SearchId;
+    private IEnumerable<Employee>? _employees;
 
     protected override async Task OnParametersSetAsync()
     {
         using (HttpClient http = new())
         {
-            employees = await http.GetFromJsonAsync<IEnumerable<Employee>>("https://localhost:5001/api/employees");
+            _employees = await http.GetFromJsonAsync<IEnumerable<Employee>>("https://localhost:5001/api/employees");
         }
     }
     private async Task GetEmployeeClick()
     {
-        startDate = new(1900, 01, 01);
-        endDate = DateOnly.FromDateTime(DateTime.Now);
+        _startDate = new(1900, 01, 01);
+        _endDate = DateOnly.FromDateTime(DateTime.Now);
         using (HttpClient http = new())
         {
-            HttpResponseMessage response = await http.GetAsync($"https://localhost:5001/api/employees/{SearchId}");
+            HttpResponseMessage response = await http.GetAsync($"https://localhost:5001/api/employees/{_SearchId}");
 
-            if (response.IsSuccessStatusCode && !string.IsNullOrEmpty(SearchId?.Trim()))
+            if (response.IsSuccessStatusCode && !string.IsNullOrEmpty(_SearchId?.Trim()))
             {
                 Employee? employee = await response.Content.ReadFromJsonAsync<Employee>();
 
                 if (employee is not null)
                 {
-                    employees = new[] { employee };
+                    _employees = new[] { employee };
                 }
                 else
                 {
-                    employees = Enumerable.Empty<Employee>();
+                    _employees = Enumerable.Empty<Employee>();
                 }
             }
-            else if (response.StatusCode == System.Net.HttpStatusCode.NotFound || string.IsNullOrEmpty(SearchId?.Trim()))
+            else if (response.StatusCode == System.Net.HttpStatusCode.NotFound || string.IsNullOrEmpty(_SearchId?.Trim()))
             {
                 await OnParametersSetAsync();
             }
@@ -103,12 +103,12 @@ else
 
     private async Task FilterEmployeesClick()
     {
-        if (employees is not null)
+        if (_employees is not null)
         {
-            employees = employees.Where(p => (p.DateOfBirth > startDate && p.DateOfBirth < endDate));
-            if (employees.Count() == 0)
+            _employees = _employees.Where(p => (p.DateOfBirth > _startDate && p.DateOfBirth < _endDate));
+            if (_employees.Count() == 0)
             {
-                SearchId = string.Empty;
+                _SearchId = string.Empty;
                 await GetEmployeeClick();
             }
         }
