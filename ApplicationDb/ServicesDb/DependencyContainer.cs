@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ServicesDb;
 
-public class DependencyContainer
+public static class DependencyContainer
 {
     /// <summary>
     /// Метод конфигурации контейнера внедрения зависимостей

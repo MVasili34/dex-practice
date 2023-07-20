@@ -23,17 +23,16 @@ public class ExportService<T> where T : IPerson
 	public void ExportPersons(IEnumerable<T> clients)
 	{
 		// Создаём каталог для файла
-		DirectoryInfo directory = new DirectoryInfo(PathToFile);
+		DirectoryInfo directory = new(PathToFile);
 		if (!directory.Exists)
 		{
 			directory.Create();
 		}
-		using (FileStream fileStream = new FileStream(Path.Combine(PathToFile, CsvFileName),
-			FileMode.Create))
+		using (FileStream fileStream = new(Path.Combine(PathToFile, CsvFileName), FileMode.Create))
 		{
-			using (StreamWriter streamWriter = new StreamWriter(fileStream))
+			using (StreamWriter streamWriter = new(fileStream))
 			{
-				using (CsvWriter writer = new CsvWriter(streamWriter, CultureInfo.InvariantCulture))
+				using (CsvWriter writer = new(streamWriter, CultureInfo.InvariantCulture))
 				{
 					// Формируем заголовки будущей таблицы
 					writer.WriteHeader<T>();
@@ -53,13 +52,11 @@ public class ExportService<T> where T : IPerson
 	/// <returns>Коллекция объектов из CSV файла</returns>
 	public IEnumerable<T>? ImportPersons()
 	{
-		using (FileStream fileStream = new FileStream(Path.Combine(PathToFile, CsvFileName),
-		FileMode.OpenOrCreate))
+		using (FileStream fileStream = new(Path.Combine(PathToFile, CsvFileName), FileMode.OpenOrCreate))
 		{
-			using (StreamReader streamReader = new StreamReader(fileStream))
+			using (StreamReader streamReader = new(fileStream))
 			{
-				using (CsvReader reader = new CsvReader(streamReader,
-				CultureInfo.InvariantCulture))
+				using (CsvReader reader = new(streamReader, CultureInfo.InvariantCulture))
 				{
 					// Считываем из файла данные объекта Person
 					return reader.GetRecords<T>().ToList();
@@ -80,9 +77,9 @@ public class ExportService<T> where T : IPerson
 		{
 			pathInfo.Create();
 		}
-		using (FileStream fileStream = new FileStream(path, FileMode.Create))
+		using (FileStream fileStream = new(path, FileMode.Create))
 		{
-			using (StreamWriter streamWriter = new StreamWriter(fileStream))
+			using (StreamWriter streamWriter = new(fileStream))
 			{
 				JsonSerializer jsonSerializer = new();
 			    jsonSerializer.Serialize(streamWriter, person);

@@ -8,7 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.WebHost.UseUrls("https://localhost:5001/");
 
 //Adding Database context
-builder.Services.AddBankingServiceContext();
+string connectionString = builder.Configuration.GetConnectionString("DbConnection")!;
+builder.Services.AddBankingServiceContext(connectionString);
 
 builder.Services.AddControllers().AddJsonOptions(x =>
 	x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);

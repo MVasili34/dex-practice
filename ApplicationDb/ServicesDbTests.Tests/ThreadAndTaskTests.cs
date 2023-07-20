@@ -7,22 +7,22 @@ namespace ServicesDbTests.Tests;
 
 public class ThreadAndTaskTests
 {
-	[Fact] //параллельный экспорт и импорт клиентов из БД
-	public void ParallelExportImportClientsTest()
+	[Fact] //параллельный экспорт и импорт сотрудников из БД
+	public void ParallelExportImportEmployeesTest()
 	{
 		ManualResetEvent exportCompleted = new(false);
 		ManualResetEvent importCompleted = new(false);
-		ExportService<Client> exportService = new(Environment.CurrentDirectory, "export.csv");
-		ExportService<Client> importService = new(Environment.CurrentDirectory, "import.csv");
+		ExportService<Employee> exportService = new(Environment.CurrentDirectory, "export.csv");
+		ExportService<Employee> importService = new(Environment.CurrentDirectory, "import.csv");
 		BankingServiceContext serviceContext = new();
-		importService.ExportPersons(serviceContext.Clients);
+		importService.ExportPersons(serviceContext.Employees);
 
 		ThreadPool.QueueUserWorkItem(_ =>
 		{
 			using (BankingServiceContext export = new())
 			{
-				exportService.ExportPersons(export.Clients);
-				export.Clients.RemoveRange(export.Clients);
+				exportService.ExportPersons(export.Employees);
+				export.Employees.RemoveRange(export.Employees);
 				export.SaveChanges();
 				exportCompleted.Set();
 			}
@@ -38,7 +38,7 @@ public class ThreadAndTaskTests
 		});
 		WaitHandle.WaitAll(new[] { exportCompleted, importCompleted });
 
-		bool? difference = exportService.ImportPersons()!.Except(serviceContext.Clients).Any();
+		bool? difference = exportService.ImportPersons()!.Except(serviceContext.Employees).Any();
         Assert.False(difference);
 	}
 

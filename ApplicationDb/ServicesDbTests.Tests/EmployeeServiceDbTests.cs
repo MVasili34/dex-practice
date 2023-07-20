@@ -6,11 +6,11 @@ namespace ServicesDbTests.Tests;
 
 public class EmployeeServiceDbTests
 {
-	private readonly IEmployeeService _service;
+	private readonly IEmployeeService _employeeService;
 
 	public EmployeeServiceDbTests()
 	{
-        _service = DependencyContainer.Configure()
+        _employeeService = DependencyContainer.Configure()
             .GetService<IEmployeeService>()!;
     }
 
@@ -19,7 +19,7 @@ public class EmployeeServiceDbTests
 	{	
 		Employee employee = DataGenerator.GenerateEmployee();
 
-		Employee? added = await _service.AddEmployeeAsync(employee);
+		Employee? added = await _employeeService.AddEmployeeAsync(employee);
 
         Assert.Equal(employee, added);
 	}
@@ -27,11 +27,11 @@ public class EmployeeServiceDbTests
 	[Fact]
 	public async void EditEmployeeByIdTest()
 	{
-        IEnumerable<Employee> employees = await _service.RetrieveAllAsync(1);
+        IEnumerable<Employee> employees = await _employeeService.RetrieveAllAsync(1);
         Employee employee = employees.First();
 
         employee.FirstName = DateTime.Now.ToString("T");
-		Employee? expected = await _service.UpdateEmployeeAsync(employee.EmployeeId, employee);
+		Employee? expected = await _employeeService.UpdateEmployeeAsync(employee.EmployeeId, employee);
 
         Assert.Equal(employee, expected);
 	}
@@ -41,8 +41,8 @@ public class EmployeeServiceDbTests
 	{
         Employee employee = DataGenerator.GenerateEmployee();
 
-        await _service.AddEmployeeAsync(employee);
-		bool? status = await _service.DeleteEmployeeAsync(employee.EmployeeId);
+        await _employeeService.AddEmployeeAsync(employee);
+		bool? status = await _employeeService.DeleteEmployeeAsync(employee.EmployeeId);
 
         Assert.True(status);
 	}

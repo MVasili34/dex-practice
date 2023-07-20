@@ -6,11 +6,11 @@ namespace ServicesDbTests.Tests;
 
 public class ClientServiceDbTests
 {
-    private readonly IClientService _service;
+    private readonly IClientService _clientService;
 
 	public ClientServiceDbTests()
 	{
-        _service = DependencyContainer.Configure()
+        _clientService = DependencyContainer.Configure()
 			.GetService<IClientService>()!;
 	}
 
@@ -19,8 +19,8 @@ public class ClientServiceDbTests
 	{
 		Client client = DataGenerator.GenereteClient();
 
-		await _service.AddClientAsync(client);
-		Client? added = await _service.RetrieveClientAsync(client.ClientId);
+		await _clientService.AddClientAsync(client);
+		Client? added = await _clientService.RetrieveClientAsync(client.ClientId);
 
 		Assert.Equal(client, added);
 	}
@@ -28,10 +28,10 @@ public class ClientServiceDbTests
 	[Fact]
 	public async Task AddAccountClientTest()
 	{
-		IEnumerable<Client> clients = await _service.RetrieveAllAsync(1);
+		IEnumerable<Client> clients = await _clientService.RetrieveAllAsync(1);
 		Guid clientId = clients.First().ClientId;
 
-        Account? account = await _service.AddAccountAsync(new Account(clientId, "RUB", 0));
+        Account? account = await _clientService.AddAccountAsync(new Account(clientId, "RUB", 0));
 
         Assert.NotNull(account);
 	}
@@ -39,11 +39,11 @@ public class ClientServiceDbTests
 	[Fact]
 	public async Task EditClientByIdTest()
 	{
-        IEnumerable<Client> clients = await _service.RetrieveAllAsync(1);
+        IEnumerable<Client> clients = await _clientService.RetrieveAllAsync(1);
         Client client = clients.First();
 
 	    client.FirstName = DateTime.Now.ToString("T");
-        Client? expected = await _service.UpdateClientAsync(client.ClientId, client);
+        Client? expected = await _clientService.UpdateClientAsync(client.ClientId, client);
 
         Assert.Equal(client, expected);
 	}
@@ -53,8 +53,8 @@ public class ClientServiceDbTests
 	{
         Client client = DataGenerator.GenereteClient();
 
-        await _service.AddClientAsync(client);
-		bool? status = await _service.DeleteClientAsync(client.ClientId);
+        await _clientService.AddClientAsync(client);
+		bool? status = await _clientService.DeleteClientAsync(client.ClientId);
 
         Assert.True(status);
 	}

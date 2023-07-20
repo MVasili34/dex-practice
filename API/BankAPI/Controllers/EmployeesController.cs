@@ -1,5 +1,5 @@
-﻿using EntityModels;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using EntityModels;
 using ServicesDb;
 
 namespace BankAPI.Controllers;
@@ -18,7 +18,7 @@ public class EmployeesController : ControllerBase
 	//GET: api/employees
     //QUERY: Page (INT)
 	[HttpGet]
-	public async Task<IEnumerable<Employee>> GetEmployee([FromQuery] int? page) => await _employeeService
+	public async Task<IEnumerable<Employee>> GetEmployees([FromQuery] int? page) => await _employeeService
 		.RetrieveAllAsync(page);
 
 	//GET api/employees/[id]

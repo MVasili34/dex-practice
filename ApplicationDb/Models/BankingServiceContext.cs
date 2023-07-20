@@ -19,7 +19,12 @@ public class BankingServiceContext : DbContext
 	}
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-		=> optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=BankingService;Username=postgres;Password=sqlserver");
+	{
+		if (!optionsBuilder.IsConfigured)
+		{
+			optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=BankingService;Username=postgres;Password=sqlserver");
+		}
+	}
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{

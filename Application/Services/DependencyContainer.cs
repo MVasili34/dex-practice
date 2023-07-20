@@ -1,11 +1,10 @@
 ﻿using Models;
-using Services;
 using Services.Storage;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Services;
 
-public class DependencyContainer
+public static class DependencyContainer
 {
     /// <summary>
     /// Метод конфигурации контейнера внедрения зависимостей клиентов
