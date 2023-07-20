@@ -9,7 +9,7 @@ public class DependencyContainer
     /// Метод конфигурации контейнера внедрения зависимостей
     /// для проведения Unit-тестирования
     /// </summary>
-    /// <returns>IServiceProvider для добавления контекта БД</returns>
+    /// <returns>IServiceProvider</returns>
     public static IServiceProvider Configure() => new ServiceCollection()
         .AddTransient<IClientService, ClientService>()
         .AddTransient<IEmployeeService, EmployeeService>()

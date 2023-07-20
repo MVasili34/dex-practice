@@ -4,11 +4,9 @@ namespace PracticeWithIComparable;
 
 internal class Program
 {
-	private static IEnumerable<Figure> _squares => Enumerable.Range(1, 10)
-        .Select(i => new Figure(Random.Shared.Next(5, 50)));
 	static void Main(string[] args)
 	{
-        List<Figure> listOfSquares = _squares.ToList();
+        List<Figure> listOfSquares = GenerateFigures().ToList();
         WriteLine("Список фигур до применения сортировки");
         foreach (Figure figure in listOfSquares)
         {
@@ -24,6 +22,8 @@ internal class Program
         }
         ReadKey();
     }
+    private static IEnumerable<Figure> GenerateFigures() => Enumerable.Range(1, 10)
+    .Select(i => new Figure(Random.Shared.Next(5, 50)));
 }
 
 public class Figure : IComparable<Figure>

@@ -19,7 +19,7 @@ internal class Program
 			$"{client.DateOfBirth}, {client.Phone}, {client.Company}, {client.AddressInfo}");
 
         //вызов метода расчета зарплат владельцев банка
-        foreach (var owner in owners)
+        foreach (Employee owner in owners)
 		{
 			owner.Salary = BankService.OwnerPayment(owners.Count());
 		}
@@ -44,7 +44,7 @@ internal class Program
     static void PrintEmployees(IEnumerable<Employee> employees)
 	{
         Console.WriteLine($"Владельцы:");
-        foreach (var employee in employees)
+        foreach (Employee employee in employees)
         {
             Console.WriteLine($"Владелец: {employee.FirstName}, {employee.LastName}, " +
                 $"{employee.Phone}, ЗП: {employee.Salary} \n\tКонтракт: {employee.Contract}");

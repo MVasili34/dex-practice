@@ -19,7 +19,7 @@ public class ThreadAndTaskTests
 
 		ThreadPool.QueueUserWorkItem(_ =>
 		{
-			using (var export = new BankingServiceContext())
+			using (BankingServiceContext export = new())
 			{
 				exportService.ExportPersons(export.Clients);
 				export.Clients.RemoveRange(export.Clients);
@@ -29,7 +29,7 @@ public class ThreadAndTaskTests
 		});
 		ThreadPool.QueueUserWorkItem(_ =>
 		{
-			using (var import = new BankingServiceContext())
+			using (BankingServiceContext import = new())
 			{
 				import.AddRange(importService.ImportPersons()!);
 				import.SaveChanges();

@@ -4,11 +4,11 @@ namespace ServicesDb;
 
 public class CashDispenserService
 {
-	private SemaphoreSlim _semaphore;
+	private readonly SemaphoreSlim _semaphore;
 
 	public CashDispenserService(int maxConcurrentClients)
 	{
-		this._semaphore = new SemaphoreSlim(maxConcurrentClients);
+		_semaphore = new SemaphoreSlim(maxConcurrentClients);
 	}
 
 	/// <summary>

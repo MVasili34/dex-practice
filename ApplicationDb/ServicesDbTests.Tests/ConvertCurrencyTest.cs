@@ -7,9 +7,9 @@ public class ConvertCurrencyTest
 {
 	private readonly ITestOutputHelper _output;
 
-	public ConvertCurrencyTest(ITestOutputHelper _output)
+	public ConvertCurrencyTest(ITestOutputHelper output)
 	{
-		this._output = _output;
+		_output = output;
 	}
 
 	[Fact]

@@ -10,7 +10,7 @@ public class ClientServiceDbTests
 
 	public ClientServiceDbTests()
 	{
-        this._service = DependencyContainer.Configure()
+        _service = DependencyContainer.Configure()
 			.GetService<IClientService>()!;
 	}
 
@@ -42,8 +42,8 @@ public class ClientServiceDbTests
         IEnumerable<Client> clients = await _service.RetrieveAllAsync(1);
         Client client = clients.First();
 
-	    client.FirstName = "TEST";
-		Client? expected = await _service.UpdateClientAsync(client.ClientId, client);
+	    client.FirstName = DateTime.Now.ToString("T");
+        Client? expected = await _service.UpdateClientAsync(client.ClientId, client);
 
         Assert.Equal(client, expected);
 	}

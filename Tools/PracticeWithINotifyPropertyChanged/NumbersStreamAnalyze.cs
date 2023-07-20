@@ -13,9 +13,9 @@ public class NumbersStreamAnalyze
     private List<double> _numbers = new List<double>();
     public event Message? OnNumbersExcess;
     public NumbersStreamAnalyze() { }
-    public NumbersStreamAnalyze(double _percent)
+    public NumbersStreamAnalyze(double percent)
     {
-        this._percent = _percent;
+        _percent = percent;
     }
 
     /// <summary>
@@ -30,11 +30,11 @@ public class NumbersStreamAnalyze
         }
         else
         {
-            if (_numbers[_numbers.Count - 1] > value && 1.0 - (value/_numbers[_numbers.Count - 1]) > _percent) 
+            if (_numbers.Last() > value && 1.0 - (value/_numbers.Last()) > _percent) 
             {
                 OnNumbersExcess?.Invoke(this, "Превышение");
             } 
-            else if (_numbers[_numbers.Count - 1] < value && 1.0 - (_numbers[_numbers.Count - 1]/value) > _percent)
+            else if (_numbers.Last() < value && 1.0 - (_numbers.Last()/value) > _percent)
                 {
                     OnNumbersExcess?.Invoke(this, "Превышение");
                 }

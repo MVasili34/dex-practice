@@ -6,9 +6,9 @@ public class AsyncTaskTests
 {
 	private readonly ITestOutputHelper _output;
 
-	public AsyncTaskTests(ITestOutputHelper _output)
+	public AsyncTaskTests(ITestOutputHelper output)
 	{
-		this._output = _output;
+		_output = output;
 	}
 
 	[Fact]

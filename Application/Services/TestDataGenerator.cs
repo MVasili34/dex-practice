@@ -32,20 +32,17 @@ public class TestDataGenerator
 	/// </summary>
 	/// <param name="amount">Количество сотрудников</param>
 	/// <returns>Коллекция из N сотрудников</returns>
-	public static IEnumerable<Employee> GenerateEmployees(int amount)
-	{
-		var generate = new Faker<Employee>("ru")
-			.RuleFor(b => b.FirstName, t => t.Name.FirstName())
-			.RuleFor(b => b.LastName, t => t.Name.LastName())
-			.RuleFor(b => b.DateOfBirth, t => t.Date.BetweenDateOnly(
-			DateOnly.FromDateTime(DateTime.Now.AddYears(-80).Date),
-			DateOnly.FromDateTime(DateTime.Now.AddYears(-18).Date)))
-			.RuleFor(b => b.Phone, t => t.Phone.PhoneNumberFormat())
-			.RuleFor(b => b.Passport, t => "AB" + t.Random.Byte().ToString())
-			.RuleFor(b => b.Position, t => t.Random.Word())
-			.RuleFor(b => b.Salary, t => Math.Max((int)t.Random.Short(), 1000));
-		return generate.Generate(amount);
-	}
+	public static IEnumerable<Employee> GenerateEmployees(int amount) =>  new Faker<Employee>("ru")
+		.RuleFor(b => b.FirstName, t => t.Name.FirstName())
+		.RuleFor(b => b.LastName, t => t.Name.LastName())
+		.RuleFor(b => b.DateOfBirth, t => t.Date.BetweenDateOnly(
+		DateOnly.FromDateTime(DateTime.Now.AddYears(-80).Date),
+		DateOnly.FromDateTime(DateTime.Now.AddYears(-18).Date)))
+		.RuleFor(b => b.Phone, t => t.Phone.PhoneNumberFormat())
+		.RuleFor(b => b.Passport, t => "AB" + t.Random.Byte().ToString())
+		.RuleFor(b => b.Position, t => t.Random.Word())
+		.RuleFor(b => b.Salary, t => Math.Max((int)t.Random.Short(), 1000))
+		.Generate(amount);
 	
 	/// <summary>
 	/// Метод генерации словаря на 10 элементов типа Dictionary<Client, List<Account>>
@@ -53,8 +50,8 @@ public class TestDataGenerator
 	/// <returns>Словарь сопоставляюший клиентов их списку счетов</returns>
 	public static IDictionary<Client, List<Account>> GenerateClientsWithAccounts()
 	{
-		var clientsDictionary = new Dictionary<Client, List<Account>>();
-		var generateAccount = new Faker<Account>("ru")
+        Dictionary<Client, List<Account>> clientsDictionary = new();
+        Faker<Account> generateAccount = new Faker<Account>("ru")
 			.RuleFor(b => b.Currency, t => new Currency(t.Finance.Currency().Code, t.Finance.Currency().Description))
 			.RuleFor(b => b.Amount, t => t.Random.Int());
 		for (int i = 0; i < 10; i++)

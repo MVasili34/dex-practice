@@ -57,7 +57,7 @@ internal class Program
 	static void PrintEmployees(IEnumerable<Employee> employees)
 	{
         Console.WriteLine($"\nСотрудники:");
-        foreach (var employee in employees)
+        foreach (Employee employee in employees)
         {
             Console.WriteLine($"Сотрудник: {employee.FirstName}, {employee.LastName}, " +
                 $"{employee.Phone} \n\tКонтракт: {employee.Contract}");
@@ -71,7 +71,7 @@ internal class Program
 	static void PrintCurrencies(IEnumerable<Currency> currencies)
 	{
         Console.WriteLine($"\nВалюты:");
-        foreach (var currency in currencies)
+        foreach (Currency currency in currencies)
         {
             Console.WriteLine($"{currency.CurrencyCode}, {currency.CurrencyName}");
         }

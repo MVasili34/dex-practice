@@ -5,9 +5,9 @@ namespace ServicesDb;
 public class CurrencyService
 {
 	private readonly string _apiKey = null!;
-	public CurrencyService(string _apiKey)
+	public CurrencyService(string apiKey)
 	{
-		this._apiKey = _apiKey;
+		_apiKey = apiKey;
 	}
 
     /// <summary>

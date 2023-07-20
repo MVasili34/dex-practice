@@ -10,7 +10,7 @@ public class EmployeeServiceDbTests
 
 	public EmployeeServiceDbTests()
 	{
-        this._service = DependencyContainer.Configure()
+        _service = DependencyContainer.Configure()
             .GetService<IEmployeeService>()!;
     }
 
@@ -27,10 +27,10 @@ public class EmployeeServiceDbTests
 	[Fact]
 	public async void EditEmployeeByIdTest()
 	{
-        IEnumerable<Employee> employees = await _service.RetrieveAllAsync();
+        IEnumerable<Employee> employees = await _service.RetrieveAllAsync(1);
         Employee employee = employees.First();
 
-        employee.FirstName = "TEST";
+        employee.FirstName = DateTime.Now.ToString("T");
 		Employee? expected = await _service.UpdateEmployeeAsync(employee.EmployeeId, employee);
 
         Assert.Equal(employee, expected);
@@ -39,7 +39,7 @@ public class EmployeeServiceDbTests
 	[Fact]
 	public async void DeleteEmployeeTest()
 	{
-        var employee = DataGenerator.GenerateEmployee();
+        Employee employee = DataGenerator.GenerateEmployee();
 
         await _service.AddEmployeeAsync(employee);
 		bool? status = await _service.DeleteEmployeeAsync(employee.EmployeeId);

@@ -45,7 +45,7 @@ public class ClientService : IClientStorage
     /// Метод получения самых молодых клиентов
     /// </summary>
     /// <returns>Словарь соответствующих клиентов</returns>
-    public IEnumerable<KeyValuePair<Client, List<Account>>> GetYoungestClients()=> Data.Where(p => 
+    public IEnumerable<KeyValuePair<Client, List<Account>>> GetYoungestClients() => Data.Where(p => 
 		p.Key.DateOfBirth == Data.Max(t => t.Key.DateOfBirth));
 
     /// <summary>

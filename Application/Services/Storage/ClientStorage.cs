@@ -10,7 +10,7 @@ public class ClientStorage
 	public ClientStorage() => Clients = TestDataGenerator.GenerateClientsWithAccounts()
 		.ToDictionary(pair => pair.Key, pair => pair.Value);
 
-	public void AddClient(Client? client)
+	public void AddClient(Client client)
 	{
 		if (client is not null)
 		{

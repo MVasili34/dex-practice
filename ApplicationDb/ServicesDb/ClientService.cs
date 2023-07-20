@@ -6,13 +6,13 @@ namespace ServicesDb;
 public class ClientService : IClientService
 {
 
-	private BankingServiceContext _bankContext;
+	private readonly BankingServiceContext _bankContext;
 
-	private int _pageSize = 10;
+	private readonly int _pageSize = 10;
 
-	public ClientService(BankingServiceContext _bankContext)
+	public ClientService(BankingServiceContext bankContext)
 	{
-		this._bankContext = _bankContext;
+		_bankContext = bankContext;
 	}
 
     /// <summary>

@@ -1,37 +1,35 @@
 using Models;
 using Services;
-using static System.Console;
 
-namespace ServiceTests.Tests
+namespace ServiceTests.Tests;
+
+public class EquivalenceTests
 {
-	public class EquivalenceTests
+
+	[Fact]
+	public void GetHashCodeNecessityPositivClientTest()
 	{
+		Dictionary<Client, List<Account>> accounts = TestDataGenerator.GenerateClientsWithAccounts()
+			.ToDictionary(pair => pair.Key, pair => pair.Value);
+		Client client = accounts.Keys.First();
 
-		[Fact]
-		public static void GetHashCodeNecessityPositivTest()
-		{
-			Dictionary<Client, List<Account>>?  accounts = TestDataGenerator.GenerateClientsWithAccounts()
-				.ToDictionary(pair => pair.Key, pair => pair.Value);
-
-			Client testclient = accounts.Keys.First();
-
-			Client someClient = new(testclient.FirstName, testclient.LastName,
-				testclient.DateOfBirth, testclient.Phone, testclient.Passport,
-				testclient.Company, testclient.AddressInfo);
-			
-			Assert.Equal(accounts[testclient], accounts[someClient]);
-		}
+		Client clientCopy = new(client.FirstName, client.LastName,
+			client.DateOfBirth, client.Phone, client.Passport,
+			client.Company, client.AddressInfo);
 		
-		[Fact]
-		public static void GetHashCodeNecessityPositivTestEmployees()
-		{
-			List<Employee> Employees = TestDataGenerator.GenerateEmployees(100).ToList();
-			Employee someEmployee = new(Employees[65].FirstName, Employees[65].LastName,
-				Employees[65].DateOfBirth, Employees[65].Phone, Employees[65].Passport,
-				Employees[65].Position, Employees[65].Salary, Employees[65].Contract);
+		Assert.Equal(accounts[client], accounts[clientCopy]);
+	}
+	
+	[Fact]
+	public void GetHashCodeNecessityPositivEmployeeTest()
+	{
+		List<Employee> employees = TestDataGenerator.GenerateEmployees(100).ToList();
 
-			//метод IndexOf также использует метод Equals для сравнения объектов
-			Assert.Equal(65, Employees.IndexOf(someEmployee));
-		}
+		Employee employeeCopy = new(employees[65].FirstName, employees[65].LastName,
+			employees[65].DateOfBirth, employees[65].Phone, employees[65].Passport,
+			employees[65].Position, employees[65].Salary, employees[65].Contract);
+
+		//метод IndexOf также использует метод Equals для сравнения объектов
+		Assert.Equal(65, employees.IndexOf(employeeCopy));
 	}
 }

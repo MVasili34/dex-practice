@@ -9,7 +9,7 @@ public class EmployeeStorage
 
 	public EmployeeStorage() => Employees = TestDataGenerator.GenerateEmployees(10).ToList();
 
-	public void AddEmployee(Employee? employee)
+	public void AddEmployee(Employee employee)
 	{
 		if (employee is not null)
 		{

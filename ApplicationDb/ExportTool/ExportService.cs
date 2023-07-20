@@ -3,103 +3,102 @@ using EntityModels;
 using System.Globalization;
 using Newtonsoft.Json;
 
-namespace ExportTool
+namespace ExportTool;
+
+public class ExportService<T> where T : IPerson
 {
-	public class ExportService<T> where T : IPerson
+	public string PathToFile { get; }
+	public string CsvFileName { get; }
+
+	public ExportService(string PathToFile, string CsvFileName)
 	{
-		public string PathToFile { get; }
-		public string CsvFileName { get; }
+		this.PathToFile = PathToFile;
+		this.CsvFileName = CsvFileName;
+	}
 
-        public ExportService(string PathToFile, string CsvFileName)
+	/// <summary>
+	/// Метод экспортирования сущностей в CSV файл
+	/// </summary>
+	/// <param name="clients">Коллекция объектов, реализующих IPerson</param>
+	public void ExportPersons(IEnumerable<T> clients)
+	{
+		// Создаём каталог для файла
+		DirectoryInfo directory = new DirectoryInfo(PathToFile);
+		if (!directory.Exists)
 		{
-			this.PathToFile = PathToFile;
-			this.CsvFileName = CsvFileName;
+			directory.Create();
 		}
-
-		/// <summary>
-		/// Метод экспортирования сущностей в CSV файл
-		/// </summary>
-		/// <param name="clients">Коллекция объектов, реализующих IPerson</param>
-		public void ExportPersons(IEnumerable<T> clients)
+		using (FileStream fileStream = new FileStream(Path.Combine(PathToFile, CsvFileName),
+			FileMode.Create))
 		{
-			// Создаём каталог для файла
-			DirectoryInfo directory = new DirectoryInfo(PathToFile);
-			if (!directory.Exists)
+			using (StreamWriter streamWriter = new StreamWriter(fileStream))
 			{
-				directory.Create();
-			}
-			using (FileStream fileStream = new FileStream(Path.Combine(PathToFile, CsvFileName),
-				FileMode.Create))
-			{
-				using (StreamWriter streamWriter = new StreamWriter(fileStream))
+				using (CsvWriter writer = new CsvWriter(streamWriter, CultureInfo.InvariantCulture))
 				{
-					using (CsvWriter writer = new CsvWriter(streamWriter, CultureInfo.InvariantCulture))
-					{
-						// Формируем заголовки будущей таблицы
-						writer.WriteHeader<T>();
-						writer.NextRecord();
-						writer.WriteRecords(clients);
-						writer.NextRecord();
-						// Очищает буфер, который был задействован CsvWriter
-						writer.Flush();
-					}
+					// Формируем заголовки будущей таблицы
+					writer.WriteHeader<T>();
+					writer.NextRecord();
+					writer.WriteRecords(clients);
+					writer.NextRecord();
+					// Очищает буфер, который был задействован CsvWriter
+					writer.Flush();
 				}
 			}
 		}
+	}
 
-		/// <summary>
-		/// Метод импортирования сущностей из CSV файла
-		/// </summary>
-		/// <returns>Коллекция объектов из CSV файла</returns>
-		public IEnumerable<T>? ImportPersons()
+	/// <summary>
+	/// Метод импортирования сущностей из CSV файла
+	/// </summary>
+	/// <returns>Коллекция объектов из CSV файла</returns>
+	public IEnumerable<T>? ImportPersons()
+	{
+		using (FileStream fileStream = new FileStream(Path.Combine(PathToFile, CsvFileName),
+		FileMode.OpenOrCreate))
 		{
-			using (FileStream fileStream = new FileStream(Path.Combine(PathToFile, CsvFileName),
-			FileMode.OpenOrCreate))
+			using (StreamReader streamReader = new StreamReader(fileStream))
 			{
-				using (StreamReader streamReader = new StreamReader(fileStream))
+				using (CsvReader reader = new CsvReader(streamReader,
+				CultureInfo.InvariantCulture))
 				{
-					using (CsvReader reader = new CsvReader(streamReader,
-					CultureInfo.InvariantCulture))
-					{
-						// Считываем из файла данные объекта Person
-						return reader.GetRecords<T>().ToList();
-					}
+					// Считываем из файла данные объекта Person
+					return reader.GetRecords<T>().ToList();
 				}
 			}
 		}
+	}
 
-		/// <summary>
-		/// Метод сериализации объекта в JSON формат
-		/// </summary>
-		/// <param name="person">Сущность, реализующая IPerson</param>
-		/// <param name="path">Путь к файлу</param>
-		public static void SerializePerson(T person, string path)
+	/// <summary>
+	/// Метод сериализации объекта в JSON формат
+	/// </summary>
+	/// <param name="person">Сущность, реализующая IPerson</param>
+	/// <param name="path">Путь к файлу</param>
+	public static void SerializePerson(T person, string path)
+	{
+		FileInfo pathInfo = new(path);
+		if (!pathInfo.Exists)
 		{
-			FileInfo pathInfo = new(path);
-			if (!pathInfo.Exists)
+			pathInfo.Create();
+		}
+		using (FileStream fileStream = new FileStream(path, FileMode.Create))
+		{
+			using (StreamWriter streamWriter = new StreamWriter(fileStream))
 			{
-				pathInfo.Create();
-			}
-			using (FileStream fileStream = new FileStream(path, FileMode.Create))
-			{
-				using (StreamWriter streamWriter = new StreamWriter(fileStream))
-				{
-					JsonSerializer jsonSerializer = new();
-				    jsonSerializer.Serialize(streamWriter, person);
-				}
+				JsonSerializer jsonSerializer = new();
+			    jsonSerializer.Serialize(streamWriter, person);
 			}
 		}
+	}
 
-		/// <summary>
-		/// Метод десериализации объекта из JSON файла
-		/// </summary>
-		/// <param name="path">Путь к файлу</param>
-		/// <returns>Объект, если файл существует</returns>
-		public static T? DeSerializePerson(string path)
-		{
-			if (!(new FileInfo(path)).Exists)
-				return default(T);
-			return JsonConvert.DeserializeObject<T?>(File.ReadAllText(path));
-		}
+	/// <summary>
+	/// Метод десериализации объекта из JSON файла
+	/// </summary>
+	/// <param name="path">Путь к файлу</param>
+	/// <returns>Объект, если файл существует</returns>
+	public static T? DeSerializePerson(string path)
+	{
+		if (!(new FileInfo(path)).Exists)
+			return default(T);
+		return JsonConvert.DeserializeObject<T?>(File.ReadAllText(path));
 	}
 }

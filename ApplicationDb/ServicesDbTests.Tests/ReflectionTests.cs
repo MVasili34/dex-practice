@@ -77,12 +77,12 @@ public class Triangle
     private int _sideB;
     private int _sideC;
     public Triangle() { }
-    public Triangle(int _sideA, int _sideB, int _sideC)
+    public Triangle(int sideA, int sideB, int sideC)
     {
-        this._sideA = _sideA;
-        this._sideB = _sideB;
-        this._sideC = _sideC;
-        this._square = CalculateSquare();
+        _sideA = sideA;
+        _sideB = sideB;
+        _sideC = sideC;
+        _square = CalculateSquare();
     }
 
     private double Square

@@ -2,66 +2,73 @@
 using Services;
 using static Services.TestDataGenerator;
 
-namespace ServiceTests.Tests
+namespace ServiceTests.Tests;
+
+public class BlackListTests
 {
-	public class BlackListTests
+	private readonly BankService _bankService;
+
+	public BlackListTests() 
 	{
-		private static List<Client> clients = GenerateClients(5).ToList();
-		private static List<Employee> employees = GenerateEmployees(5).ToList();
-		private static BankService bankService = new();
+		_bankService = new();
+	}
 
-        [Fact]
-		public static void BonusEmployeeTest()
-		{
-			int expected = employees[0].Salary+1000;
+	[Fact]
+	public void BonusEmployeeTest()
+	{
+		Employee employee = GenerateEmployees(1).First();
+		int expected = employee.Salary + 1000;
 
-			bankService.AddBonus(employees[0]);
+		_bankService.AddBonus(employee);
 
-			Assert.Equal(expected, employees[0].Salary);
-		}
+		Assert.Equal(expected, employee.Salary);
+	}
 
-        [Fact]
-		public static void BonusNullTest()
-		{
-			clients[4] = null!;
+	[Fact]
+	public void BonusNullTest()
+	{
+		Client client = null!;
 
-			Assert.Throws<ArgumentNullException>(() =>  bankService.AddBonus(clients[4]));
-		}
+		Assert.Throws<ArgumentNullException>(() =>  _bankService.AddBonus(client));
+	}
 
-        [Fact]
-        public static void BonusClientTest()
-        {
-            bankService.AddBonus(clients[0]);
+	[Fact]
+	public void BonusClientTest()
+	{
+		Client client = GenerateClients(1).First();
 
-            Assert.Contains("BONUS", clients[0].AddressInfo);
-        }
+		_bankService.AddBonus(client);
 
-        [Fact]
-		public static void CheckBlackListEmployeeTest()
-		{
-			bankService.AddToBlackList(employees[0]);
+		Assert.Contains("BONUS", client.AddressInfo);
+    }
 
-			bool? status = bankService.IsPersonInBlackList(employees[0]);
+	[Fact]
+	public void CheckBlackListEmployeeTest()
+	{
+	    Employee employee = GenerateEmployees(1).First();
 
-			Assert.True(status);
-		}
+		_bankService.AddToBlackList(employee);
+		bool? status = _bankService.IsPersonInBlackList(employee);
 
-		[Fact]
-		public static void CheckBlackListClientTest()
-		{
-			bankService.AddToBlackList(clients[1]);
+		Assert.True(status);
+	}
 
-			bool? status = bankService.IsPersonInBlackList(clients[1]);
+	[Fact]
+	public void CheckBlackListClientTest()
+	{
+		Client client = GenerateClients(1).First();
 
-			Assert.True(status);
-		}
+		_bankService.AddToBlackList(client);
+		bool? status = _bankService.IsPersonInBlackList(client);
 
-        [Fact]
-        public static void CheckBlackListNullTest()
-        {
-            clients[4] = null!;
+		Assert.True(status);
+	}
 
-            Assert.Throws<ArgumentNullException>(() => bankService.IsPersonInBlackList(clients[4]));
-        }
+    [Fact]
+	public void CheckBlackListNullTest()
+	{
+		Client client = null!;
+
+		Assert.Throws<ArgumentNullException>(() => _bankService.IsPersonInBlackList(client));
     }
 }

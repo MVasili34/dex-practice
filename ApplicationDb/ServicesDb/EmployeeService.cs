@@ -5,10 +5,12 @@ namespace ServicesDb;
 
 public class EmployeeService : IEmployeeService
 {
-	private BankingServiceContext _bankContext;
-	public EmployeeService(BankingServiceContext _bankContext)
+	private readonly BankingServiceContext _bankContext;
+
+    private readonly int _pageSize = 10;
+    public EmployeeService(BankingServiceContext bankContext)
 	{
-		this._bankContext = _bankContext;
+		_bankContext = bankContext;
 	}
 
     /// <summary>
@@ -28,10 +30,14 @@ public class EmployeeService : IEmployeeService
 	}
 
     /// <summary>
-    /// Метод получения всех сотрудников из БД
+    /// Метод получения сотрудников из БД (с применением пагинации)
     /// </summary>
-    /// <returns>Коллекция сотрудников</returns>
-    public async Task<IEnumerable<Employee>> RetrieveAllAsync() => await _bankContext.Employees.ToListAsync();
+    /// <param name="page">Номер страницы</param>
+    /// <returns>Коллекция сотрудников соответствующей страницы</returns>
+    public async Task<IEnumerable<Employee>> RetrieveAllAsync(int? page) => await _bankContext.Employees
+        .Skip(((page ?? 1) - 1) * _pageSize)
+        .Take(_pageSize)
+        .ToListAsync();
 
     /// <summary>
     /// Метод получения сотрудника по идентификатору

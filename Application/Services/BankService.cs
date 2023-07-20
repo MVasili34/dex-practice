@@ -4,11 +4,16 @@ namespace Services;
 
 public class BankService
 {
-	public static decimal Income { get; set; } = 250_000;
-	public static decimal Expense { get; set; } = 200_000;
-	private static List<Client> _blackListClient = new List<Client>(0);
-	private static List<Employee> _blackListEmployee = new List<Employee>(0);
-	public BankService() { }
+    private readonly List<Client> _blackListClient;
+    private readonly List<Employee> _blackListEmployee;
+
+    public static decimal Income { get; set; } = 250_000;
+    public static decimal Expense { get; set; } = 200_000;
+    public BankService() 
+    {
+        _blackListClient = new(0);
+        _blackListEmployee = new(0);
+    }
 
     /// <summary>
     /// Метод расчета зарплаты владельцев банка

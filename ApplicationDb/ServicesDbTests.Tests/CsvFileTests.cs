@@ -12,9 +12,9 @@ public class CsvFileTests
 
 	public CsvFileTests()
 	{
-        this._clientService = DependencyContainer.Configure()
+        _clientService = DependencyContainer.Configure()
             .GetService<IClientService>()!;
-        this._employeeService = DependencyContainer.Configure()
+        _employeeService = DependencyContainer.Configure()
             .GetService<IEmployeeService>()!;
     }
 
@@ -33,7 +33,7 @@ public class CsvFileTests
 	public async Task ExportImportEmployeeTest()
 	{
 		ExportService<Employee> exportService = new(Environment.CurrentDirectory, "expimpemployee.csv");
-        IEnumerable<Employee> collection = await _employeeService.RetrieveAllAsync();
+        IEnumerable<Employee> collection = await _employeeService.RetrieveAllAsync(1);
 
         exportService.ExportPersons(collection);
 
