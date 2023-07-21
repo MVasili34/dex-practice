@@ -7,8 +7,11 @@ public class ClientStorage
 {
 	public Dictionary<Client, List<Account>> Clients { get; }
 
-	public ClientStorage() => Clients = TestDataGenerator.GenerateClientsWithAccounts()
-		.ToDictionary(pair => pair.Key, pair => pair.Value);
+	public ClientStorage()
+	{
+		Clients = TestDataGenerator.GenerateClientsWithAccounts()
+			.ToDictionary(pair => pair.Key, pair => pair.Value);
+	}
 
 	public void AddClient(Client client)
 	{

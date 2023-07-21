@@ -8,18 +8,18 @@ public class Employee : IPerson
 {
 	public Employee() { }
 
-	public Employee(string FirstName, string LastName, DateOnly DateOfBirth, string Phone,
-		string Passport, string Position, decimal Salary, string Contract)
+	public Employee(string firstName, string lastName, DateOnly dateOfBirth, string phone,
+		string passport, string position, decimal salary, string contract)
 	{
-		this.EmployeeId = new Guid();
-		this.FirstName = FirstName;
-		this.LastName = LastName;
-		this.DateOfBirth = DateOfBirth;
-		this.Phone = Phone;
-		this.Passport = Passport;
-		this.Position = Position;
-		this.Salary = Salary;
-		this.Contract = Contract;
+		EmployeeId = new Guid();
+		FirstName = firstName;
+		LastName = lastName;
+		DateOfBirth = dateOfBirth;
+		Phone = phone;
+		Passport = passport;
+		Position = position;
+		Salary = salary;
+		Contract = contract;
 	}
 
 	[Key]

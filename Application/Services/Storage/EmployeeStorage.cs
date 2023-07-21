@@ -7,7 +7,10 @@ public class EmployeeStorage
 {
 	public List<Employee>? Employees { get; }
 
-	public EmployeeStorage() => Employees = TestDataGenerator.GenerateEmployees(10).ToList();
+	public EmployeeStorage()
+	{
+		Employees = TestDataGenerator.GenerateEmployees(10).ToList();
+	}
 
 	public void AddEmployee(Employee employee)
 	{

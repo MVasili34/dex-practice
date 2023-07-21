@@ -8,10 +8,10 @@ public struct Currency
 
 	public Currency() { }
 
-	public Currency(string CurrencyCode, string CurrencyName)
+	public Currency(string currencyCode, string currencyName)
 	{
-		this.CurrencyCode = CurrencyCode;
-		this.CurrencyName = CurrencyName;
+		CurrencyCode = currencyCode;
+		CurrencyName = currencyName;
 	}
 
 	public string CurrencyCode

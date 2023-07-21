@@ -8,11 +8,11 @@ public class Client : Person
 
 	public Client() { }
 
-	public Client(string FirstName, string LastName, DateOnly DateOfBirth, string Phone, string Passport,
-		string? Company, string AddressInfo) : base(FirstName, LastName, DateOfBirth, Phone, Passport)
+	public Client(string firstName, string lastName, DateOnly dateOfBirth, string phone, string passport,
+		string? company, string addressInfo) : base(firstName, lastName, dateOfBirth, phone, passport)
 	{
-		this.Company = Company;
-		this.AddressInfo = AddressInfo;
+		Company = company;
+		AddressInfo = addressInfo;
 	}
 
 	public string? Company

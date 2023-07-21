@@ -23,7 +23,7 @@ internal class Program
         ReadKey();
     }
     private static IEnumerable<Figure> GenerateFigures() => Enumerable.Range(1, 10)
-    .Select(i => new Figure(Random.Shared.Next(5, 50)));
+        .Select(i => new Figure(Random.Shared.Next(5, 50)));
 }
 
 public class Figure : IComparable<Figure>
@@ -31,9 +31,9 @@ public class Figure : IComparable<Figure>
     private int _length;
     private int _square;
     public Figure() { }
-    public Figure(int Length)
+    public Figure(int length)
     {
-        this.Length = Length;
+        Length = length;
     }
 
     public int Square => _square;

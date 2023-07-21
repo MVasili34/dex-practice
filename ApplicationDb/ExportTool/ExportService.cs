@@ -10,10 +10,10 @@ public class ExportService<T> where T : IPerson
 	public string PathToFile { get; }
 	public string CsvFileName { get; }
 
-	public ExportService(string PathToFile, string CsvFileName)
+	public ExportService(string pathToFile, string csvFileName)
 	{
-		this.PathToFile = PathToFile;
-		this.CsvFileName = CsvFileName;
+		PathToFile = pathToFile;
+		CsvFileName = csvFileName;
 	}
 
 	/// <summary>

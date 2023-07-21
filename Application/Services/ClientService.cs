@@ -6,14 +6,11 @@ namespace Services;
 
 public class ClientService : IClientStorage
 {
-	public Dictionary<Client, List<Account>> Data { get; }
-	public ClientService()
+	public Dictionary<Client, List<Account>> Data { get; } = new();
+    public ClientService() { }
+	public ClientService(Dictionary<Client, List<Account>> data)
 	{
-		this.Data = new();
-	}
-	public ClientService(Dictionary<Client, List<Account>> Data)
-	{
-		this.Data = Data;
+		Data = data;
 	}
 
 	/// <summary>

@@ -10,20 +10,20 @@ public class Employee : Person
 
 	public Employee() { }
 
-	public Employee(string FirstName, string LastName, DateOnly DateOfBirth, string Phone, string Passport,
-		string Position, int Salary) : base(FirstName, LastName, DateOfBirth, Phone, Passport)
+	public Employee(string firstName, string lastName, DateOnly dateOfBirth, string phone, string passport,
+		string position, int salary) : base(firstName, lastName, dateOfBirth, phone, passport)
 	{
-		this.Position = Position;
-		this.Salary = Salary;
-		this.Contract = $"Контракт заключён с {FirstName}, {LastName}. Дата и время: {DateTime.Now}";
+		Position = position;
+		Salary = salary;
+		Contract = $"Контракт заключён с {firstName}, {lastName}. Дата и время: {DateTime.Now}";
 	}
 
-	public Employee(string FirstName, string LastName, DateOnly DateOfBirth, string Phone, string Passport,
-		string Position, int Salary, string Contract) : base(FirstName, LastName, DateOfBirth, Phone, Passport)
+	public Employee(string firstName, string lastName, DateOnly dateOfBirth, string phone, string passport,
+		string position, int salary, string contract) : base(firstName, lastName, dateOfBirth, phone, passport)
 	{
-		this.Position = Position;
-		this.Salary = Salary;
-		this.Contract = Contract;
+		Position = position;
+		Salary = salary;
+		Contract = contract;
 	}
 
 	public string Contract

@@ -12,13 +12,13 @@ public class Person
 
 	public Person() { }
 
-	public Person(string FirstName, string LastName, DateOnly DateOfBirth, string Phone, string Passport)
+	public Person(string firstName, string lastName, DateOnly dateOfBirth, string phone, string passport)
 	{
-		this.FirstName = FirstName;
-		this.LastName = LastName;
-		this.DateOfBirth = DateOfBirth;
-		this.Phone = Phone;
-		this.Passport = Passport;
+		FirstName = firstName;
+		LastName = lastName;
+		DateOfBirth = dateOfBirth;
+		Phone = phone;
+		Passport = passport;
 	}
 
 	public string FirstName

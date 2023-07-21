@@ -8,17 +8,17 @@ public class Client : IPerson
 {
 	public Client() { }
 
-	public Client(string FirstName, string LastName, DateOnly DateOfBirth, string Phone, 
-		string Passport, string ConnectedCompany, string Adress)
+	public Client(string firstName, string lastName, DateOnly dateOfBirth, string phone, 
+		string passport, string connectedCompany, string adress)
 	{
-		this.ClientId = new Guid();
-		this.FirstName = FirstName;
-		this.LastName = LastName;
-		this.DateOfBirth = DateOfBirth;
-		this.Phone = Phone;
-		this.Passport = Passport;
-		this.ConnectedCompany = ConnectedCompany;
-		this.Adress = Adress;
+		ClientId = new Guid();
+		FirstName = firstName;
+		LastName = lastName;
+		DateOfBirth = dateOfBirth;
+		Phone = phone;
+		Passport = passport;
+		ConnectedCompany = connectedCompany;
+		Adress = adress;
 	}
 
 	[Key]

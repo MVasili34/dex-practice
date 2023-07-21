@@ -9,12 +9,12 @@ public class Account
 {
 	public Account() { }
 
-	public Account(Guid OwnerId, string CurrencyIso, decimal Amount)
+	public Account(Guid ownerId, string currencyIso, decimal amount)
 	{
-		this.AccountId = new Guid();
-		this.OwnerId = OwnerId;
-		this.CurrencyIso = CurrencyIso;
-		this.Amount = Amount;
+		AccountId = new Guid();
+		OwnerId = ownerId;
+		CurrencyIso = currencyIso;
+		Amount = amount;
 	}
 	[Key]
 	[Column("account_id")]

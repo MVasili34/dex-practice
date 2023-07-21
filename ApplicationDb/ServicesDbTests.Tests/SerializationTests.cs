@@ -10,23 +10,23 @@ public class SerializationTests
 	public void SerializeAndDeserializeClientTest()
 	{
 		string path = Path.Combine(@"D:\", "client.json");
-		Client client = DataGenerator.GenereteClient();
+		Client expected = DataGenerator.GenereteClient();
 
-		ExportService<Client>.SerializePerson(client, path);
-		Client? expected = ExportService<Client>.DeSerializePerson(path);
+		ExportService<Client>.SerializePerson(expected, path);
+		Client? actual = ExportService<Client>.DeSerializePerson(path);
 
-        Assert.Equal(client, expected);
+        Assert.Equal(expected, actual);
 	}
 
 	[Fact]
 	public void SerializeAndDeserializeEmployeeTest()
 	{
 		string path = Path.Combine(@"D:\", "employee.json");
-		Employee employee = DataGenerator.GenerateEmployee();
+		Employee expected = DataGenerator.GenerateEmployee();
 
-		ExportService<Employee>.SerializePerson(employee, path);
-		Employee? expected = ExportService<Employee>.DeSerializePerson(path);
+		ExportService<Employee>.SerializePerson(expected, path);
+		Employee? actual = ExportService<Employee>.DeSerializePerson(path);
 
-        Assert.Equal(employee, expected);
+        Assert.Equal(expected, actual);
 	}
 }

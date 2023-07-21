@@ -6,12 +6,7 @@ namespace ServiceTests.Tests;
 
 public class BlackListTests
 {
-	private readonly BankService _bankService;
-
-	public BlackListTests() 
-	{
-		_bankService = new();
-	}
+	private readonly BankService _bankService = new();
 
 	[Fact]
 	public void BonusEmployeeTest()

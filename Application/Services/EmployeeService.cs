@@ -6,14 +6,11 @@ namespace Services;
 
 public class EmployeeService : IEmployeeStorage
 {
-	public List<Employee> Data { get; }
-	public EmployeeService()
+	public List<Employee> Data { get; } = new();
+	public EmployeeService() { }
+	public EmployeeService(List<Employee> data)
 	{
-		this.Data = new();
-	}
-	public EmployeeService(List<Employee> Data)
-	{
-		this.Data = Data;
+		Data = data;
 	}
 
     /// <summary>

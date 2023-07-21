@@ -10,7 +10,7 @@ public delegate void Text(object sender, string someText);
 public class NumbersStreamAnalyze
 {
     private readonly double _percent = 0.1;
-    private List<double> _numbers = new List<double>();
+    private readonly List<double> _numbers = new();
     public event Message? OnNumbersExcess;
     public NumbersStreamAnalyze() { }
     public NumbersStreamAnalyze(double percent)

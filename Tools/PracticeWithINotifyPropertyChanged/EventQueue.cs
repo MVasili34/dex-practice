@@ -13,17 +13,14 @@ public class EventQueue<T>
     private T? _value;
     public event Message? OnQueueExcessMessage;
 
-    public EventQueue()
+    public EventQueue() { }
+
+    public EventQueue(Queue<T> queueExcess) 
     {
-        this.QueueExcess = new Queue<T>();
+        QueueExcess = queueExcess;
     }
 
-    public EventQueue(Queue<T> QueueExcess) 
-    {
-        this.QueueExcess = QueueExcess;
-    }
-
-    public Queue<T>? QueueExcess { get; }
+    public Queue<T>? QueueExcess { get; } = new();
 
     /// <summary>
     /// Добавить элемент в очередь
@@ -50,10 +47,10 @@ public class EventQueue<T>
             if (!QueueExcess.TryDequeue(out _value))
             {
                 OnQueueExcessMessage?.Invoke(this, "Очередь пуста");
-                return default(T)!;
+                return default!;
             }
             return _value;
         }
-        return default(T)!;
+        return default!;
     }
 }

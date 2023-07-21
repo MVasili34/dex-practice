@@ -8,10 +8,10 @@ public class Account
 
 	public Account() { }
 
-	public Account(Currency Currency, decimal Amount)
+	public Account(Currency currency, decimal amount)
 	{
-		this.Currency = Currency;
-		this.Amount = Amount;
+		Currency = currency;
+		Amount = amount;
 	}
 
 	public Currency Currency
