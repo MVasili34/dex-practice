@@ -1,5 +1,4 @@
-﻿
-namespace Services.Exceptions;
+﻿namespace Services.Exceptions;
 
 public class Below18Exception : Exception
 {

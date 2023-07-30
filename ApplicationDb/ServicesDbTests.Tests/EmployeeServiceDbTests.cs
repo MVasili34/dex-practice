@@ -1,5 +1,4 @@
 ﻿using EntityModels;
-using Microsoft.Extensions.DependencyInjection;
 using ServicesDb;
 
 namespace ServicesDbTests.Tests;
@@ -8,10 +7,9 @@ public class EmployeeServiceDbTests
 {
 	private readonly IEmployeeService _employeeService;
 
-	public EmployeeServiceDbTests()
+	public EmployeeServiceDbTests(IEmployeeService employeeService)
 	{
-        _employeeService = DependencyContainer.Configure()
-            .GetService<IEmployeeService>()!;
+        _employeeService = employeeService;
     }
 
     [Fact]

@@ -1,5 +1,4 @@
-﻿
-namespace Services.Storage;
+﻿namespace Services.Storage;
 
 public interface IStorage<T>
 {

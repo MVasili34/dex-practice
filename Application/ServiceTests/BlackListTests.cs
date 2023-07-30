@@ -1,5 +1,4 @@
-﻿using Models;
-using Services;
+﻿using Services;
 using static Services.TestDataGenerator;
 
 namespace ServiceTests.Tests;

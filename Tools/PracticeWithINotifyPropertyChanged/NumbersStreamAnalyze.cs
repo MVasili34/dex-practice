@@ -1,5 +1,4 @@
-﻿
-namespace PracticeWithINotifyPropertyChanged;
+﻿namespace PracticeWithINotifyPropertyChanged;
 
 public delegate void Text(object sender, string someText);
 

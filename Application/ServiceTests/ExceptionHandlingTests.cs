@@ -1,8 +1,5 @@
-﻿using Models;
-using Services;
-using Services.Storage;
+﻿using Services.Storage;
 using Services.Exceptions;
-using Microsoft.Extensions.DependencyInjection;
 using static Services.TestDataGenerator;
 
 namespace ServiceTests.Tests;
@@ -12,12 +9,10 @@ public class ExceptionHandlingTests
     private readonly IClientStorage _clientService;
     private readonly IEmployeeStorage _employeeService;
 
-	public ExceptionHandlingTests()
+	public ExceptionHandlingTests(IClientStorage clientStorage, IEmployeeStorage employeeStorage)
 	{
-        _clientService = DependencyContainer.ConfigureClients()
-            .GetService<IClientStorage>()!;
-        _employeeService = DependencyContainer.ConfigureEmployees()
-            .GetService<IEmployeeStorage>()!;
+		_clientService = clientStorage;
+        _employeeService = employeeStorage;
     }
 
     [Fact]

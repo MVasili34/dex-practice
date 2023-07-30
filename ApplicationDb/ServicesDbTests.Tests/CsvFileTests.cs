@@ -1,7 +1,6 @@
 ﻿using ExportTool;
 using EntityModels;
 using ServicesDb;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace ServicesDbTests.Tests;
 
@@ -10,12 +9,10 @@ public class CsvFileTests
     private readonly IClientService _clientService;
     private readonly IEmployeeService _employeeService;
 
-	public CsvFileTests()
+	public CsvFileTests(IClientService clientService, IEmployeeService employeeService)
 	{
-        _clientService = DependencyContainer.Configure()
-            .GetService<IClientService>()!;
-        _employeeService = DependencyContainer.Configure()
-            .GetService<IEmployeeService>()!;
+        _clientService = clientService;
+        _employeeService = employeeService;
     }
 
     [Fact]

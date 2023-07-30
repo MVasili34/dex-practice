@@ -1,8 +1,6 @@
-﻿using Models;
-using Services;
-using Services.Storage;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Services.Storage;
 using static Services.TestDataGenerator;
+using static ServiceTests.Tests.Startup;
 
 namespace ServiceTests.Tests;
 
@@ -12,10 +10,8 @@ public class IEnumerableLinqTests
     private readonly IEmployeeStorage _employeeService;
     public IEnumerableLinqTests() 
     {
-        _clientService = DependencyContainer.ConfigureClients(_clients)
-            .GetService<IClientStorage>()!;
-        _employeeService = DependencyContainer.ConfigureEmployees(_employees)
-            .GetService<IEmployeeStorage>()!;
+        _clientService = ConfigureClients(_clients);
+        _employeeService = ConfigureEmployees(_employees);
     }
 
     [Fact]
