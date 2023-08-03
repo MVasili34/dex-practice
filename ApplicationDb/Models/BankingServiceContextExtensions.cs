@@ -16,8 +16,8 @@ public static class BankingServiceContextExtensions
         "Host=localhost;Port=5432;Database=BankingService;" +
         "Username=postgres;Password=sqlserver")
     {
-        //Строка подключения для API сервиса вынесена
-        //в appsettings.json файл конфигурации проекта BankAPI
+        //Строка подключения вынесена в конфигурационный
+        //appsettings.json файл проекта BankAPI
         services.AddDbContext<BankingServiceContext>(options =>
         options.UseNpgsql(connectionString));
         return services;
